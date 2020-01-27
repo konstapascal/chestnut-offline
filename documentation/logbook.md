@@ -4,6 +4,7 @@ Konstantinos Pascal – **s315567@oslomet.no**\
 Abozar Afzali - **s315578@oslomet.no**
 
 ### Methodology
+
 We are working using Agile methodology. We are having daily meetings from Monday to Friday, each of them lasting around 4 hours or more. We meet up, discuss what we have done since last time, plans for the current session and start developing/working. Our meetings end with a brief discussion on what we will be focusing on next time.
 
 ### Preparation phase
@@ -32,4 +33,11 @@ Made designs in AdobeXD, experimented with different color palettes for the main
 
 **Week 5**
 
+*27.01.2019*\
+As we are pretty much done with the concept and design phase, we started working on the documentation. We looked at how we can organize and structure our report in a good manner.
+
 **Week 6**
+
+**Week 7**
+
+**Week 8**
