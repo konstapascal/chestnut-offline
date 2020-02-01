@@ -33,8 +33,11 @@ Made designs in AdobeXD, experimented with different color palettes for the main
 
 **Week 5**
 
-*27.01.2019*\
+*27.01.2029*\
 As we are pretty much done with the concept and design phase, we started working on the documentation. We looked at how we can organize and structure our report in a good manner.
+
+*30.01.2020*\
+We had a meeting with our supervisor, Thomas, and showed him our designs and concept ideas. After that, we discussed architectural designs and concepts such as hypermedia driven REST API (HATEOAS) and ORM (Object-Relational Mapping). Later on, we had a meeting between the 2 of us and discussed these ideas. Those are great concepts that we will heavily consider moving forward and very likely include in our solution.
 
 **Week 6**
 
