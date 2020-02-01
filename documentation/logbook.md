@@ -33,7 +33,7 @@ Made designs in AdobeXD, experimented with different color palettes for the main
 
 **Week 5**
 
-*27.01.2029*\
+*27.01.2020*\
 As we are pretty much done with the concept and design phase, we started working on the documentation. We looked at how we can organize and structure our report in a good manner.
 
 *30.01.2020*\
