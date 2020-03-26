@@ -44,3 +44,15 @@ We had a meeting with our supervisor, Thomas, and showed him our designs and con
 **Week 7**
 
 **Week 8**
+
+**Week 9**
+
+**Week 10**
+
+**Week 11**
+
+**Week 12**
+
+**Week 13**
+
+**Week 14**
