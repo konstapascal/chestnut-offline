@@ -1,0 +1,28 @@
+## Chestnut API Overview
+### HTTP requests
+
+#### GET requests
+| Type | URI | Description |
+| --- | --- | --- |
+| `GET` | **/api/users** | Get all registered userss |
+| `GET` | **/api/users/:user_id** | Get 1 user by its user id |
+| `GET` | **/api/keys** | Get all public keys of all registered users |
+| `GET` | **/api/keys/:user_id** | Get all public keys of 1 usser by his id |
+
+#### POST requests
+| Type | URI | Description |
+| --- | --- | --- |
+| `POST` | **/api/login** | Login route that will check username and password |
+| `POST` | **/api/signup** | Signup route that will validate details and add to the DB |
+| `POST` | **/api/encrypt** | Server side encryption of provided string |
+
+#### DELETE requests
+| Type | URI | Description |
+| --- | --- | --- |
+| `DELETE` | **/api/users/:user_id** | Delete 1 user by id, usually the currently authenticated user |
+| `DELETE` | **/api/keys/:key_id** | Delete 1 keypair by id |
+
+#### UPDATE requests
+| Type | URI | Description |
+| --- | --- | --- |
+| `UPDATE` | **/api/:user_id** | Changes details of registered used, admin only |
