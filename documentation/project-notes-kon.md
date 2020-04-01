@@ -16,6 +16,7 @@
 | `POST` | **/api/login** | Login route that will check username and password |
 | `POST` | **/api/signup** | Signup route that will validate details and add to the DB |
 | `POST` | **/api/encrypt** | Server side encryption of provided string with the chosen type of method |
+| `POST` | **/api/decrypt** | Same as encryption request but that takes in encrypted string instead |
 
 #### DELETE requests
 | Type | URI | Description |
