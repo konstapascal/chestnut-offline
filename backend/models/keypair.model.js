@@ -1,15 +1,20 @@
 // creating model for keypairs table
 module.exports = (sequelize, Sequelize) => {
-	const Keypair = sequelize.define('Keypairs', {
+	const Keypair = sequelize.define('Keypair', {
 		KeypairID: {
 			type: Sequelize.INTEGER,
 			autoIncrement: true,
 			unique: true,
 			primaryKey: true,
 		},
+		Name: {
+			type: Sequelize.STRING,
+			validate: {
+				notEmpty: true,
+			},
+		},
 		Type: {
 			type: Sequelize.STRING,
-			allowNull: false,
 			validate: {
 				notEmpty: true,
 				isIn: [['RSA', 'AES']],
@@ -17,21 +22,20 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		Length: {
 			type: Sequelize.INTEGER,
-			allowNull: false,
 			validate: {
 				isInt: true,
-				isIn: [[512, 1024, 2048]],
+				isIn: [[128, 256, 512, 1024, 2048, 4096]],
 			},
 		},
 		PublicKey: {
-			type: Sequelize.STRING,
-			allowNull: false,
+			type: Sequelize.TEXT,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		PrivateKey: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
+			allowNull: true,
 			validate: {
 				notEmpty: true,
 			},

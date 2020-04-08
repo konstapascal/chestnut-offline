@@ -1,8 +1,7 @@
 // creating model for users table
-
 module.exports = (sequelize, Sequelize) => {
-	const User = sequelize.define('Users', {
-		UserID: {
+	const User = sequelize.define('User', {
+		ID: {
 			type: Sequelize.INTEGER,
 			autoIncrement: true,
 			unique: true,
@@ -10,7 +9,6 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		Username: {
 			type: Sequelize.STRING,
-			allowNull: false,
 			unique: true,
 			validate: {
 				notEmpty: true,
@@ -18,14 +16,12 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		Password: {
 			type: Sequelize.STRING,
-			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		Email: {
 			type: Sequelize.STRING,
-			allowNull: false,
 			unique: true,
 			lowercase: true,
 			validate: {

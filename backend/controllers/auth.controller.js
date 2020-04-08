@@ -1,9 +1,13 @@
-const db = require('../models');
+const db = require('../models/db.index');
 const User = db.users;
 const Op = db.Sequelize.Op;
 
-// signup to create new user
-exports.signup = (req, res) => {};
+// Signup to create new user
+exports.signup = (req, res) => {
+	res.send({ message: 'Signup not yet implemented' });
+};
 
-// check for DB entry
-exports.login = (req, res) => {};
+// Check for DB entry
+exports.login = (req, res) => {
+	res.send({ message: 'Login not yet implemented' });
+};
