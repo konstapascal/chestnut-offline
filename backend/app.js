@@ -6,12 +6,10 @@ const db = require('./models/db.index');
 const app = express();
 
 var corsOptions = {
-	origin: 'http://localhost:8081',
+	origin: 'http://localhost:8080',
 };
 
 app.use(cors(corsOptions));
-
-// Parse requests of content-type - application/json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -100,7 +98,7 @@ require('./routes/crypto.routes')(app);
 require('./routes/auth.routes')(app);
 
 // Set port and listen for requests
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}.`);
 });

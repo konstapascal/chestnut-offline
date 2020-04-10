@@ -10,9 +10,14 @@ exports.getMyKeys = (req, res) => {
 		where: {
 			UserID: id,
 		},
-	}).then((data) => {
-		if (data) {
-			res.status(200).send(data);
+	}).then((keypairs) => {
+		if (keypairs != 0) {
+			res.status(200).json(keypairs);
+		} else {
+			res.status(404).json({
+				status: 'Error',
+				message: `User with id of ${id} does not exist or does not have any keys.`,
+			});
 		}
 	});
 };
@@ -28,13 +33,19 @@ exports.getAllPublicKeys = (req, res) => {
 			},
 		],
 	})
-		.then((data) => {
-			if (data) {
-				res.status(200).send(data);
+		.then((keypairs) => {
+			if (keypairs) {
+				res.status(200).json(keypairs);
+			} else {
+				res.status(404).json({
+					status: 'Error',
+					message: 'No users or no keys found.',
+				});
 			}
 		})
 		.catch(() => {
-			res.status(500).send({
+			res.status(500).json({
+				status: 'Error',
 				message: 'Error retrieving public keys of users. Try again later.',
 			});
 		});
@@ -50,7 +61,8 @@ exports.createKey = (req, res) => {
 
 	// Validate request
 	if (!name || !type || !length || !publicKey) {
-		res.status(400).send({
+		res.status(400).json({
+			status: 'Error',
 			message:
 				'All required fields (name, type, length, publicKey) must be filled!',
 		});
@@ -70,13 +82,15 @@ exports.createKey = (req, res) => {
 	// Run query to save schema in the database
 	Keypair.create(KeypairSchema)
 		.then(() => {
-			res
-				.status(200)
-				.send({ message: 'Keypair ' + name + ' created successfully!' });
+			res.status(200).json({
+				status: 'Success',
+				message: `Keypair ${name} created successfully for user with id ${id}!`,
+			});
 		})
 		.catch(() => {
-			res.status(500).send({
-				message: 'Error occurred while creating keypair.',
+			res.status(500).json({
+				status: 'Error',
+				message: `Error occurred while creating keypair for user with id ${id}. Try again later.`,
 			});
 		});
 };
@@ -88,20 +102,23 @@ exports.deleteKey = (req, res) => {
 	Keypair.destroy({
 		where: { KeypairID: id },
 	})
-		.then((data) => {
-			if (data) {
-				res.status(200).send({
+		.then((keypair) => {
+			if (keypair) {
+				res.status(200).json({
+					status: 'Success',
 					message: 'Keypair was deleted successfully!',
 				});
 			} else {
-				res.status(404).send({
+				res.status(404).json({
+					status: 'Error',
 					message: `Keypair with id ${id} was not found!`,
 				});
 			}
 		})
 		.catch(() => {
-			res.status(500).send({
-				message: 'Could not delete user with id ' + id,
+			res.status(500).json({
+				status: 'Error',
+				message: `Could not delete keypair with id ${id}`,
 			});
 		});
 };
