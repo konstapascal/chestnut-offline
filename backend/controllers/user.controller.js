@@ -2,7 +2,7 @@ const db = require('../models/db.index');
 const User = db.user;
 const Keypair = db.keypair;
 
-// Get one user by id
+// Get one user by ID
 exports.getUser = (req, res) => {
 	const id = req.params.id;
 
@@ -48,6 +48,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 // Delete user by ID
+// TODO Make it so you can only delete yourself (currently logged in user, check ID in JWT payload)
 exports.deleteUser = (req, res, next) => {
 	const id = req.params.id;
 
@@ -77,7 +78,7 @@ exports.deleteUser = (req, res, next) => {
 	});
 };
 
-// Update user by id
+// Update user by ID
 exports.updateUser = (req, res) => {
 	const id = req.params.id;
 	const username = req.body.username;

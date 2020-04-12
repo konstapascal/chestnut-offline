@@ -3,6 +3,7 @@ const Keypair = db.keypair;
 const User = db.user;
 
 // Get all keypairs of 1 user by id
+// TODO Change route to: Get all keyapairs of currently logged in user (using JWT)
 exports.getMyKeys = (req, res) => {
 	const id = req.params.id;
 
@@ -52,12 +53,14 @@ exports.getAllPublicKeys = (req, res) => {
 };
 
 // Create new key for user ID
+// TODO Change to: Generate key for currently logged in user (JWT)
 exports.createKey = (req, res) => {
 	const id = req.params.id;
 	const name = req.body.name;
 	const type = req.body.type;
 	const length = req.body.length;
 	const publicKey = req.body.publicKey;
+	const privateKey = req.body.privateKey;
 
 	// Validate request
 	if (!name || !type || !length || !publicKey) {
@@ -71,11 +74,11 @@ exports.createKey = (req, res) => {
 
 	// Create a keypair schema
 	const KeypairSchema = {
-		Name: req.body.name,
-		Type: req.body.type,
-		Length: req.body.length,
-		PublicKey: req.body.publicKey,
-		PrivateKey: req.body.privateKey,
+		Name: name,
+		Type: type,
+		Length: length,
+		PublicKey: publicKey,
+		PrivateKey: privateKey,
 		UserID: id,
 	};
 
@@ -96,6 +99,7 @@ exports.createKey = (req, res) => {
 };
 
 // Delete key by ID
+// TODO Check if key UserID of deleted key is the same as the JWT payload ID
 exports.deleteKey = (req, res) => {
 	const id = req.params.id;
 
