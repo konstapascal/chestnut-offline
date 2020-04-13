@@ -26,8 +26,8 @@
 | Type     | URI                | Availability | Description                                                                    |
 | -------- | ------------------ | ------------ | ------------------------------------------------------------------------------ |
 | `DELETE` | **/api/users/:id** | Admin        | Delete an user by his **id**, request can only be made by an **admin**.        |
+| `DELETE` | **/api/users/me**  | User         | Delete currently **authenticated** user.                                       |
 | `DELETE` | **/api/keys/:id**  | User         | Delete key by **id**. User will be **denied** to delete a key he does not own. |
-| `DELETE` | **/api/keys/me**   | User         | Delete currently **authenticated** user.                                       |
 
 #### PATCH requests
 
