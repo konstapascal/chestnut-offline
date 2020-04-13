@@ -44,7 +44,7 @@ exports.signup = async (req, res) => {
 	// Create a keypair schema using body values
 	const UserSchema = {
 		Username: username,
-		Password: bcrypt.hashSync(password, 8),
+		Password: bcrypt.hashSync(password, 12),
 		Email: email,
 		isAdmin: 0,
 	};
