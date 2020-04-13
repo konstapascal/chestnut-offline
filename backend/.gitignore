@@ -16,7 +16,7 @@
 .env.test.local
 .env.production.local
 .env
-/config/secret.token.js
+/config
 
 npm-debug.log*
 yarn-debug.log*
