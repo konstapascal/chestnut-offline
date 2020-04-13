@@ -1,32 +1,42 @@
 ## Chestnut API Overview
+
 ### HTTP requests
 
 #### GET requests
-| Type | URI | Description |
-| --- | --- | --- |
-| `GET` | **/api/users** | Get all registered users |
-| `GET` | **/api/users/:user_id** | Get 1 user by its user id |
-| `GET` | **/api/keys** | Get all public keys of all registered users |
-| `GET` | **/api/keys/:user_id** | Get all public keys of 1 user by his id |
+
+| Type  | URI                    | Availability | Description                                                    |
+| ----- | ---------------------- | ------------ | -------------------------------------------------------------- |
+| `GET` | **/api/users**         | Admin        | Get all registered users info.                                 |
+| `GET` | **/api/users/:id**     | None         | Get 1 user by his id. **UNAVAILABLE**                          |
+| `GET` | **/api/keys**          | User         | Get all public keypairs and usernames of all registered users. |
+| `GET` | **/api/keys/users/me** | User         | Get all keys, public and private of currently logged in user.  |
 
 #### POST requests
-| Type | URI | Description |
-| --- | --- | --- |
-| `POST` | **/api/keys/new** | Generate new key to the currently authenticated user |
-| `POST` | **/api/login** | Login route that will check username and password |
-| `POST` | **/api/signup** | Signup route that will validate details and add to the DB |
-| `POST` | **/api/encrypt** | Server side encryption of provided string with the chosen type of method, returns encrypted data |
-| `POST` | **/api/decrypt** | Same as encryption request but that takes in encrypted string instead, returns decrypted data |
+
+| Type   | URI                        | Availability | Description                                                                                                  |
+| ------ | -------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------ |
+| `POST` | **/api/keys/new/users/me** | User         | Generate a new keypair for currently logged in user.                                                         |
+| `POST` | **/api/login**             | User         | Log in endpoint. Check if username exists, check if password is correct. Provide token on successful log in. |
+| `POST` | **/api/signup**            | User         | Signup endpoint. Makes sure username and email are unique. Hashes password and adds info to db.              |
+| `POST` | **/api/encrypt**           | Public       | Endpoint that will encrypt provided string. **PUBLIC**                                                       |
+| `POST` | **/api/decrypt**           | Public       | Endpoint that will decrypt provided cipher. **PUBLIC**                                                       |
 
 #### DELETE requests
-| Type | URI | Description |
-| --- | --- | --- |
-| `DELETE` | **/api/users/:user_id** | Delete 1 user by id, usually the currently authenticated user |
-| `DELETE` | **/api/keys/:key_id** | Delete 1 key by id |
+
+| Type     | URI                | Availability | Description                                                            |
+| -------- | ------------------ | ------------ | ---------------------------------------------------------------------- |
+| `DELETE` | **/api/users/:id** | Admin        | Delete an user by his id, request can only be made by an admin.        |
+| `DELETE` | **/api/keys/:id**  | User         | Delete key by id. User will be denied to delete a key he does not own. |
+| `DELETE` | **/api/keys/me**   | User         | Delete currently logged in user.                                       |
 
 #### PATCH requests
-| Type | URI | Description |
-| --- | --- | --- |
-| `PATCH` | **/api/users/:user_id** | Changes details of registered used, admin only |
 
-\* PATCH request is currently not our highest priority, it is not required to make the application functional but is a consideration
+| Type    | URI                | Availability | Description                                   |
+| ------- | ------------------ | ------------ | --------------------------------------------- |
+| `PATCH` | **/api/users/:id** | Admin        | Update an user with id. Can change any field. |
+
+\* While `GET` **/api/users/:id** is implemented, it is unavailable as we could not find an use for it. We chose to just not make it active rather than delete it altogether.
+
+\* User availability includes **both** users and admins.
+
+\* Public means that the endpoint can be used without a token. Everyone can use it.
