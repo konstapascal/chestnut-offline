@@ -1,3 +1,3 @@
 module.exports = {
-	secret: 'secret.jwt.key',
+	secret: 'konsta.secret.jwt.key',
 };

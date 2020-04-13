@@ -3,10 +3,10 @@ module.exports = (app) => {
 	const router = require('express').Router();
 
 	// Encrypt text
-	router.post('/encryption', Crypto.encryptText);
+	router.post('/encrypt', Crypto.encryptText);
 
 	// Decrypt text
-	router.post('/decryption', Crypto.decryptText);
+	router.post('/decrypt', Crypto.decryptText);
 
 	app.use('/api', router);
 };

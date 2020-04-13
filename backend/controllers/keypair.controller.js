@@ -2,15 +2,43 @@ const db = require('../models/db.index');
 const Keypair = db.keypair;
 const User = db.user;
 
-// Get all keypairs of 1 user by id
-// TODO Change route to: Get all keyapairs of currently logged in user (using JWT)
+// Get all keys of currently logged in user
 exports.getMyKeys = (req, res) => {
-	const id = req.params.id;
+	// Store id that has been passed from middlewares
+	const userID = res.locals.decodedData.id;
 
 	Keypair.findAll({
 		where: {
-			UserID: id,
+			UserID: userID,
 		},
+	})
+		.then((keypairs) => {
+			if (keypairs != 0) {
+				return res.status(200).json(keypairs);
+			} else {
+				return res.status(404).json({
+					status: 'Error',
+					message: `User with id of ${userID} does not exist or does not have any keys.`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({
+				status: 'Error',
+				message: 'Error occured while getting keys: ' + err,
+			});
+		});
+};
+
+// Get all public keys of 1 user by id
+exports.getAllPublicKeysByID = (req, res) => {
+	const userID = req.params.id;
+
+	Keypair.findAll({
+		where: {
+			UserID: userID,
+		},
+		attributes: ['Name', 'Type', 'Length', 'PublicKey', 'UserID'],
 	})
 		.then((keypairs) => {
 			if (keypairs != 0) {
@@ -59,10 +87,9 @@ exports.getAllPublicKeys = (req, res) => {
 		});
 };
 
-// Create new key for user ID
-// TODO Change to: Generate key for currently logged in user (JWT)
+// Create new key for currently logged in user
 exports.createKey = (req, res) => {
-	const id = req.params.id;
+	const userID = res.locals.decodedData.id;
 	const name = req.body.name;
 	const type = req.body.type;
 	const length = req.body.length;
@@ -86,7 +113,7 @@ exports.createKey = (req, res) => {
 		Length: length,
 		PublicKey: publicKey,
 		PrivateKey: privateKey,
-		UserID: id,
+		UserID: userID,
 	};
 
 	// Run query to save schema in the database
@@ -94,26 +121,38 @@ exports.createKey = (req, res) => {
 		.then(() => {
 			res.status(200).json({
 				status: 'Success',
-				message: `Keypair ${name} created successfully for user with id ${id}!`,
+				message: `Keypair ${name} created successfully!`,
 			});
 		})
 		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message:
-					`Error occurred while creating keypair for user with id ${id}: ` +
-					err,
+				message: 'Error occurred while creating keypair: ' + err,
 			});
 		});
 };
 
-// Delete key by ID
-// TODO Check if key UserID of deleted key is the same as the JWT payload ID
-exports.deleteKey = (req, res) => {
-	const id = req.params.id;
+// Delete key by id, checking if key belongs to the user making the request
+exports.deleteKey = async (req, res) => {
+	const keyID = req.params.id;
+	const userID = res.locals.decodedData.id;
 
+	// Check for keypair entry with key ID and user ID, proving ownership of key
+	const getUserID = await Keypair.findOne({
+		where: { UserID: userID, KeypairID: keyID },
+	});
+
+	// User does not own the keypair and therefore is not allowed to delete it
+	if (!getUserID) {
+		return res.status(403).json({
+			status: 'Forbidden',
+			message: 'Keypair not found or forbidden action!',
+		});
+	}
+
+	// Delete key
 	Keypair.destroy({
-		where: { KeypairID: id },
+		where: { KeypairID: keyID },
 	})
 		.then((keypair) => {
 			if (keypair) {
@@ -124,14 +163,14 @@ exports.deleteKey = (req, res) => {
 			} else {
 				res.status(404).json({
 					status: 'Error',
-					message: `Keypair with id ${id} was not found!`,
+					message: `Keypair with id ${keyID} was not found!`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Could not delete keypair with id ${id}: ` + err,
+				message: `Could not delete keypair with id ${keyID}: ` + err,
 			});
 		});
 };

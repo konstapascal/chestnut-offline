@@ -2,11 +2,13 @@ const db = require('../models/db.index');
 const User = db.user;
 const Keypair = db.keypair;
 
-// Get one user by ID
-exports.getUser = (req, res) => {
+// Get one users info by id
+// Currently we have no use for it
+
+/* exports.getUser = (req, res) => {
 	const id = req.params.id;
 
-	User.findByPk(id)
+	User.findAll({ where: { ID: id } })
 		.then((user) => {
 			if (user) {
 				res.status(200).json(user);
@@ -23,16 +25,26 @@ exports.getUser = (req, res) => {
 				message: `Error retrieving user with id ${id}: ` + err,
 			});
 		});
-};
+}; */
 
-// Get all users
+// Get all users and their info, admin only
 exports.getAllUsers = (req, res) => {
+	const isUserAdmin = res.locals.decodedData.isAdmin;
+
+	// Check if user making request is admin
+	if (isUserAdmin == false) {
+		return res.status(403).json({
+			status: 'Forbidden',
+			message: 'You must be an admin to access this route!',
+		});
+	}
+
 	User.findAll()
 		.then((users) => {
 			if (users == 0) {
 				res.status(404).json({
 					status: 'Error',
-					message: 'No users to retrieve.',
+					message: 'No users found',
 				});
 			}
 			if (users) {
@@ -47,11 +59,34 @@ exports.getAllUsers = (req, res) => {
 		});
 };
 
-// Delete user by ID
-// TODO Make it so you can only delete yourself (currently logged in user, check ID in JWT payload)
-exports.deleteUser = (req, res, next) => {
+// Delete currently logged in user
+exports.delete = async (req, res, next) => {
+	const userID = res.locals.decodedData.id;
+
+	deleteKeys = await Keypair.destroy({ where: { UserID: userID } });
+	deleteUser = await User.destroy({ where: { ID: userID } });
+
+	// Check if user exists
+	if (deleteUser == 0) {
+		return res.status(404).json({
+			status: 'Error',
+			message: 'User cannot be found!',
+		});
+		// Delete user and his keys
+	} else if (deleteKeys && deleteUser) {
+		return res.status(200).json({
+			status: 'Success',
+			message: 'User and all keys have been deleted!',
+		});
+	}
+};
+
+// Delete user by id, admin only
+exports.deleteByID = (req, res, next) => {
+	const isUserAdmin = res.locals.decodedData.isAdmin;
 	const id = req.params.id;
 
+	// Function to check if an user with id exists
 	function doesUserExist(id) {
 		return User.count({ where: { id: id } }).then((count) => {
 			if (count != 0) {
@@ -61,6 +96,15 @@ exports.deleteUser = (req, res, next) => {
 		});
 	}
 
+	// Check if user making request is admin
+	if (isUserAdmin == false) {
+		return res.status(403).json({
+			status: 'Forbidden',
+			message: 'You must be an admin to access this route!',
+		});
+	}
+
+	// Delete user and their keys
 	doesUserExist(id)
 		.then((userExists) => {
 			if (userExists) {
@@ -85,22 +129,41 @@ exports.deleteUser = (req, res, next) => {
 		});
 };
 
-// Update user by ID
-exports.updateUser = (req, res) => {
+// Update an users info by id, admin only
+exports.updateUser = async (req, res) => {
+	const isUserAdmin = res.locals.decodedData.isAdmin;
+
 	const id = req.params.id;
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
 	const isAdmin = req.body.isAdmin;
 
+	// Check if user making request is admin
+	if (isUserAdmin == false) {
+		return res.status(403).json({
+			status: 'Forbidden',
+			message: 'You must be an admin to access this route!',
+		});
+	}
+
 	// Validate request
 	if (Object.keys(req.body).length === 0) {
-		res.status(400).json({
+		return res.status(400).json({
 			status: 'Error',
 			message:
 				'You must provide atleast 1 field to update (username, email, password, isAdmin)',
 		});
-		return;
+	}
+
+	// Check if user exists
+	const userExists = await User.findOne({ where: { ID: id } });
+
+	if (!userExists) {
+		return res.status(404).json({
+			status: 'Error',
+			message: `User with id ${id} was not found!`,
+		});
 	}
 
 	User.update(
@@ -119,11 +182,6 @@ exports.updateUser = (req, res) => {
 				res.status(200).json({
 					status: 'Success',
 					message: 'User was updated successfully.',
-				});
-			} else {
-				res.status(404).json({
-					status: 'Error',
-					message: `User with id ${id} was not found!.`,
 				});
 			}
 		})

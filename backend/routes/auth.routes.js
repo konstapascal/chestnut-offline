@@ -2,10 +2,10 @@ module.exports = (app) => {
 	const Auth = require('../controllers/auth.controller');
 	const router = require('express').Router();
 
-	// Encrypt text
+	// Sign up
 	router.post('/signup', Auth.signup);
 
-	// Decrypt text
+	// Log in
 	router.post('/login', Auth.login);
 
 	app.use('/api', router);

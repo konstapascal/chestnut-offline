@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./models/db.index');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -15,21 +16,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sync tables in db with tables created in models, remove 'force: true' to not drop existing tables on sync
 db.sequelize.sync({ force: true }).then(() => {
-	// dummy user data
+	// Dummy user data
 	db.user.create({
-		Username: 'kopaa17',
-		Password: 'password1',
-		Email: 'konstapascal@gmail.com',
+		Username: 'test1',
+		Password: bcrypt.hashSync('test1', 8),
+		Email: 'test1@gmail.com',
+		IsAdmin: 1,
 	});
 	db.user.create({
-		Username: 'abozar123',
-		Password: 'password2',
-		Email: 'abozarafz@gmail.com',
+		Username: 'test2',
+		Password: bcrypt.hashSync('test2', 8),
+		Email: 'test2@gmail.com',
+		IsAdmin: 1,
 	});
 	db.user.create({
-		Username: 'john',
-		Password: 'password3',
-		Email: 'johnjohn@gmail.com',
+		Username: 'test3',
+		Password: bcrypt.hashSync('test3', 8),
+		Email: 'test3@gmail.com',
 	});
 
 	// dummy keypair data

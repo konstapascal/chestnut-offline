@@ -1,18 +1,26 @@
 module.exports = (app) => {
 	const Keypair = require('../controllers/keypair.controller');
 	const router = require('express').Router();
+	const jwtMiddleware = require('../middlewares/check.token');
 
-	// Get all keypairs of 1 user by id
-	router.get('/users/:id', Keypair.getMyKeys);
+	// Get all keys of currently logged in user
+	router.get('/users/me', jwtMiddleware.checkToken, Keypair.getMyKeys);
 
-	// Get all public keypairs of all users
-	router.get('/', Keypair.getAllPublicKeys);
+	// Get all public keys of 1 user by id
+	router.get(
+		'/users/:id',
+		jwtMiddleware.checkToken,
+		Keypair.getAllPublicKeysByID
+	);
 
-	// Create new key for user id
-	router.post('/new/users/:id', Keypair.createKey);
+	// Get all public keypairs of all users and their name
+	router.get('/', jwtMiddleware.checkToken, Keypair.getAllPublicKeys);
 
-	// Delete key by id
-	router.delete('/:id', Keypair.deleteKey);
+	// Create new key for currently logged in user
+	router.post('/new/users/me', jwtMiddleware.checkToken, Keypair.createKey);
+
+	// Delete key by id, checking if key belongs to the user making the request
+	router.delete('/:id', jwtMiddleware.checkToken, Keypair.deleteKey);
 
 	app.use('/api/keys', router);
 };
