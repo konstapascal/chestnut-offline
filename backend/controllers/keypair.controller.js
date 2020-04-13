@@ -11,16 +11,23 @@ exports.getMyKeys = (req, res) => {
 		where: {
 			UserID: id,
 		},
-	}).then((keypairs) => {
-		if (keypairs != 0) {
-			res.status(200).json(keypairs);
-		} else {
-			res.status(404).json({
+	})
+		.then((keypairs) => {
+			if (keypairs != 0) {
+				return res.status(200).json(keypairs);
+			} else {
+				return res.status(404).json({
+					status: 'Error',
+					message: `User with id of ${id} does not exist or does not have any keys.`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({
 				status: 'Error',
-				message: `User with id of ${id} does not exist or does not have any keys.`,
+				message: 'Error occured while getting keys: ' + err,
 			});
-		}
-	});
+		});
 };
 
 // Get all public keypairs for all users, including their username
@@ -44,10 +51,10 @@ exports.getAllPublicKeys = (req, res) => {
 				});
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: 'Error retrieving public keys of users. Try again later.',
+				message: 'Error occured while retrieving public keys: ' + err,
 			});
 		});
 };
@@ -90,10 +97,12 @@ exports.createKey = (req, res) => {
 				message: `Keypair ${name} created successfully for user with id ${id}!`,
 			});
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error occurred while creating keypair for user with id ${id}. Try again later.`,
+				message:
+					`Error occurred while creating keypair for user with id ${id}: ` +
+					err,
 			});
 		});
 };
@@ -119,10 +128,10 @@ exports.deleteKey = (req, res) => {
 				});
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Could not delete keypair with id ${id}`,
+				message: `Could not delete keypair with id ${id}: ` + err,
 			});
 		});
 };

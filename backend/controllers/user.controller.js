@@ -17,10 +17,10 @@ exports.getUser = (req, res) => {
 				});
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error retrieving user with id ${id}. Try again later.`,
+				message: `Error retrieving user with id ${id}: ` + err,
 			});
 		});
 };
@@ -39,10 +39,10 @@ exports.getAllUsers = (req, res) => {
 				res.status(200).json(users);
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: 'Error occurred while retrieving users.',
+				message: 'Error occurred while retrieving users: ' + err,
 			});
 		});
 };
@@ -61,21 +61,28 @@ exports.deleteUser = (req, res, next) => {
 		});
 	}
 
-	doesUserExist(id).then((userExists) => {
-		if (userExists) {
-			Keypair.destroy({ where: { UserID: id } });
-			User.destroy({ where: { ID: id } });
-			res.status(200).json({
-				status: 'Success',
-				message: `User with id of ${id} was deleted successfully!`,
-			});
-		} else {
-			res.status(404).json({
+	doesUserExist(id)
+		.then((userExists) => {
+			if (userExists) {
+				Keypair.destroy({ where: { UserID: id } });
+				User.destroy({ where: { ID: id } });
+				res.status(200).json({
+					status: 'Success',
+					message: `User with id of ${id} was deleted successfully!`,
+				});
+			} else {
+				res.status(404).json({
+					status: 'Error',
+					message: `User with id of ${id} does not exist!`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({
 				status: 'Error',
-				message: `User with id of ${id} does not exist!`,
+				message: `Error occurred while deleting user with id of ${id}: ` + err,
 			});
-		}
-	});
+		});
 };
 
 // Update user by ID
@@ -120,10 +127,10 @@ exports.updateUser = (req, res) => {
 				});
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error updating user with id ${id} Try again later!`,
+				message: `Error updating user with id ${id}: ` + err,
 			});
 		});
 };
