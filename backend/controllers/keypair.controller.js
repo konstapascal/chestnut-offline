@@ -97,11 +97,11 @@ exports.createKey = (req, res) => {
 	const privateKey = req.body.privateKey;
 
 	// Validate request
-	if (!name || !type || !length || !publicKey) {
+	if (!name || !type || !length || !publicKey || !privateKey) {
 		res.status(400).json({
 			status: 'Error',
 			message:
-				'All required fields (name, type, length, publicKey) must be filled!',
+				'All required fields (name, type, length, publicKey, privateKey) must be filled!',
 		});
 		return;
 	}

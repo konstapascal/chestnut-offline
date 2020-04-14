@@ -10,18 +10,21 @@ module.exports = (sequelize, Sequelize) => {
 		Username: {
 			type: Sequelize.STRING,
 			unique: true,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		Password: {
 			type: Sequelize.STRING,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		Email: {
 			type: Sequelize.STRING,
+			allowNull: false,
 			unique: true,
 			lowercase: true,
 			validate: {
@@ -30,6 +33,7 @@ module.exports = (sequelize, Sequelize) => {
 			},
 		},
 		IsAdmin: {
+			allowNull: false,
 			type: Sequelize.BOOLEAN,
 			defaultValue: false,
 		},

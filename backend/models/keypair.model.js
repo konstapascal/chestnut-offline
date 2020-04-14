@@ -9,33 +9,37 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		Name: {
 			type: Sequelize.STRING,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		Type: {
 			type: Sequelize.STRING,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
-				isIn: [['RSA', 'AES']],
+				isIn: [['RSA']],
 			},
 		},
 		Length: {
 			type: Sequelize.INTEGER,
+			allowNull: false,
 			validate: {
 				isInt: true,
-				isIn: [[128, 256, 512, 1024, 2048, 4096]],
+				isIn: [[512, 1024, 2048, 4096]],
 			},
 		},
 		PublicKey: {
 			type: Sequelize.TEXT,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
 		},
 		PrivateKey: {
 			type: Sequelize.TEXT,
-			allowNull: true,
+			allowNull: false,
 			validate: {
 				notEmpty: true,
 			},
