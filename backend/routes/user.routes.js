@@ -4,7 +4,7 @@ module.exports = (app) => {
 	const jwtMiddleware = require('../middlewares/check.token');
 
 	// Retrieve a single users info by id
-	/* router.get('/:id', jwtMiddleware.checkToken, User.getUser);*/
+	router.get('/:id', jwtMiddleware.checkToken, User.getUser);
 
 	// Get all users and their info, admin only
 	router.get('/', jwtMiddleware.checkToken, User.getAllUsers);

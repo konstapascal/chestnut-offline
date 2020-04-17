@@ -14,7 +14,7 @@ exports.getMyKeys = (req, res) => {
 	})
 		.then((keypairs) => {
 			if (keypairs != 0) {
-				return res.status(200).json(keypairs);
+				return res.status(200).json({ keypairs });
 			} else {
 				return res.status(404).json({
 					status: 'Error',
@@ -42,7 +42,7 @@ exports.getAllPublicKeysByID = (req, res) => {
 	})
 		.then((keypairs) => {
 			if (keypairs != 0) {
-				return res.status(200).json(keypairs);
+				return res.status(200).json({ keypairs });
 			} else {
 				return res.status(404).json({
 					status: 'Error',
@@ -71,7 +71,7 @@ exports.getAllPublicKeys = (req, res) => {
 	})
 		.then((keypairs) => {
 			if (keypairs) {
-				res.status(200).json(keypairs);
+				res.status(200).json({ keypairs });
 			} else {
 				res.status(404).json({
 					status: 'Error',

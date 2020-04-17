@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt');
 
 const app = express();
 
-var corsOptions = {
+const hateoasLinker = require('express-hateoas-links');
+
+const corsOptions = {
 	origin: 'http://localhost:8080',
 };
 
@@ -14,6 +16,8 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(hateoasLinker);
 
 // Sync tables in db with tables created in models, remove 'force: true' to not drop existing tables on sync
 db.sequelize.sync({ force: true }).then(() => {

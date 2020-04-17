@@ -1,35 +1,44 @@
 const db = require('../models/db.index');
 const User = db.user;
 const Keypair = db.keypair;
+var hal = require('hal');
 
 // Get one users info by id
-// Currently we have no use for it
+exports.getUser = (req, res) => {
+	const userID = req.params.id;
+	const isUserAdmin = res.locals.decodedData.isAdmin;
 
-/* exports.getUser = (req, res) => {
-	const id = req.params.id;
+	// Check if user making request is admin
+	if (isUserAdmin == false) {
+		return res.status(403).json({
+			status: 'Forbidden',
+			message: 'You must be an admin to access this route!',
+		});
+	}
 
-	User.findAll({ where: { ID: id } })
+	User.findAll({ where: { ID: userID } })
 		.then((user) => {
 			if (user) {
 				res.status(200).json(user);
 			} else {
 				res.status(404).json({
 					status: 'Error',
-					message: `User with id ${id} could not be found!`,
+					message: `User with id ${userID} could not be found!`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error retrieving user with id ${id}: ` + err,
+				message: `Error retrieving user with id ${userID}: ` + err,
 			});
 		});
-}; */
+};
 
 // Get all users and their info, admin only
 exports.getAllUsers = (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
+	const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
@@ -41,14 +50,41 @@ exports.getAllUsers = (req, res) => {
 
 	User.findAll()
 		.then((users) => {
-			if (users == 0) {
-				res.status(404).json({
-					status: 'Error',
-					message: 'No users found',
+			const selfLink = {
+				method: req.method,
+				href: fullUrl,
+			};
+			let getUserArray = [];
+			let deleteUserArray = [];
+			let patchUserArray = [];
+
+			users.forEach((user) => {
+				getUserArray.push({
+					method: 'GET',
+					description: 'Get individual user with id ' + user.ID,
+					href: fullUrl + user.ID,
 				});
-			}
+				deleteUserArray.push({
+					method: 'DELETE',
+					description: 'Delete individual user with id ' + user.ID,
+					href: fullUrl + user.ID,
+				});
+				patchUserArray.push({
+					method: 'PATCH',
+					description: 'Update individual user with id ' + user.ID,
+					href: fullUrl + user.ID,
+				});
+			});
+
 			if (users) {
-				res.status(200).json(users);
+				res
+					.status(200)
+					.json({ users }, [
+						{ self: selfLink },
+						{ getUser: getUserArray },
+						{ deleteUser: deleteUserArray },
+						{ patchUser: patchUserArray },
+					]);
 			}
 		})
 		.catch((err) => {
@@ -62,6 +98,15 @@ exports.getAllUsers = (req, res) => {
 // Delete currently logged in user
 exports.delete = async (req, res, next) => {
 	const userID = res.locals.decodedData.id;
+
+	function isUserLastAdmin(id) {
+		return User.count({ where: { id: id } }).then((count) => {
+			if (count != 0) {
+				return true;
+			}
+			return false;
+		});
+	}
 
 	deleteKeys = await Keypair.destroy({ where: { UserID: userID } });
 	deleteUser = await User.destroy({ where: { ID: userID } });
@@ -84,11 +129,11 @@ exports.delete = async (req, res, next) => {
 // Delete user by id, admin only
 exports.deleteByID = (req, res, next) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
-	const id = req.params.id;
+	const userID = req.params.id;
 
 	// Function to check if an user with id exists
-	function doesUserExist(id) {
-		return User.count({ where: { id: id } }).then((count) => {
+	function doesUserExist(userID) {
+		return User.count({ where: { userID: userID } }).then((count) => {
 			if (count != 0) {
 				return true;
 			}
@@ -105,26 +150,27 @@ exports.deleteByID = (req, res, next) => {
 	}
 
 	// Delete user and their keys
-	doesUserExist(id)
+	doesUserExist(userID)
 		.then((userExists) => {
 			if (userExists) {
-				Keypair.destroy({ where: { UserID: id } });
-				User.destroy({ where: { ID: id } });
+				Keypair.destroy({ where: { UserID: userID } });
+				User.destroy({ where: { ID: userID } });
 				res.status(200).json({
 					status: 'Success',
-					message: `User with id of ${id} was deleted successfully!`,
+					message: `User with id of ${userID} was deleted successfully!`,
 				});
 			} else {
 				res.status(404).json({
 					status: 'Error',
-					message: `User with id of ${id} does not exist!`,
+					message: `User with id of ${userID} does not exist!`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error occurred while deleting user with id of ${id}: ` + err,
+				message:
+					`Error occurred while deleting user with id of ${userID}: ` + err,
 			});
 		});
 };
