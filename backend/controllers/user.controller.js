@@ -52,6 +52,7 @@ exports.getAllUsers = (req, res) => {
 		.then((users) => {
 			const selfLink = {
 				method: req.method,
+				description: 'Get all registered users',
 				href: fullUrl,
 			};
 			let getUserArray = [];
@@ -61,17 +62,17 @@ exports.getAllUsers = (req, res) => {
 			users.forEach((user) => {
 				getUserArray.push({
 					method: 'GET',
-					description: 'Get individual user with id ' + user.ID,
+					description: `Get individual user with id ${user.ID}`,
 					href: fullUrl + user.ID,
 				});
 				deleteUserArray.push({
 					method: 'DELETE',
-					description: 'Delete individual user with id ' + user.ID,
+					description: `Delete individual user with id ${user.ID}`,
 					href: fullUrl + user.ID,
 				});
 				patchUserArray.push({
 					method: 'PATCH',
-					description: 'Update individual user with id ' + user.ID,
+					description: `Update individual user with id ${user.ID}`,
 					href: fullUrl + user.ID,
 				});
 			});
@@ -98,15 +99,6 @@ exports.getAllUsers = (req, res) => {
 // Delete currently logged in user
 exports.delete = async (req, res, next) => {
 	const userID = res.locals.decodedData.id;
-
-	function isUserLastAdmin(id) {
-		return User.count({ where: { id: id } }).then((count) => {
-			if (count != 0) {
-				return true;
-			}
-			return false;
-		});
-	}
 
 	deleteKeys = await Keypair.destroy({ where: { UserID: userID } });
 	deleteUser = await User.destroy({ where: { ID: userID } });
