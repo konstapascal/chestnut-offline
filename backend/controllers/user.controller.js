@@ -1,7 +1,6 @@
 const db = require('../models/db.index');
 const User = db.user;
 const Keypair = db.keypair;
-var hal = require('hal');
 
 // Get one users info by id
 exports.getUser = (req, res) => {
@@ -19,7 +18,25 @@ exports.getUser = (req, res) => {
 	User.findAll({ where: { ID: userID } })
 		.then((user) => {
 			if (user) {
-				res.status(200).json(user);
+				res.status(200).json({ user }, [
+					{
+						self: {
+							method: 'GET',
+							description: 'Get individual user by id.',
+							href: '/api/users/' + userID,
+						},
+					},
+					{
+						method: 'PATCH',
+						description: 'Update users details by id.',
+						href: '/api/users/' + userID,
+					},
+					{
+						method: 'DELETE',
+						description: 'Delete user by id.',
+						href: '/api/users/' + userID,
+					},
+				]);
 			} else {
 				res.status(404).json({
 					status: 'Error',
@@ -38,7 +55,6 @@ exports.getUser = (req, res) => {
 // Get all users and their info, admin only
 exports.getAllUsers = (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
-	const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
@@ -50,42 +66,40 @@ exports.getAllUsers = (req, res) => {
 
 	User.findAll()
 		.then((users) => {
-			const selfLink = {
-				method: req.method,
-				description: 'Get all registered users',
-				href: fullUrl,
-			};
+			// Some code is commented out, alternative implementation
 			let getUserArray = [];
-			let deleteUserArray = [];
-			let patchUserArray = [];
+			// let deleteUserArray = [];
+			// let patchUserArray = [];
 
 			users.forEach((user) => {
 				getUserArray.push({
 					method: 'GET',
 					description: `Get individual user with id ${user.ID}`,
-					href: fullUrl + user.ID,
+					href: '/api/users/' + user.ID,
 				});
-				deleteUserArray.push({
+				/* deleteUserArray.push({
 					method: 'DELETE',
 					description: `Delete individual user with id ${user.ID}`,
-					href: fullUrl + user.ID,
+					href: '/api/users/' + user.ID,
 				});
 				patchUserArray.push({
 					method: 'PATCH',
 					description: `Update individual user with id ${user.ID}`,
-					href: fullUrl + user.ID,
-				});
+					href: '/api/users/' + user.ID,
+				}); */
 			});
 
 			if (users) {
-				res
-					.status(200)
-					.json({ users }, [
-						{ self: selfLink },
-						{ getUser: getUserArray },
-						{ deleteUser: deleteUserArray },
-						{ patchUser: patchUserArray },
-					]);
+				res.status(200).json({ users }, [
+					{
+						self: {
+							method: 'GET',
+							description: 'Get all registered users info.',
+							href: '/api/users',
+						},
+					},
+					{ getUserByID: getUserArray },
+				]);
 			}
 		})
 		.catch((err) => {
@@ -111,10 +125,21 @@ exports.delete = async (req, res, next) => {
 		});
 		// Delete user and his keys
 	} else if (deleteKeys && deleteUser) {
-		return res.status(200).json({
-			status: 'Success',
-			message: 'User and all keys have been deleted!',
-		});
+		return res.status(200).json(
+			{
+				status: 'Success',
+				message: 'User and all keys have been deleted!',
+			},
+			[
+				{
+					self: {
+						method: 'DELETE',
+						description: 'Delete currently logged in user.',
+						href: '/api/users/me',
+					},
+				},
+			]
+		);
 	}
 };
 
@@ -125,7 +150,7 @@ exports.deleteByID = (req, res, next) => {
 
 	// Function to check if an user with id exists
 	function doesUserExist(userID) {
-		return User.count({ where: { userID: userID } }).then((count) => {
+		return User.count({ where: { ID: userID } }).then((count) => {
 			if (count != 0) {
 				return true;
 			}
@@ -147,10 +172,21 @@ exports.deleteByID = (req, res, next) => {
 			if (userExists) {
 				Keypair.destroy({ where: { UserID: userID } });
 				User.destroy({ where: { ID: userID } });
-				res.status(200).json({
-					status: 'Success',
-					message: `User with id of ${userID} was deleted successfully!`,
-				});
+				res.status(200).json(
+					{
+						status: 'Success',
+						message: `User with id of ${userID} was deleted successfully!`,
+					},
+					[
+						{
+							self: {
+								method: 'DELETE',
+								description: 'Delete user by id.',
+								href: '/api/users/' + userID,
+							},
+						},
+					]
+				);
 			} else {
 				res.status(404).json({
 					status: 'Error',
@@ -171,7 +207,7 @@ exports.deleteByID = (req, res, next) => {
 exports.updateUser = async (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
 
-	const id = req.params.id;
+	const userID = req.params.id;
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
@@ -195,12 +231,12 @@ exports.updateUser = async (req, res) => {
 	}
 
 	// Check if user exists
-	const userExists = await User.findOne({ where: { ID: id } });
+	const userExists = await User.findOne({ where: { ID: userID } });
 
 	if (!userExists) {
 		return res.status(404).json({
 			status: 'Error',
-			message: `User with id ${id} was not found!`,
+			message: `User with id ${userID} was not found!`,
 		});
 	}
 
@@ -212,21 +248,32 @@ exports.updateUser = async (req, res) => {
 			IsAdmin: isAdmin,
 		},
 		{
-			where: { ID: id },
+			where: { ID: userID },
 		}
 	)
 		.then((updated) => {
 			if (updated) {
-				res.status(200).json({
-					status: 'Success',
-					message: 'User was updated successfully.',
-				});
+				res.status(200).json(
+					{
+						status: 'Success',
+						message: 'User was updated successfully.',
+					},
+					[
+						{
+							self: {
+								method: 'Patch',
+								description: 'Update details of user with id.',
+								href: '/api/users/' + userID,
+							},
+						},
+					]
+				);
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
 				status: 'Error',
-				message: `Error updating user with id ${id}: ` + err,
+				message: `Error updating user with id ${userID}: ` + err,
 			});
 		});
 };

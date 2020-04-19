@@ -52,10 +52,29 @@ exports.signup = async (req, res) => {
 	// Run query to save schema in the database
 	User.create(UserSchema)
 		.then(() => {
-			res.status(200).json({
-				status: 'Success',
-				message: `User ${username} created successfully`,
-			});
+			res.status(200).json(
+				{
+					status: 'Success',
+					message: `User ${username} created successfully`,
+				},
+				[
+					{
+						method: 'POST',
+						description: 'Login',
+						href: '/api/login',
+					},
+					{
+						method: 'POST',
+						description: 'Encrypt',
+						href: '/api/encrypt',
+					},
+					{
+						method: 'POST',
+						description: 'Decrypt',
+						href: '/api/decrypt',
+					},
+				]
+			);
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -77,6 +96,10 @@ exports.login = async (req, res) => {
 			message: 'Both username and password must be provided.',
 		});
 	}
+
+	const isUserAdmin = await User.findOne({
+		where: { Username: username, IsAdmin: true },
+	});
 
 	User.findOne({ where: { Username: username } })
 		.then((user) => {
@@ -105,12 +128,85 @@ exports.login = async (req, res) => {
 				{ expiresIn: '24h' }
 			);
 
-			// Send back response with token on successfull login
-			res.status(200).json({
-				status: 'Success',
-				message: 'You have logged in and have been issued a token.',
-				token: token,
-			});
+			if (isUserAdmin) {
+				// Send back response with token on successfull login
+				res.status(200).json(
+					{
+						status: 'Success',
+						message: 'You have logged in and have been issued a token.',
+						token: token,
+					},
+					[
+						{
+							self: {
+								method: 'POST',
+								description: 'Login',
+								href: '/api/login',
+							},
+						},
+						{
+							method: 'GET',
+							description: 'Get all registered users info.',
+							href: '/api/users',
+						},
+						{
+							method: 'GET',
+							description:
+								'Get all keys, public and private of currently logged in user.',
+							href: '/api/keys/users/me',
+						},
+						{
+							method: 'GET',
+							description:
+								'Get all public keypairs and usernames of all registered users.',
+							href: '/api/keys',
+						},
+						{
+							method: 'POST',
+							description: 'Endpoint that will encrypt provided string.',
+							href: '/api/encrypt',
+						},
+						{
+							method: 'POST',
+							description: 'Endpoint that will decrypt provided cipher.',
+							href: '/api/decrypt',
+						},
+					]
+				);
+			} else if (!isUserAdmin) {
+				res.status(200).json(
+					{
+						status: 'Success',
+						message: 'You have logged in and have been issued a token.',
+						token: token,
+					},
+					[
+						{
+							self: {
+								method: 'POST',
+								description: 'Login',
+								href: '/api/login',
+							},
+						},
+						{
+							method: 'GET',
+							description:
+								'Get all public keypairs and usernames of all registered users.',
+							href: '/api/keys',
+						},
+						{
+							method: 'POST',
+							description: 'Endpoint that will encrypt provided string.',
+							href: '/api/encrypt',
+						},
+						{
+							method: 'POST',
+							description: 'Endpoint that will decrypt provided cipher.',
+							href: '/api/decrypt',
+						},
+					]
+				);
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({

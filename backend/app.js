@@ -106,10 +106,11 @@ db.sequelize.sync({ force: true }).then(() => {
 });
 
 // Requiring all routes
+require('./routes/api.root.route')(app);
+require('./routes/auth.routes')(app);
+require('./routes/crypto.routes')(app);
 require('./routes/user.routes')(app);
 require('./routes/keypair.routes')(app);
-require('./routes/crypto.routes')(app);
-require('./routes/auth.routes')(app);
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 8080;

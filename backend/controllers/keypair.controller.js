@@ -13,8 +13,33 @@ exports.getMyKeys = (req, res) => {
 		},
 	})
 		.then((keypairs) => {
+			let deleteKeyArray = [];
+
+			keypairs.forEach((keypair) => {
+				deleteKeyArray.push({
+					method: 'DELETE',
+					description: `Delete kypair with id ${keypair.KeypairID}`,
+					href: '/api/keys/' + keypair.KeypairID,
+				});
+			});
+
 			if (keypairs != 0) {
-				return res.status(200).json({ keypairs });
+				return res.status(200).json({ keypairs }, [
+					{
+						self: {
+							method: 'GET',
+							description:
+								'Get all keys, public and private of currently logged in user.',
+							href: '/api/keys/users/me',
+						},
+					},
+					{
+						method: 'POST',
+						description: 'Generate a new keypair for currently logged in user.',
+						href: '/api/keys/new/users/me',
+					},
+					{ deleteKeyByID: deleteKeyArray },
+				]);
 			} else {
 				return res.status(404).json({
 					status: 'Error',
@@ -118,10 +143,22 @@ exports.createKey = (req, res) => {
 	// Run query to save schema in the database
 	Keypair.create(KeypairSchema)
 		.then(() => {
-			res.status(200).json({
-				status: 'Success',
-				message: `Keypair ${name} created successfully!`,
-			});
+			res.status(200).json(
+				{
+					status: 'Success',
+					message: `Keypair ${name} created successfully!`,
+				},
+				[
+					{
+						self: {
+							method: 'POST',
+							description:
+								'Create new keypair for the currently logged in user.',
+							href: '/api/keys/new/users/me',
+						},
+					},
+				]
+			);
 		})
 		.catch((err) => {
 			res.status(500).json({
