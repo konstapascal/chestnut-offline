@@ -13,9 +13,9 @@ exports.signup = async (req, res) => {
 	// Validate request
 	if (!username || !password || !email) {
 		return res.status(400).json({
-			status: 'Error',
+			status: '400 - Bad Request',
 			message:
-				'All required fields (username, password, email) must be filled!',
+				'All fields are required and must be filled (username, password, email).',
 		});
 	}
 
@@ -25,19 +25,19 @@ exports.signup = async (req, res) => {
 
 	// Check DB if user, email or both exist
 	if (usernameExists && emailExists) {
-		return res.status(400).json({
-			status: 'Error',
-			message: 'Both username and email already taken!',
+		return res.status(422).json({
+			status: '422 - Unprocessable Entity',
+			message: 'Both username and email already exist.',
 		});
 	} else if (usernameExists) {
-		return res.status(400).json({
-			status: 'Error',
-			message: 'Username already taken!',
+		return res.status(422).json({
+			status: '422 - Unprocessable Entity',
+			message: 'Username already exists.',
 		});
 	} else if (emailExists) {
-		return res.status(400).json({
-			status: 'Error',
-			message: 'Email already taken!',
+		return res.status(422).json({
+			status: '422 - Unprocessable Entity',
+			message: 'Email already exists.',
 		});
 	}
 
@@ -52,12 +52,19 @@ exports.signup = async (req, res) => {
 	// Run query to save schema in the database
 	User.create(UserSchema)
 		.then(() => {
-			res.status(200).json(
+			res.status(201).json(
 				{
-					status: 'Success',
-					message: `User ${username} created successfully`,
+					status: '201 - Created',
+					message: `User ${username} created successfully.`,
 				},
 				[
+					{
+						self: {
+							method: 'POST',
+							description: 'Signup',
+							href: '/api/signup',
+						},
+					},
 					{
 						method: 'POST',
 						description: 'Login',
@@ -65,12 +72,13 @@ exports.signup = async (req, res) => {
 					},
 					{
 						method: 'POST',
-						description: 'Encrypt',
+						description: 'Encrypt string using the provided public key.',
 						href: '/api/encrypt',
 					},
 					{
 						method: 'POST',
-						description: 'Decrypt',
+						description:
+							'Decrypt cipher string using the provided private key.',
 						href: '/api/decrypt',
 					},
 				]
@@ -78,7 +86,7 @@ exports.signup = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: `Error occurred while creating user ${username}:` + err,
 			});
 		});
@@ -91,9 +99,9 @@ exports.login = async (req, res) => {
 
 	// Validate request
 	if (!username || !password) {
-		return res.status(404).json({
-			status: 'Error',
-			message: 'Both username and password must be provided.',
+		return res.status(400).json({
+			status: '400 - Bad Request',
+			message: 'Both username and password are required fields.',
 		});
 	}
 
@@ -106,8 +114,8 @@ exports.login = async (req, res) => {
 			// Check if username exists in the DB
 			if (!user) {
 				return res.status(404).json({
-					status: 'Error',
-					message: 'Username not found!',
+					status: '404 - Not Found',
+					message: 'Username not found.',
 				});
 			}
 
@@ -115,9 +123,9 @@ exports.login = async (req, res) => {
 			const passwordIsValid = bcrypt.compareSync(password, user.Password);
 
 			if (!passwordIsValid) {
-				return res.status(404).json({
-					status: 'Error',
-					message: 'Invalid password!',
+				return res.status(422).json({
+					status: '422 - Unprocessable Entity',
+					message: 'Invalid Password.',
 				});
 			}
 
@@ -129,11 +137,11 @@ exports.login = async (req, res) => {
 			);
 
 			if (isUserAdmin) {
-				// Send back response with token on successfull login
+				// Send back response with token on successful login
 				res.status(200).json(
 					{
-						status: 'Success',
-						message: 'You have logged in and have been issued a token.',
+						status: '200 - OK',
+						message: 'Login successful and token has been issued.',
 						token: token,
 					},
 					[
@@ -152,7 +160,7 @@ exports.login = async (req, res) => {
 						{
 							method: 'GET',
 							description:
-								'Get all keys, public and private of currently logged in user.',
+								'Get all keys, public and private, of currently logged in user.',
 							href: '/api/keys/users/me',
 						},
 						{
@@ -162,13 +170,19 @@ exports.login = async (req, res) => {
 							href: '/api/keys',
 						},
 						{
+							method: 'DELETE',
+							description: 'Delete currently logged in user.',
+							href: '/api/users/me',
+						},
+						{
 							method: 'POST',
-							description: 'Endpoint that will encrypt provided string.',
+							description: 'Encrypt string using the provided public key.',
 							href: '/api/encrypt',
 						},
 						{
 							method: 'POST',
-							description: 'Endpoint that will decrypt provided cipher.',
+							description:
+								'Decrypt cipher string using the provided private key.',
 							href: '/api/decrypt',
 						},
 					]
@@ -176,8 +190,8 @@ exports.login = async (req, res) => {
 			} else if (!isUserAdmin) {
 				res.status(200).json(
 					{
-						status: 'Success',
-						message: 'You have logged in and have been issued a token.',
+						status: '200 - OK',
+						message: 'Login successful and token has been issued.',
 						token: token,
 					},
 					[
@@ -191,17 +205,29 @@ exports.login = async (req, res) => {
 						{
 							method: 'GET',
 							description:
+								'Get all keys, public and private of currently logged in user.',
+							href: '/api/keys/users/me',
+						},
+						{
+							method: 'GET',
+							description:
 								'Get all public keypairs and usernames of all registered users.',
 							href: '/api/keys',
 						},
 						{
+							method: 'DELETE',
+							description: 'Delete currently logged in user.',
+							href: '/api/users/me',
+						},
+						{
 							method: 'POST',
-							description: 'Endpoint that will encrypt provided string.',
+							description: 'Encrypt string using the provided public key.',
 							href: '/api/encrypt',
 						},
 						{
 							method: 'POST',
-							description: 'Endpoint that will decrypt provided cipher.',
+							description:
+								'Decrypt cipher string using the provided private key.',
 							href: '/api/decrypt',
 						},
 					]

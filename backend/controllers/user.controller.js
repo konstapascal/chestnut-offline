@@ -10,15 +10,16 @@ exports.getUser = (req, res) => {
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'You must be an admin to access this route!',
+			status: '403 - Forbidden',
+			message:
+				'You do not have the necessary permissions to access this route.',
 		});
 	}
 
 	User.findAll({ where: { ID: userID } })
 		.then((user) => {
 			if (user) {
-				res.status(200).json({ user }, [
+				res.status(200).json({ status: '200 - OK', user }, [
 					{
 						self: {
 							method: 'GET',
@@ -39,14 +40,14 @@ exports.getUser = (req, res) => {
 				]);
 			} else {
 				res.status(404).json({
-					status: 'Error',
-					message: `User with id ${userID} could not be found!`,
+					status: '404- Not Found',
+					message: `User with id ${userID} was not found.`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: `Error retrieving user with id ${userID}: ` + err,
 			});
 		});
@@ -59,8 +60,9 @@ exports.getAllUsers = (req, res) => {
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'You must be an admin to access this route!',
+			status: '403 - Forbidden',
+			message:
+				'You do not have the necessary permissions to access this route.',
 		});
 	}
 
@@ -90,7 +92,7 @@ exports.getAllUsers = (req, res) => {
 			});
 
 			if (users) {
-				res.status(200).json({ users }, [
+				res.status(200).json({ status: '200 - OK', users }, [
 					{
 						self: {
 							method: 'GET',
@@ -104,7 +106,7 @@ exports.getAllUsers = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: 'Error occurred while retrieving users: ' + err,
 			});
 		});
@@ -120,15 +122,15 @@ exports.delete = async (req, res, next) => {
 	// Check if user exists
 	if (deleteUser == 0) {
 		return res.status(404).json({
-			status: 'Error',
-			message: 'User cannot be found!',
+			status: '404 - Not Found',
+			message: 'User was not found.',
 		});
 		// Delete user and his keys
 	} else if (deleteKeys && deleteUser) {
 		return res.status(200).json(
 			{
-				status: 'Success',
-				message: 'User and all keys have been deleted!',
+				status: '200 - OK',
+				message: 'User and associated keys deleted successfully.',
 			},
 			[
 				{
@@ -161,8 +163,9 @@ exports.deleteByID = (req, res, next) => {
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'You must be an admin to access this route!',
+			status: '403 - Forbidden',
+			message:
+				'You do not have the necessary permissions to access this route.',
 		});
 	}
 
@@ -174,7 +177,7 @@ exports.deleteByID = (req, res, next) => {
 				User.destroy({ where: { ID: userID } });
 				res.status(200).json(
 					{
-						status: 'Success',
+						status: '200 - OK',
 						message: `User with id of ${userID} was deleted successfully!`,
 					},
 					[
@@ -189,14 +192,14 @@ exports.deleteByID = (req, res, next) => {
 				);
 			} else {
 				res.status(404).json({
-					status: 'Error',
-					message: `User with id of ${userID} does not exist!`,
+					status: '404 - Not Found',
+					message: `User with id of ${userID} was not exist.`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message:
 					`Error occurred while deleting user with id of ${userID}: ` + err,
 			});
@@ -216,17 +219,18 @@ exports.updateUser = async (req, res) => {
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'You must be an admin to access this route!',
+			status: '403 - Forbidden',
+			message:
+				'You do not have the necessary permissions to access this route.',
 		});
 	}
 
 	// Validate request
 	if (Object.keys(req.body).length === 0) {
 		return res.status(400).json({
-			status: 'Error',
+			status: '400 - Bad Request',
 			message:
-				'You must provide atleast 1 field to update (username, email, password, isAdmin)',
+				'You must provide atleast 1 field to update (username, email, password, isAdmin) in the body of the request.',
 		});
 	}
 
@@ -235,8 +239,8 @@ exports.updateUser = async (req, res) => {
 
 	if (!userExists) {
 		return res.status(404).json({
-			status: 'Error',
-			message: `User with id ${userID} was not found!`,
+			status: '404 - Not Found',
+			message: `User with id ${userID} was not found.`,
 		});
 	}
 
@@ -255,14 +259,14 @@ exports.updateUser = async (req, res) => {
 			if (updated) {
 				res.status(200).json(
 					{
-						status: 'Success',
+						status: '200 - OK',
 						message: 'User was updated successfully.',
 					},
 					[
 						{
 							self: {
-								method: 'Patch',
-								description: 'Update details of user with id.',
+								method: 'PATCH',
+								description: 'Update details of user with id ' + userID,
 								href: '/api/users/' + userID,
 							},
 						},
@@ -272,7 +276,7 @@ exports.updateUser = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: `Error updating user with id ${userID}: ` + err,
 			});
 		});

@@ -18,13 +18,13 @@ exports.getMyKeys = (req, res) => {
 			keypairs.forEach((keypair) => {
 				deleteKeyArray.push({
 					method: 'DELETE',
-					description: `Delete kypair with id ${keypair.KeypairID}`,
+					description: `Delete keypair with id ${keypair.KeypairID}`,
 					href: '/api/keys/' + keypair.KeypairID,
 				});
 			});
 
 			if (keypairs != 0) {
-				return res.status(200).json({ keypairs }, [
+				return res.status(200).json({ status: '200 - OK', keypairs }, [
 					{
 						self: {
 							method: 'GET',
@@ -42,15 +42,15 @@ exports.getMyKeys = (req, res) => {
 				]);
 			} else {
 				return res.status(404).json({
-					status: 'Error',
-					message: `User with id of ${userID} does not exist or does not have any keys.`,
+					status: '404 - Not Found',
+					message: `User with id of ${userID} was not found or does not have any keys.`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
-				message: 'Error occured while getting keys: ' + err,
+				status: '500 - Internal Server Error',
+				message: 'Error occured while retvieving keys: ' + err,
 			});
 		});
 };
@@ -67,18 +67,26 @@ exports.getAllPublicKeysByID = (req, res) => {
 	})
 		.then((keypairs) => {
 			if (keypairs != 0) {
-				return res.status(200).json({ keypairs });
+				return res.status(200).json({ status: '200 - OK', keypairs }, [
+					{
+						self: {
+							method: 'GET',
+							description: 'Get all public keys of 1 user by id',
+							href: '/api/keys/users/' + userID,
+						},
+					},
+				]);
 			} else {
 				return res.status(404).json({
-					status: 'Error',
-					message: `User with id of ${id} does not exist or does not have any keys.`,
+					status: '404 - Not Found',
+					message: `User with id of ${id} was not found or does not have any keys.`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
-				message: 'Error occured while getting keys: ' + err,
+				status: '500 - Internal Server Error',
+				message: 'Error occured while retrieving keys: ' + err,
 			});
 		});
 };
@@ -95,18 +103,49 @@ exports.getAllPublicKeys = (req, res) => {
 		],
 	})
 		.then((keypairs) => {
+			let idArray = [];
+			let getKeysByUserIdArray = [];
+
+			// Populate array with all unique user id's
+			keypairs.forEach((keypair) => {
+				if (idArray.indexOf(keypair.UserID) === -1) {
+					idArray.push(keypair.UserID);
+				}
+			});
+
+			// Push object for each user id
+			idArray.forEach((userId) => {
+				getKeysByUserIdArray.push({
+					method: 'GET',
+					description: `Get all public keys of user with id ${userId}`,
+					href: '/api/keys/users/' + userId,
+				});
+			});
+
 			if (keypairs) {
-				res.status(200).json({ keypairs });
+				return res.status(200).json({ status: '200 - OK', keypairs }, [
+					{
+						self: {
+							method: 'GET',
+							description:
+								'Get all public keys and usernames of all registered users.',
+							href: '/api/keys',
+						},
+					},
+					{
+						getKeysByUserId: getKeysByUserIdArray,
+					},
+				]);
 			} else {
 				res.status(404).json({
-					status: 'Error',
-					message: 'No users or no keys found.',
+					status: '404 - Not Found',
+					message: 'No keys found.',
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: 'Error occured while retrieving public keys: ' + err,
 			});
 		});
@@ -124,9 +163,9 @@ exports.createKey = (req, res) => {
 	// Validate request
 	if (!name || !type || !length || !publicKey || !privateKey) {
 		return res.status(400).json({
-			status: 'Error',
+			status: '400 - Bad Request',
 			message:
-				'All required fields (name, type, length, publicKey, privateKey) must be filled!',
+				'All fields are required and must be filled (name, type, length, publicKey, privateKey).',
 		});
 	}
 
@@ -143,10 +182,10 @@ exports.createKey = (req, res) => {
 	// Run query to save schema in the database
 	Keypair.create(KeypairSchema)
 		.then(() => {
-			res.status(200).json(
+			res.status(201).json(
 				{
-					status: 'Success',
-					message: `Keypair ${name} created successfully!`,
+					status: '201 - Created',
+					message: `Keypair with the name ${name} was created successfully.`,
 				},
 				[
 					{
@@ -162,7 +201,7 @@ exports.createKey = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: 'Error occurred while creating keypair: ' + err,
 			});
 		});
@@ -181,8 +220,8 @@ exports.deleteKey = async (req, res) => {
 	// User does not own the keypair and therefore is not allowed to delete it
 	if (!getUserID) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'Keypair not found or forbidden action!',
+			status: '403 - Forbidden',
+			message: 'You do not have the permissions to delete this keypair.',
 		});
 	}
 
@@ -192,20 +231,32 @@ exports.deleteKey = async (req, res) => {
 	})
 		.then((keypair) => {
 			if (keypair) {
-				res.status(200).json({
-					status: 'Success',
-					message: 'Keypair was deleted successfully!',
-				});
+				res.status(200).json(
+					{
+						status: '200 - OK',
+						message: 'Keypair was deleted successfully.',
+					},
+					[
+						{
+							self: {
+								method: 'POST',
+								description:
+									'Create new keypair for the currently logged in user.',
+								href: '/api/keys/new/users/me',
+							},
+						},
+					]
+				);
 			} else {
 				res.status(404).json({
-					status: 'Error',
-					message: `Keypair with id ${keyID} was not found!`,
+					status: '404 - Not Found',
+					message: `Keypair with id ${keyID} was not found.`,
 				});
 			}
 		})
 		.catch((err) => {
 			res.status(500).json({
-				status: 'Error',
+				status: '500 - Internal Server Error',
 				message: `Could not delete keypair with id ${keyID}: ` + err,
 			});
 		});
