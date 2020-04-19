@@ -10,8 +10,8 @@ const checkToken = (req, res, next) => {
 	// Check if token was provided in request header
 	if (!requestToken) {
 		return res.status(403).json({
-			status: 'Forbidden',
-			message: 'Provide valid token to use protected route!',
+			status: '403 - Forbidden',
+			message: 'Provide a token to access this route.',
 		});
 	}
 
@@ -25,8 +25,8 @@ const checkToken = (req, res, next) => {
 		jwt.verify(requestToken, config.secret, (err, decodedData) => {
 			if (err) {
 				return res.status(401).json({
-					status: 'Unauthorized',
-					message: 'Token is not valid!',
+					status: '401 - Unauthorized',
+					message: 'Invalid token was provided.',
 				});
 			} else {
 				res.locals.decodedData = decodedData;
