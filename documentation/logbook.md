@@ -63,3 +63,10 @@ Finished backend API development while working on the frontend simultaneously.
 
 _13.04.2020_\
 Meeting with Thomas
+
+**Week 16**
+
+**Week 17**
+
+_21.04.2020_\
+Meeting with Thomas
