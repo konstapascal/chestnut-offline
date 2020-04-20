@@ -16,10 +16,6 @@
 .env.test.local
 .env.production.local
 .env
-<<<<<<< HEAD
-/config
-=======
->>>>>>> api-design-kon-branch
 
 npm-debug.log*
 yarn-debug.log*
