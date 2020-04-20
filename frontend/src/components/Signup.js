@@ -33,8 +33,8 @@ const Signup = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
     await axios
-      .post("http://localhost:5000/api/users/signup", {
-        userName: formState.inputs.userName.value,
+      .post("http://localhost:8080/api/signup", {
+        username: formState.inputs.username.value,
         email: formState.inputs.email.value,
         password: formState.inputs.password.value,
       })
@@ -57,7 +57,7 @@ const Signup = () => {
             <Input
               iconPosition="left"
               element="input"
-              id="userName"
+              id="username"
               type="text"
               label="Your username"
               validators={[VALIDATOR_REQUIRE()]}

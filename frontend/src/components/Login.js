@@ -3,11 +3,7 @@ import axios from "axios";
 
 import { AuthContext } from "../context/auth-context";
 import { useForm } from "../hooks/form-hook";
-import {
-  VALIDATOR_EMAIL,
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
-} from "../util/validators";
+import { VALIDATOR_REQUIRE } from "../util/validators";
 import Input from "./FromElements/Input";
 
 import { Form, Button, Grid, Segment, Message } from "semantic-ui-react";
@@ -18,7 +14,7 @@ const Login = () => {
 
   const [formState, inputHandler] = useForm(
     {
-      email: {
+      username: {
         value: "",
         isValid: false,
       },
@@ -33,9 +29,9 @@ const Login = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
     await axios
-      .post("http://localhost:5000/api/users/login", {
-        // userName: formState.inputs.userName.value,
-        email: formState.inputs.email.value,
+      .post("http://localhost:8080/api/login", {
+        // username: formState.inputs.username.value,
+        username: formState.inputs.username.value,
         password: formState.inputs.password.value,
       })
       .then((response) => {
@@ -55,13 +51,13 @@ const Login = () => {
           <Form.Field>
             <Input
               element="input"
-              id="email"
-              type="email"
-              label="E-Mail"
-              validators={[VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email address."
+              id="username"
+              type="username"
+              label="Username"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter your username."
               onInput={inputHandler}
-              placeholder="E-mail"
+              placeholder="Username"
             />
           </Form.Field>
           <Form.Field>
@@ -70,8 +66,8 @@ const Login = () => {
               id="password"
               type="password"
               label="Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter you password."
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter your password."
               onInput={inputHandler}
               placeholder="Choose a password"
             />

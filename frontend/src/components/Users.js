@@ -31,7 +31,7 @@ const UsersList = () => {
   };
 
   const filteredUsers = loadedUser.users.filter((user) => {
-    return user.userName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    return user.username.toLowerCase().indexOf(search.toLowerCase()) !== -1;
   });
 
   return (
@@ -48,7 +48,7 @@ const UsersList = () => {
           {filteredUsers.map((item) => (
             <List.Item>
               <Item.Content>
-                <List.Header as="a">{item.userName}</List.Header>
+                <List.Header as="a">{item.username}</List.Header>
                 <List.Description as="a">{item.email}</List.Description>
               </Item.Content>
             </List.Item>
