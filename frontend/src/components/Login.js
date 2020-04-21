@@ -6,7 +6,7 @@ import { useForm } from "../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../util/validators";
 import Input from "./FromElements/Input";
 
-import { Form, Button, Grid, Segment, Message } from "semantic-ui-react";
+import { Form, Button, Segment, Message } from "semantic-ui-react";
 
 const Login = () => {
   const auth = useContext(AuthContext);
@@ -35,7 +35,8 @@ const Login = () => {
         password: formState.inputs.password.value,
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        auth.login();
       })
       .catch((err) => {
         console.log(err.response.data);

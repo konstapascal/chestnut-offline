@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Axios from "axios";
-import { List, Item, Segment } from "semantic-ui-react";
-import { Input } from "semantic-ui-react";
+import { List, Item, Segment, Input } from "semantic-ui-react";
 
 const UsersList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +14,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setIsLoading(true);
-      const response = await Axios.get("http://localhost:5000/api/users/");
+      const response = await Axios.get("http://localhost:8080/api/users/");
 
       setLoadedUsers(response.data);
       setIsLoading(false);
