@@ -8,8 +8,12 @@ const LandingPage = (props) => {
   return (
     <div>
       <Grid relaxed textAlign="center" columns={2}>
-        <LandingPageDesctiption />
-        <Signup />
+        <Grid.Column width={10}>
+          <LandingPageDesctiption />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <Signup />
+        </Grid.Column>
       </Grid>
     </div>
   );
