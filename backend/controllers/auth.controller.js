@@ -10,6 +10,8 @@ exports.signup = async (req, res) => {
 	const password = req.body.password;
 	const email = req.body.email;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	// Validate request
 	if (!username || !password || !email) {
 		return res.status(400).json({
@@ -62,24 +64,24 @@ exports.signup = async (req, res) => {
 						self: {
 							method: 'POST',
 							description: 'Signup',
-							href: '/api/signup',
+							href: url + '/api/signup',
 						},
 					},
 					{
 						method: 'POST',
 						description: 'Login',
-						href: '/api/login',
+						href: url + '/api/login',
 					},
 					{
 						method: 'POST',
 						description: 'Encrypt string using the provided public key.',
-						href: '/api/encrypt',
+						href: url + '/api/encrypt',
 					},
 					{
 						method: 'POST',
 						description:
 							'Decrypt cipher string using the provided private key.',
-						href: '/api/decrypt',
+						href: url + '/api/decrypt',
 					},
 				]
 			);
@@ -96,6 +98,8 @@ exports.login = async (req, res) => {
 	// Store body values
 	const username = req.body.username;
 	const password = req.body.password;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Validate request
 	if (!username || !password) {
@@ -149,41 +153,41 @@ exports.login = async (req, res) => {
 							self: {
 								method: 'POST',
 								description: 'Login',
-								href: '/api/login',
+								href: url + '/api/login',
 							},
 						},
 						{
 							method: 'GET',
 							description: 'Get all registered users info.',
-							href: '/api/users',
+							href: url + '/api/users',
 						},
 						{
 							method: 'GET',
 							description:
 								'Get all keys, public and private, of currently logged in user.',
-							href: '/api/keys/users/me',
+							href: url + '/api/keys/users/me',
 						},
 						{
 							method: 'GET',
 							description:
 								'Get all public keypairs and usernames of all registered users.',
-							href: '/api/keys',
+							href: url + '/api/keys',
 						},
 						{
 							method: 'DELETE',
 							description: 'Delete currently logged in user.',
-							href: '/api/users/me',
+							href: url + '/api/users/me',
 						},
 						{
 							method: 'POST',
 							description: 'Encrypt string using the provided public key.',
-							href: '/api/encrypt',
+							href: url + '/api/encrypt',
 						},
 						{
 							method: 'POST',
 							description:
 								'Decrypt cipher string using the provided private key.',
-							href: '/api/decrypt',
+							href: url + '/api/decrypt',
 						},
 					]
 				);
@@ -199,36 +203,36 @@ exports.login = async (req, res) => {
 							self: {
 								method: 'POST',
 								description: 'Login',
-								href: '/api/login',
+								href: url + '/api/login',
 							},
 						},
 						{
 							method: 'GET',
 							description:
 								'Get all keys, public and private of currently logged in user.',
-							href: '/api/keys/users/me',
+							href: url + '/api/keys/users/me',
 						},
 						{
 							method: 'GET',
 							description:
 								'Get all public keypairs and usernames of all registered users.',
-							href: '/api/keys',
+							href: url + '/api/keys',
 						},
 						{
 							method: 'DELETE',
 							description: 'Delete currently logged in user.',
-							href: '/api/users/me',
+							href: url + '/api/users/me',
 						},
 						{
 							method: 'POST',
 							description: 'Encrypt string using the provided public key.',
-							href: '/api/encrypt',
+							href: url + '/api/encrypt',
 						},
 						{
 							method: 'POST',
 							description:
 								'Decrypt cipher string using the provided private key.',
-							href: '/api/decrypt',
+							href: url + '/api/decrypt',
 						},
 					]
 				);

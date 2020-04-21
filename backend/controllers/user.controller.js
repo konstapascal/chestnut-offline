@@ -7,6 +7,8 @@ exports.getUser = (req, res) => {
 	const userID = req.params.id;
 	const isUserAdmin = res.locals.decodedData.isAdmin;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
@@ -24,18 +26,18 @@ exports.getUser = (req, res) => {
 						self: {
 							method: 'GET',
 							description: 'Get individual user by id.',
-							href: '/api/users/' + userID,
+							href: url + '/api/users/' + userID,
 						},
 					},
 					{
 						method: 'PATCH',
 						description: 'Update users details by id.',
-						href: '/api/users/' + userID,
+						href: url + '/api/users/' + userID,
 					},
 					{
 						method: 'DELETE',
 						description: 'Delete user by id.',
-						href: '/api/users/' + userID,
+						href: url + '/api/users/' + userID,
 					},
 				]);
 			} else {
@@ -57,6 +59,8 @@ exports.getUser = (req, res) => {
 exports.getAllUsers = (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
 		return res.status(403).json({
@@ -77,17 +81,17 @@ exports.getAllUsers = (req, res) => {
 				getUserArray.push({
 					method: 'GET',
 					description: `Get individual user with id ${user.ID}`,
-					href: '/api/users/' + user.ID,
+					href: url + '/api/users/' + user.ID,
 				});
 				/* deleteUserArray.push({
 					method: 'DELETE',
 					description: `Delete individual user with id ${user.ID}`,
-					href: '/api/users/' + user.ID,
+					href: url + '/api/users/' + user.ID,
 				});
 				patchUserArray.push({
 					method: 'PATCH',
 					description: `Update individual user with id ${user.ID}`,
-					href: '/api/users/' + user.ID,
+					href: url + '/api/users/' + user.ID,
 				}); */
 			});
 
@@ -97,7 +101,7 @@ exports.getAllUsers = (req, res) => {
 						self: {
 							method: 'GET',
 							description: 'Get all registered users info.',
-							href: '/api/users',
+							href: url + '/api/users',
 						},
 					},
 					{ getUserByID: getUserArray },
@@ -115,6 +119,8 @@ exports.getAllUsers = (req, res) => {
 // Delete currently logged in user
 exports.delete = async (req, res, next) => {
 	const userID = res.locals.decodedData.id;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	deleteKeys = await Keypair.destroy({ where: { UserID: userID } });
 	deleteUser = await User.destroy({ where: { ID: userID } });
@@ -137,7 +143,7 @@ exports.delete = async (req, res, next) => {
 					self: {
 						method: 'DELETE',
 						description: 'Delete currently logged in user.',
-						href: '/api/users/me',
+						href: url + '/api/users/me',
 					},
 				},
 			]
@@ -149,6 +155,8 @@ exports.delete = async (req, res, next) => {
 exports.deleteByID = (req, res, next) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
 	const userID = req.params.id;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Function to check if an user with id exists
 	function doesUserExist(userID) {
@@ -185,7 +193,7 @@ exports.deleteByID = (req, res, next) => {
 							self: {
 								method: 'DELETE',
 								description: 'Delete user by id.',
-								href: '/api/users/' + userID,
+								href: url + '/api/users/' + userID,
 							},
 						},
 					]
@@ -215,6 +223,8 @@ exports.updateUser = async (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
 	const isAdmin = req.body.isAdmin;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Check if user making request is admin
 	if (isUserAdmin == false) {
@@ -267,7 +277,7 @@ exports.updateUser = async (req, res) => {
 							self: {
 								method: 'PATCH',
 								description: 'Update details of user with id ' + userID,
-								href: '/api/users/' + userID,
+								href: url + '/api/users/' + userID,
 							},
 						},
 					]

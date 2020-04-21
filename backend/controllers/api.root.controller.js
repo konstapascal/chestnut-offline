@@ -1,26 +1,28 @@
 // HATEOAS API root
 exports.root = (req, res) => {
+	const url = req.protocol + '://' + req.headers.host;
+
 	// Return available API endpoints to the public
 	res.status(200).json({ status: '200 - OK' }, [
 		{
 			method: 'POST',
 			description: 'Login',
-			href: '/api/login',
+			href: url + '/api/login',
 		},
 		{
 			method: 'POST',
 			description: 'Signup',
-			href: '/api/register',
+			href: url + '/api/register',
 		},
 		{
 			method: 'POST',
 			description: 'Encrypt',
-			href: '/api/encrypt',
+			href: url + '/api/encrypt',
 		},
 		{
 			method: 'POST',
 			description: 'Decrypt',
-			href: '/api/decrypt',
+			href: url + '/api/decrypt',
 		},
 	]);
 };
