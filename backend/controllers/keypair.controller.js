@@ -7,6 +7,8 @@ exports.getMyKeys = (req, res) => {
 	// Store id that has been passed from middlewares
 	const userID = res.locals.decodedData.id;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	Keypair.findAll({
 		where: {
 			UserID: userID,
@@ -19,7 +21,7 @@ exports.getMyKeys = (req, res) => {
 				deleteKeyArray.push({
 					method: 'DELETE',
 					description: `Delete keypair with id ${keypair.KeypairID}`,
-					href: '/api/keys/' + keypair.KeypairID,
+					href: url + '/api/keys/' + keypair.KeypairID,
 				});
 			});
 
@@ -30,13 +32,13 @@ exports.getMyKeys = (req, res) => {
 							method: 'GET',
 							description:
 								'Get all keys, public and private of currently logged in user.',
-							href: '/api/keys/users/me',
+							href: url + '/api/keys/users/me',
 						},
 					},
 					{
 						method: 'POST',
 						description: 'Generate a new keypair for currently logged in user.',
-						href: '/api/keys/new/users/me',
+						href: url + '/api/keys/new/users/me',
 					},
 					{ deleteKeyByID: deleteKeyArray },
 				]);
@@ -59,6 +61,8 @@ exports.getMyKeys = (req, res) => {
 exports.getAllPublicKeysByID = (req, res) => {
 	const userID = req.params.id;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	Keypair.findAll({
 		where: {
 			UserID: userID,
@@ -72,7 +76,7 @@ exports.getAllPublicKeysByID = (req, res) => {
 						self: {
 							method: 'GET',
 							description: 'Get all public keys of 1 user by id',
-							href: '/api/keys/users/' + userID,
+							href: url + '/api/keys/users/' + userID,
 						},
 					},
 				]);
@@ -118,7 +122,7 @@ exports.getAllPublicKeys = (req, res) => {
 				getKeysByUserIdArray.push({
 					method: 'GET',
 					description: `Get all public keys of user with id ${userId}`,
-					href: '/api/keys/users/' + userId,
+					href: url + '/api/keys/users/' + userId,
 				});
 			});
 
@@ -129,7 +133,7 @@ exports.getAllPublicKeys = (req, res) => {
 							method: 'GET',
 							description:
 								'Get all public keys and usernames of all registered users.',
-							href: '/api/keys',
+							href: url + '/api/keys',
 						},
 					},
 					{
@@ -159,6 +163,8 @@ exports.createKey = (req, res) => {
 	const length = req.body.length;
 	const publicKey = req.body.publicKey;
 	const privateKey = req.body.privateKey;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Validate request
 	if (!name || !type || !length || !publicKey || !privateKey) {
@@ -193,7 +199,7 @@ exports.createKey = (req, res) => {
 							method: 'POST',
 							description:
 								'Create new keypair for the currently logged in user.',
-							href: '/api/keys/new/users/me',
+							href: url + '/api/keys/new/users/me',
 						},
 					},
 				]
@@ -211,6 +217,8 @@ exports.createKey = (req, res) => {
 exports.deleteKey = async (req, res) => {
 	const keyID = req.params.id;
 	const userID = res.locals.decodedData.id;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Check for keypair entry with key ID and user ID, proving ownership of key
 	const getUserID = await Keypair.findOne({
@@ -242,7 +250,7 @@ exports.deleteKey = async (req, res) => {
 								method: 'POST',
 								description:
 									'Create new keypair for the currently logged in user.',
-								href: '/api/keys/new/users/me',
+								href: url + '/api/keys/new/users/me',
 							},
 						},
 					]

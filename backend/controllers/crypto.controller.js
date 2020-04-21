@@ -7,6 +7,8 @@ exports.encryptText = (req, res) => {
 	const decryptedText = req.body.text;
 	const pemPublicKey = req.body.publicKey;
 
+	const url = req.protocol + '://' + req.headers.host;
+
 	// Validate request
 	if (!decryptedText || !pemPublicKey) {
 		return res.status(400).json({
@@ -24,13 +26,13 @@ exports.encryptText = (req, res) => {
 			self: {
 				method: 'POST',
 				description: 'Encrypt string using the provided public key.',
-				href: '/api/encrypt',
+				href: url + '/api/encrypt',
 			},
 		},
 		{
 			method: 'POST',
 			description: 'Decrypt cipher string using the provided private key.',
-			href: '/api/decrypt',
+			href: url + '/api/decrypt',
 		},
 	]);
 };
@@ -40,6 +42,8 @@ exports.decryptText = (req, res) => {
 	// Get encrypted text and decode it
 	const encryptedText = forge.util.decode64(req.body.encryptedText);
 	const pemPrivateKey = req.body.privateKey;
+
+	const url = req.protocol + '://' + req.headers.host;
 
 	// Validate request
 	if (!encryptedText || !pemPrivateKey) {
@@ -59,13 +63,13 @@ exports.decryptText = (req, res) => {
 			self: {
 				method: 'POST',
 				description: 'Decrypt cipher string using the provided private key.',
-				href: '/api/decrypt',
+				href: url + '/api/decrypt',
 			},
 		},
 		{
 			method: 'POST',
 			description: 'Encrypt string using the provided public key.',
-			href: '/api/encrypt',
+			href: url + '/api/encrypt',
 		},
 	]);
 };
