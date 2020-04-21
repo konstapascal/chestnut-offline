@@ -133,7 +133,7 @@ exports.login = async (req, res) => {
       const token = jwt.sign(
         { id: user.ID, username: user.Username, isAdmin: user.IsAdmin },
         config.secret,
-        { expiresIn: "24h" }
+        { expiresIn: "1h" }
       );
 
       if (isUserAdmin) {
@@ -142,6 +142,9 @@ exports.login = async (req, res) => {
           {
             status: "200 - OK",
             message: "Login successful and token has been issued.",
+            id: user.ID,
+            username: user.Username,
+            isAdmin: user.isAdmin,
             token: token,
           },
           [
@@ -192,6 +195,9 @@ exports.login = async (req, res) => {
           {
             status: "200 - OK",
             message: "Login successful and token has been issued.",
+            id: user.ID,
+            username: user.Username,
+            isAdmin: user.isAdmin,
             token: token,
           },
           [

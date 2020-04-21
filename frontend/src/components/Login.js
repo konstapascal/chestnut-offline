@@ -35,8 +35,8 @@ const Login = () => {
         password: formState.inputs.password.value,
       })
       .then((response) => {
-        console.log(response.data);
-        auth.login();
+        // console.log(response.data.id, response.data.token);
+        auth.login(response.data.id, response.data.token);
       })
       .catch((err) => {
         console.log(err.response.data);

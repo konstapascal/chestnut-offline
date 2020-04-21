@@ -45,9 +45,9 @@ const NavbarFunctional = () => {
       )}
       {auth.isLoggedIn && (
         <Menu.Item
-          // as={Link}
+          as={Link}
           exact
-          to="/search"
+          to="/users"
           name="Search Users"
           active={activeItem === "Search Users"}
           onClick={handleItemClick}

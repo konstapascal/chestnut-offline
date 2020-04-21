@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
 import Axios from "axios";
 import { List, Item, Segment, Input } from "semantic-ui-react";
+import { AuthContext } from "../context/auth-context";
 
 const UsersList = () => {
+  const auth = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({
     search: "",
@@ -14,7 +16,11 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setIsLoading(true);
-      const response = await Axios.get("http://localhost:8080/api/users/");
+      const response = await Axios.get("http://localhost:8080/api/users/", {
+        headers: {
+          Authoriazation: auth.token,
+        },
+      });
 
       setLoadedUsers(response.data);
       setIsLoading(false);
@@ -35,7 +41,7 @@ const UsersList = () => {
 
   return (
     <React.Fragment>
-      {console.log(filteredUsers)}
+      {console.log(auth.token)}
       <Segment style={{ width: 600 }}>
         <List as="ul" divided relaxed>
           <List.Item>

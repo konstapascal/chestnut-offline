@@ -40,7 +40,7 @@ const Signup = () => {
       })
       .then((response) => {
         console.log(response);
-        auth.login();
+        auth.login(response.data.id, response.data.token);
       })
       .catch((err) => {
         console.log(err.response.data);
