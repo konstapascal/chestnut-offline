@@ -9,39 +9,42 @@ const NavbarFunctional = () => {
 
 	// Highlights the clicked item on navbar
 	const handleItemClick = (event, { name }) => setActiveItem(name);
-	return (
-		<Menu
-			stackable
-			inverted
-			borderless
-			compact
-			attached='top'
-			style={{ padding: '0 20px' }}
-		>
-			<Menu.Item as={Link} exact to='/' header='true'>
-				<img src={logo} alt='chestnut logo' />
-			</Menu.Item>
 
+	return (
+		<Menu color='green' stackable inverted attached='top'>
+			<Menu.Item as={Link} exact to='/'>
+				<img src={logo} alt='Chestnut Logo' />
+			</Menu.Item>
 			<Menu.Item
-				// as={Link}
 				exact
 				to='/'
 				name='Home'
 				active={activeItem === 'Home'}
 				onClick={handleItemClick}
 			></Menu.Item>
+			<Menu.Item
+				exact
+				to='/'
+				name='Application'
+				active={activeItem === 'Application'}
+				onClick={handleItemClick}
+			></Menu.Item>
+			<Menu.Item
+				exact
+				to='/'
+				name='Keys'
+				active={activeItem === 'Keys'}
+				onClick={handleItemClick}
+			></Menu.Item>
+			<Menu.Item
+				exact
+				to='/'
+				name='Users'
+				active={activeItem === 'Users'}
+				onClick={handleItemClick}
+			></Menu.Item>
 
 			<Menu.Menu position='right'>
-				{/* <Menu.Item
-          // as={Link}
-          exact
-          to="/Signup"
-          name="Signup"
-          active={activeItem === "Signup"}
-          onClick={handleItemClick}
-          position="right"
-        ></Menu.Item> */}
-
 				<Menu.Item
 					as={Link}
 					exact
@@ -50,6 +53,14 @@ const NavbarFunctional = () => {
 					active={activeItem === 'Login'}
 					onClick={handleItemClick}
 					position='right'
+				></Menu.Item>
+				<Menu.Item
+					as={Link}
+					exact
+					to='/Login'
+					name='Register'
+					active={activeItem === 'Register'}
+					onClick={handleItemClick}
 				></Menu.Item>
 			</Menu.Menu>
 		</Menu>
