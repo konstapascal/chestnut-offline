@@ -27,6 +27,7 @@ const App = () => {
   let routes;
 
   if (!isLoggedIn) {
+    // checking commit
     routes = (
       <Switch>
         <Route path="/" exact>
