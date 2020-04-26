@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactDOM from "react-dom";
 import Axios from "axios";
 import { List, Item, Segment, Input } from "semantic-ui-react";
 import { AuthContext } from "../context/auth-context";
@@ -18,7 +17,7 @@ const UsersList = () => {
       setIsLoading(true);
       const response = await Axios.get("http://localhost:8080/api/users/", {
         headers: {
-          Authoriazation: auth.token,
+          Authorization: auth.token,
         },
       });
 
@@ -41,7 +40,6 @@ const UsersList = () => {
 
   return (
     <React.Fragment>
-      {console.log(auth.token)}
       <Segment style={{ width: 600 }}>
         <List as="ul" divided relaxed>
           <List.Item>
