@@ -39,6 +39,23 @@ db.sequelize.sync({ force: true }).then(() => {
 		Password: bcrypt.hashSync('test3', 12),
 		Email: 'test3@gmail.com',
 	});
+	db.user.create({
+		Username: 'abozar',
+		Password: bcrypt.hashSync('abozar', 12),
+		Email: 'abozar@gmail.com',
+		IsAdmin: 1,
+	});
+	db.user.create({
+		Username: 'konstapascal',
+		Password: bcrypt.hashSync('konstapascal', 12),
+		Email: 'konstapascal@gmail.com',
+		IsAdmin: 1,
+	});
+	db.user.create({
+		Username: 'thomas',
+		Password: bcrypt.hashSync('thomas', 12),
+		Email: 'thomas.sødring@gmail.com',
+	});
 
 	// Dummy keypair data
 	db.keypair.create({
