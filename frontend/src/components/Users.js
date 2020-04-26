@@ -9,8 +9,7 @@ const UsersList = () => {
   const [state, setState] = useState({
     search: "",
   });
-  const [loadedUser, setLoadedUsers] = useState({ users: [] });
-  let search = "";
+  const [loadedUser, setLoadedUsers] = useState();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -19,46 +18,37 @@ const UsersList = () => {
         headers: {
           Authorization: auth.token,
         },
-      });
-
-      setLoadedUsers(response.data);
-      setIsLoading(false);
+      })
+        .then((response) => {
+          setLoadedUsers(response.data.users);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
     };
-
     fetchUsers();
-  }, []);
-
-  const handleChange = (event) => {
-    setState({ search: event.target.value });
-    search = event.target.value;
-    console.log(event.target.value);
-  };
-
-  const filteredUsers = loadedUser.users.filter((user) => {
-    return user.username.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-  });
+  }, [Axios.get]);
 
   return (
-    <React.Fragment>
-      <Segment style={{ width: 600 }}>
-        <List as="ul" divided relaxed>
-          <List.Item>
-            <h1>List of users</h1>
-            <div>
-              <Input icon="search" onChange={handleChange} />
-            </div>
-          </List.Item>
-          {filteredUsers.map((item) => (
-            <List.Item>
+    <Segment style={{ width: 600 }}>
+      <List as="ul" divided relaxed>
+        <List.Item id="UsersHeader">
+          <h1>List of users</h1>
+        </List.Item>
+        {!isLoading &&
+          loadedUser &&
+          loadedUser.map((item) => (
+            <List.Item id={item.ID}>
+              {/* {console.log(item)} */}
               <Item.Content>
-                <List.Header as="a">{item.username}</List.Header>
-                <List.Description as="a">{item.email}</List.Description>
+                <List.Header as="a">{item.Username}</List.Header>
+                <List.Description as="a">{item.Email}</List.Description>
               </Item.Content>
             </List.Item>
           ))}
-        </List>
-      </Segment>
-    </React.Fragment>
+      </List>
+    </Segment>
   );
 };
 
