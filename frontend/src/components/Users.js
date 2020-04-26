@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import { List, Item, Segment, Input } from 'semantic-ui-react';
 import { AuthContext } from '../context/auth-context';
@@ -7,11 +6,9 @@ import { AuthContext } from '../context/auth-context';
 const UsersList = () => {
 	const auth = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(false);
-	const [state, setState] = useState({
-		search: '',
-	});
-	const [loadedUser, setLoadedUsers] = useState({ users: [] });
-	let search = '';
+	const [loadedUser, setLoadedUsers] = useState([]);
+	const [search, setSearch] = useState('');
+	const [filteredUsers, setFilteredUsers] = useState([]);
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -20,34 +17,50 @@ const UsersList = () => {
 				headers: {
 					Authorization: auth.token,
 				},
-			});
-
-			setLoadedUsers(response.data);
-			setIsLoading(false);
+			})
+				.then((response) => {
+					setLoadedUsers(response.data.users);
+					setIsLoading(false);
+				})
+				.catch((err) => {
+					console.log(err.response.data);
+				});
 		};
-
 		fetchUsers();
-	}, [auth.token]);
+	}, [Axios.get]);
 
-	const handleChange = (event) => {
-		setState({ search: event.target.value });
-		search = event.target.value;
-		console.log(event.target.value);
-	};
+	useEffect(() => {
+		!isLoading &&
+			loadedUser &&
+			setFilteredUsers(
+				loadedUser.filter((user) =>
+					user.Username.toLowerCase().includes(search.toLowerCase())
+				)
+			);
+	}, [search, loadedUser]);
 
 	return (
-		<div>
-			<Segment style={{ margin: '2.5rem' }}>
-				<List as='ul' divided relaxed>
-					<List.Item>
-						<h1>List of users</h1>
-						<div>
-							<Input icon='search' onChange={handleChange} />
-						</div>
-					</List.Item>
-				</List>
-			</Segment>
-		</div>
+		<Segment style={{ width: 600 }}>
+			<List as='ul' divided relaxed>
+				<List.Item id='UsersHeader'>
+					<h1>List of users</h1>
+					<div>
+						<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
+					</div>
+				</List.Item>
+				{!isLoading &&
+					loadedUser &&
+					filteredUsers.map((item) => (
+						<List.Item id={item.ID}>
+							{/* {console.log(item)} */}
+							<Item.Content>
+								<List.Header as='a'>{item.Username}</List.Header>
+								<List.Description as='a'>{item.Email}</List.Description>
+							</Item.Content>
+						</List.Item>
+					))}
+			</List>
+		</Segment>
 	);
 };
 
