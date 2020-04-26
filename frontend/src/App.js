@@ -1,93 +1,96 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import LandingPage from "./components/LandingPage";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import { AuthContext } from "./context/auth-context";
-import Users from "./components/Users";
-
-import Navbar from "./components/Navbar";
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from 'react-router-dom';
+import LandingPage from './components/LandingPage';
+import { AuthContext } from './context/auth-context';
+import Users from './components/Users';
+import Application from './components/Application';
+import Keys from './components/Keys';
+import AccountSettings from './components/AccountSettings';
+import AdminPage from './components/AdminPage';
+import Navbar from './components/Navbar';
+import jwtDecode from 'jwt-decode';
 
 const App = () => {
-  const [token, setToken] = useState(false);
-  const [userId, setUserId] = useState(false);
+	// Defining state variables
+	const [token, setToken] = useState(null);
+	const [username, setUsername] = useState('');
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(false);
 
-  //check callbacks later
-  const login = useCallback((id, token) => {
-    setToken(token);
-    setUserId(id);
-    localStorage.setItem(
-      "userData",
-      JSON.stringify({ userId: id, token: token })
-    );
-  }, []);
+	const login = useCallback((token) => {
+		setToken(token);
+		setLoggedIn(true);
 
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-    localStorage.removeItem("userData");
-  }, []);
+		// Decode token to extract data
+		const decodedToken = jwtDecode(token);
 
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData && storedData.token) {
-      login(storedData.userId, storedData.token);
-    }
-  }, []);
+		// Assign data from token to state variables
+		setIsAdmin(decodedToken.isAdmin);
+		setUsername(decodedToken.username);
 
-  let routes;
+		localStorage.setItem('userData', JSON.stringify({ token: token }));
+	}, []);
 
-  if (!token) {
-    // checking commit
-    routes = (
-      <Switch>
-        <Route path="/" exact>
-          <LandingPage />
-        </Route>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-        <Route path="/signup" exact>
-          <Signup />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
-  } else {
-    routes = (
-      <Switch>
-        <Route path="/" exact>
-          <LandingPage />
-        </Route>
-        <Route path="/users" exact>
-          <Users />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
-  }
+	const logout = useCallback(() => {
+		// Restoring all defaults on logout
+		setToken(null);
+		setUsername('');
+		setLoggedIn(false);
+		setIsAdmin(false);
+		localStorage.removeItem('userData');
+	}, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: !!token,
-        token: token,
-        login: login,
-        logout: logout,
-      }}
-    >
-      <Router>
-        <Navbar />
-        {/* <SideBar /> */}
-        <main>{routes}</main>
-      </Router>
-    </AuthContext.Provider>
-  );
+	useEffect(() => {
+		const storedData = JSON.parse(localStorage.getItem('userData'));
+		if (storedData && storedData.token) {
+			login(storedData.token);
+		}
+	}, [login]);
+
+	let routes;
+
+	if (!token) {
+		routes = (
+			<Switch>
+				<Route exact path='/' component={LandingPage} />
+				<Redirect to='/' />
+			</Switch>
+		);
+	} else {
+		routes = (
+			<Switch>
+				<Route exact path='/' component={Application} />
+				<Route exact path='/keys' component={Keys} />
+				<Route exact path='/users' component={Users} />
+				<Route exact path='/settings' component={AccountSettings} />
+				<Route exact path='/admin' component={AdminPage} />
+				<Redirect to='/' />
+			</Switch>
+		);
+	}
+
+	return (
+		<AuthContext.Provider
+			value={{
+				token: token,
+				username: username,
+				isLoggedIn: loggedIn,
+				isAdmin: isAdmin,
+				login: login,
+				logout: logout,
+			}}
+		>
+			<Router>
+				<Navbar />
+				<main>{routes}</main>
+			</Router>
+		</AuthContext.Provider>
+	);
 };
 
 export default App;

@@ -1,7 +1,11 @@
 import React from 'react';
 
 const AdminPage = () => {
-	return <h1>Admin Page</h1>;
+	return (
+		<div style={{ margin: '2.5rem' }}>
+			<h1>Admin page</h1>
+		</div>
+	);
 };
 
 export default AdminPage;
