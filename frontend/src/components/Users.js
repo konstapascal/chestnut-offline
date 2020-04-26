@@ -6,10 +6,9 @@ import { AuthContext } from "../context/auth-context";
 const UsersList = () => {
   const auth = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [state, setState] = useState({
-    search: "",
-  });
-  const [loadedUser, setLoadedUsers] = useState();
+  const [loadedUser, setLoadedUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -30,15 +29,28 @@ const UsersList = () => {
     fetchUsers();
   }, [Axios.get]);
 
+  useEffect(() => {
+    !isLoading &&
+      loadedUser &&
+      setFilteredUsers(
+        loadedUser.filter((user) =>
+          user.Username.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+  }, [search, loadedUser]);
+
   return (
     <Segment style={{ width: 600 }}>
       <List as="ul" divided relaxed>
         <List.Item id="UsersHeader">
           <h1>List of users</h1>
+          <div>
+            <Input icon="search" onChange={(e) => setSearch(e.target.value)} />
+          </div>
         </List.Item>
         {!isLoading &&
           loadedUser &&
-          loadedUser.map((item) => (
+          filteredUsers.map((item) => (
             <List.Item id={item.ID}>
               {/* {console.log(item)} */}
               <Item.Content>
