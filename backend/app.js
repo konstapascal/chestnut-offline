@@ -69,9 +69,49 @@ db.sequelize.sync({ force: true }).then(() => {
 		UserID: 1,
 	});
 	db.keypair.create({
-		Name: 'Keypair',
+		Name: 'RSA Keypair 2',
+		Type: 'RSA',
+		Length: 1024,
+		PublicKey:
+			'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJD7fPvDqInJH9YQKB6Q/75w6bbcJaR0j3AlDqed8WA0iNzChrPB8uUzksjQmRcrbD30NY+M5Xaii/rWMpqMBzcCAwEAAQ==',
+		PrivateKey:
+			'MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT/vnDpttwlpHSPcCUOp53xYDSI3MKGs8Hy5TOSyNCZFytsPfQ1j4zldqKL+tYymowHNwIDAQABAkAZZXRHRcbIHAs',
+		UserID: 1,
+	});
+	db.keypair.create({
+		Name: 'Keypair test 123',
+		Type: 'RSA',
+		Length: 512,
+		PublicKey:
+			'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJD7fPvDqInJH9YQKB6Q/75w6bbcJaR0j3AlDqed8WA0iNzChrPB8uUzksjQmRcrbD30NY+M5Xaii/rWMpqMBzcCAwEAAQ==',
+		PrivateKey:
+			'MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT/vnDpttwlpHSPcCUOp53xYDSI3MKGs8Hy5TOSyNCZFytsPfQ1j4zldqKL+tYymowHNwIDAQABAkAZZXRHRcbIHAs',
+		UserID: 1,
+	});
+	db.keypair.create({
+		Name: 'Key Key',
+		Type: 'RSA',
+		Length: 512,
+		PublicKey:
+			'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJD7fPvDqInJH9YQKB6Q/75w6bbcJaR0j3AlDqed8WA0iNzChrPB8uUzksjQmRcrbD30NY+M5Xaii/rWMpqMBzcCAwEAAQ==',
+		PrivateKey:
+			'MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT/vnDpttwlpHSPcCUOp53xYDSI3MKGs8Hy5TOSyNCZFytsPfQ1j4zldqKL+tYymowHNwIDAQABAkAZZXRHRcbIHAs',
+		UserID: 1,
+	});
+	db.keypair.create({
+		Name: 'Test 1',
 		Type: 'RSA',
 		Length: 2048,
+		PublicKey:
+			'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJD7fPvDqInJH9YQKB6Q/75w6bbcJaR0j3AlDqed8WA0iNzChrPB8uUzksjQmRcrbD30NY+M5Xaii/rWMpqMBzcCAwEAAQ==',
+		PrivateKey:
+			'MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT/vnDpttwlpHSPcCUOp53xYDSI3MKGs8Hy5TOSyNCZFytsPfQ1j4zldqKL+tYymowHNwIDAQABAkAZZXRHRcbIHAs',
+		UserID: 1,
+	});
+	db.keypair.create({
+		Name: 'Keypair',
+		Type: 'RSA',
+		Length: 1024,
 		PublicKey:
 			'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJD7fPvDqInJH9YQKB6Q/75w6bbcJaR0j3AlDqed8WA0iNzChrPB8uUzksjQmRcrbD30NY+M5Xaii/rWMpqMBzwEAAQ==',
 		PrivateKey:
