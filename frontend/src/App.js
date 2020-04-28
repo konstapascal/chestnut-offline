@@ -5,13 +5,13 @@ import {
 	Route,
 	Redirect,
 } from 'react-router-dom';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/Pages/LandingPage';
 import { AuthContext } from './context/auth-context';
-import Users from './components/Users';
-import Application from './components/Application';
-import Keys from './components/Keys';
-import AccountSettings from './components/AccountSettings';
-import AdminPage from './components/AdminPage';
+import UsersPage from './components/Pages/UsersPage';
+import ApplicationPage from './components/Pages/ApplicationPage';
+import KeysPage from './components/Pages/KeysPage';
+import AccountSettingsPage from './components/Pages/AccountSettingsPage';
+import AdminPage from './components/Pages/AdminPage';
 import Navbar from './components/Navbar';
 import jwtDecode from 'jwt-decode';
 
@@ -64,10 +64,10 @@ const App = () => {
 	} else {
 		routes = (
 			<Switch>
-				<Route exact path='/' component={Application} />
-				<Route exact path='/keys' component={Keys} />
-				<Route exact path='/users' component={Users} />
-				<Route exact path='/settings' component={AccountSettings} />
+				<Route exact path='/' component={ApplicationPage} />
+				<Route exact path='/keys' component={KeysPage} />
+				<Route exact path='/users' component={UsersPage} />
+				<Route exact path='/settings' component={AccountSettingsPage} />
 				<Route exact path='/admin' component={AdminPage} />
 				<Redirect to='/' />
 			</Switch>

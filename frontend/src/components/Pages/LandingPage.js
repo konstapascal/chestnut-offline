@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Grid } from 'semantic-ui-react';
 
-import LandingPageDescription from './LandingPageDescription';
-import Signup from './Signup';
-import Login from './Login';
+import LandingPageDescription from '../LandingPageDescription';
+import Signup from '../Signup';
+import Login from '../Login';
 
 const LandingPage = (props) => {
 	const [component, setComponent] = useState(true);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, Grid } from 'semantic-ui-react';
 
-import MyKeysList from './MyKeysList';
+import MyKeysList from '../MyKeysList';
 
-const Keys = () => {
+const KeysPage = () => {
 	return (
 		<div style={{ margin: '2.5rem' }}>
 			<h1>Keys Page</h1>
@@ -38,4 +38,4 @@ const Keys = () => {
 	);
 };
 
-export default Keys;
+export default KeysPage;

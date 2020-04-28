@@ -1,9 +1,11 @@
 import React from 'react';
-import { Form, Grid, Tab } from 'semantic-ui-react';
+import { Grid, Tab } from 'semantic-ui-react';
 
-import MyKeysListApp from './MyKeysListApp';
+import MyKeysListApp from '../MyKeysListApp';
+import Base64 from '../Base64';
+import Rot13 from '../Rot13';
 
-const Application = () => {
+const ApplicationPage = () => {
 	const appSubpages = [
 		{
 			menuItem: 'RSA',
@@ -15,12 +17,20 @@ const Application = () => {
 		},
 		{
 			menuItem: 'Base 64',
-			render: () => <Tab.Pane>Base 64</Tab.Pane>,
+			render: () => (
+				<Tab.Pane>
+					<Base64 />
+				</Tab.Pane>
+			),
 		},
 
 		{
 			menuItem: 'ROT13',
-			render: () => <Tab.Pane>ROT13</Tab.Pane>,
+			render: () => (
+				<Tab.Pane>
+					<Rot13 />
+				</Tab.Pane>
+			),
 		},
 		{
 			menuItem: 'UUID',
@@ -46,4 +56,4 @@ const Application = () => {
 	);
 };
 
-export default Application;
+export default ApplicationPage;
