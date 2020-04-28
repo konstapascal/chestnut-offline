@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
-import { List, Button, Tab } from 'semantic-ui-react';
+import { List, Tab } from 'semantic-ui-react';
 import { AuthContext } from '../context/auth-context';
 
 const MyKeysList = () => {
@@ -32,25 +32,6 @@ const MyKeysList = () => {
 		fetchMyKeys();
 	}, [Axios.get]);
 
-	// DELETE a key request
-	function deleteKey(KeypairID) {
-		const deleteUrl = 'http://localhost:8080/api/keys/' + KeypairID;
-
-		setIsLoading(true);
-		Axios.delete(deleteUrl, authHeader)
-			.then(() => {
-				return Axios.get(getUrl, authHeader);
-			})
-			.then((response) => {
-				const updatedKeys = response.data.keypairs;
-				setLoadedKeys(updatedKeys);
-				setIsLoading(false);
-			})
-			.catch((err) => {
-				console.log(err.response.data);
-			});
-	}
-
 	const listPanes = [
 		{
 			menuItem: 'My keypairs',
@@ -63,15 +44,6 @@ const MyKeysList = () => {
 									<List.Icon name='key' size='large' verticalAlign='middle' />
 									<List.Content>
 										<List.Header>{item.Name}</List.Header>
-										<Button
-											floated='right'
-											size='small'
-											compact
-											negative
-											onClick={() => deleteKey(item.KeypairID)}
-										>
-											Delete
-										</Button>
 										<List.Description>ID: {item.KeypairID}</List.Description>
 										<List.Description>Type: {item.Type}</List.Description>
 										<List.Description>Length: {item.Length}</List.Description>
