@@ -69,12 +69,6 @@ const Navbar = (props) => {
 			)}
 
 			<Menu.Menu position='right'>
-				{!auth.isLoggedIn && (
-					<Menu.Item name='Signup' onClick={handleItemClick}></Menu.Item>
-				)}
-				{!auth.isLoggedIn && (
-					<Menu.Item name='Login' onClick={handleItemClick}></Menu.Item>
-				)}
 				{auth.isLoggedIn && (
 					<Menu.Item>
 						<p>
