@@ -4,6 +4,8 @@ import { List, Button, Tab } from 'semantic-ui-react';
 import { AuthContext } from '../context/auth-context';
 import { useLocation } from 'react-router-dom';
 
+import moment from 'moment';
+
 const MyKeysList = () => {
 	const auth = useContext(AuthContext);
 	const authHeader = {
@@ -65,7 +67,6 @@ const MyKeysList = () => {
 									<List.Icon name='key' size='large' verticalAlign='middle' />
 									<List.Content>
 										<List.Header>{item.Name}</List.Header>
-										{console.log(location.pathname)}
 										{location.pathname === '/keys' && (
 											<Button
 												floated='right'
@@ -77,10 +78,14 @@ const MyKeysList = () => {
 												Delete
 											</Button>
 										)}
-
-										<List.Description>ID: {item.KeypairID}</List.Description>
-										<List.Description>Type: {item.Type}</List.Description>
 										<List.Description>Length: {item.Length}</List.Description>
+										<List.Description>
+											{/*API request date is in UTC, so converting to local time*/}
+											Date:{' '}
+											{moment(item.createdAt)
+												.local()
+												.format('DD/MM/YYYY, HH:MM')}
+										</List.Description>
 									</List.Content>
 								</List.Item>
 							))}

@@ -44,6 +44,12 @@ module.exports = (sequelize, Sequelize) => {
 				notEmpty: true,
 			},
 		},
+		createdAt: {
+			type: Sequelize.DATE,
+			allowNull: false,
+			// Date stored in UTC, so 2 hours behind for local time (Oslo)
+			defaultValue: Sequelize.NOW,
+		},
 	});
 
 	return Keypair;
