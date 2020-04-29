@@ -6,10 +6,12 @@ import { useForm } from '../hooks/form-hook';
 import { VALIDATOR_REQUIRE } from '../util/validators';
 import Input from '../components/FormElements/Input';
 
-import { Form, Button, Segment, Message } from 'semantic-ui-react';
+import { Form, Button, Segment, Message, Icon } from 'semantic-ui-react';
 
 const Login = (props) => {
 	const auth = useContext(AuthContext);
+
+	const [errorMessage, setError] = useState('');
 
 	const [formState, inputHandler] = useForm(
 		{
@@ -36,7 +38,7 @@ const Login = (props) => {
 				auth.login(response.data.token);
 			})
 			.catch((err) => {
-				console.log(err.response.data);
+				setError(err.response.data.message);
 			});
 	};
 
@@ -47,7 +49,7 @@ const Login = (props) => {
 	return (
 		<div>
 			<Segment style={{ textAlign: 'center', maxWidth: 400, minWidth: 400 }}>
-				<h3 style={{ textAlign: 'center' }}>Login to your account</h3>
+				<h3 style={{ textAlign: 'center' }}>Log in to your account</h3>
 				<hr />
 				<Form onSubmit={authSubmitHandler}>
 					<Form.Field>
@@ -74,8 +76,14 @@ const Login = (props) => {
 						/>
 					</Form.Field>
 					<Button type='submit' positive disabled={!formState.isValid}>
-						Login
+						Log in
 					</Button>
+					{errorMessage && (
+						<Message error visible>
+							<Icon name='times' size='large' />
+							{errorMessage}
+						</Message>
+					)}
 					<Message>
 						Don't have an account?{' '}
 						<a href='#' onClick={toggleComponent}>
