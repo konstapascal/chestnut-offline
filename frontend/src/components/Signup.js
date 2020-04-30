@@ -12,6 +12,7 @@ import { Form, Button, Message, Segment, Icon } from 'semantic-ui-react';
 
 const Signup = (props) => {
 	const [errorMessage, setError] = useState('');
+	const [statusMessage, setStatus] = useState('');
 
 	const [formState, inputHandler] = useForm(
 		{
@@ -39,8 +40,13 @@ const Signup = (props) => {
 				email: formState.inputs.email.value,
 				password: formState.inputs.password.value,
 			})
+			.then((response) => {
+				setStatus(response.data.message);
+				setError('');
+			})
 			.catch((err) => {
 				setError(err.response.data.message);
+				setStatus('');
 			});
 	};
 
@@ -96,8 +102,14 @@ const Signup = (props) => {
 					</Button>
 					{errorMessage && (
 						<Message error visible>
-							<Icon name='times' size='large' />
+							<Icon color='red' name='times' size='large' />
 							{errorMessage}
+						</Message>
+					)}
+					{statusMessage && (
+						<Message positive visible>
+							<Icon color='green' name='checkmark' size='large' />
+							{statusMessage}
 						</Message>
 					)}
 					<Message>

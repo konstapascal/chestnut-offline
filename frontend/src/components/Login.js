@@ -80,7 +80,7 @@ const Login = (props) => {
 					</Button>
 					{errorMessage && (
 						<Message error visible>
-							<Icon name='times' size='large' />
+							<Icon color='red' name='times' size='large' />
 							{errorMessage}
 						</Message>
 					)}
