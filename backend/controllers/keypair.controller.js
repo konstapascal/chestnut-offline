@@ -97,6 +97,8 @@ exports.getAllPublicKeysByID = (req, res) => {
 
 // Get all public keypairs for all users, including their username
 exports.getAllPublicKeys = (req, res) => {
+	const url = req.protocol + '://' + req.headers.host;
+
 	Keypair.findAll({
 		attributes: ['KeypairID', 'Name', 'Type', 'Length', 'PublicKey', 'UserID'],
 		include: [
