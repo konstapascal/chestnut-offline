@@ -15,7 +15,7 @@ import { AuthContext } from '../../context/auth-context';
 
 const AdminPage = () => {
 	const auth = useContext(AuthContext);
-	const [loadedUser, setLoadedUsers] = useState([]);
+	const [loadedUsers, setLoadedUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [search, setSearch] = useState('');
 	const [showConfimModal, setShowConfirmModal] = useState(false);
@@ -51,9 +51,9 @@ const AdminPage = () => {
 	}, []);
 
 	useEffect(() => {
-		loadedUser &&
+		loadedUsers &&
 			setFilteredUsers(
-				loadedUser.filter((user) =>
+				loadedUsers.filter((user) =>
 					user.Username.toLowerCase().includes(search.toLowerCase())
 				)
 			);
@@ -66,7 +66,7 @@ const AdminPage = () => {
 			<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
 			<Segment>
 				<List as='ul' divided>
-					{loadedUser &&
+					{loadedUsers &&
 						filteredUsers.map((item) => (
 							<List.Item key={item.ID} id={item.ID}>
 								<Item.Content>

@@ -34,7 +34,7 @@ const MyKeysList = () => {
 				});
 		};
 		fetchMyKeys();
-	}, [Axios.get]);
+	}, []);
 
 	// DELETE a key request
 	function deleteKey(KeypairID) {
