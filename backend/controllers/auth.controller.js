@@ -142,9 +142,6 @@ exports.login = async (req, res) => {
 					{
 						status: '200 - OK',
 						message: 'Login successful and token has been issued.',
-						id: user.ID,
-						username: user.Username,
-						isAdmin: user.isAdmin,
 						token: token,
 					},
 					[

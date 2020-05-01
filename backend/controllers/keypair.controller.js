@@ -1,6 +1,7 @@
 const db = require('../models/db.index');
 const Keypair = db.keypair;
 const User = db.user;
+const { Op } = require('sequelize');
 
 // Get all keys of currently logged in user
 exports.getMyKeys = (req, res) => {
@@ -13,6 +14,14 @@ exports.getMyKeys = (req, res) => {
 		where: {
 			UserID: userID,
 		},
+		attributes: [
+			'KeypairID',
+			'Name',
+			'Length',
+			'PublicKey',
+			'PrivateKey',
+			'createdAt',
+		],
 	})
 		.then((keypairs) => {
 			let deleteKeyArray = [];
@@ -102,13 +111,19 @@ exports.getAllPublicKeysByID = (req, res) => {
 // Get all public keypairs for all users, including their username
 exports.getAllPublicKeys = (req, res) => {
 	const url = req.protocol + '://' + req.headers.host;
+	const userId = res.locals.decodedData.id;
 
 	User.findAll({
+		where: {
+			ID: {
+				[Op.ne]: userId,
+			},
+		},
 		attributes: ['ID', 'Username'],
 		include: [
 			{
 				model: Keypair,
-				attributes: ['Name', 'PublicKey'],
+				attributes: ['KeypairID', 'Name', 'PublicKey'],
 			},
 		],
 	})

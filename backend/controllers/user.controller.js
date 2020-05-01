@@ -1,6 +1,7 @@
 const db = require('../models/db.index');
 const User = db.user;
 const Keypair = db.keypair;
+const { Op } = require('sequelize');
 
 // Get one users info by id
 exports.getUser = (req, res) => {
@@ -58,6 +59,8 @@ exports.getUser = (req, res) => {
 // Get all users and their info, admin only
 exports.getAllUsers = (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
+	const adminID = res.locals.decodedData.id;
+	console.log(adminID);
 
 	const url = req.protocol + '://' + req.headers.host;
 
@@ -70,7 +73,13 @@ exports.getAllUsers = (req, res) => {
 		});
 	}
 
-	User.findAll()
+	User.findAll({
+		where: {
+			ID: {
+				[Op.ne]: adminID,
+			},
+		},
+	})
 		.then((users) => {
 			// Some code is commented out, alternative implementation
 			let getUserArray = [];
