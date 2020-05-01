@@ -15,33 +15,27 @@ import { AuthContext } from '../../context/auth-context';
 
 const AdminPage = () => {
 	const auth = useContext(AuthContext);
+	const authHeader = {
+		headers: {
+			Authorization: auth.token,
+		},
+	};
+	const [isLoading, setIsLoading] = useState(false);
 	const [loadedUsers, setLoadedUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [search, setSearch] = useState('');
-	const [showConfimModal, setShowConfirmModal] = useState(false);
 
-	const showDeleteWarningHandler = () => {
-		setShowConfirmModal(true);
-	};
+	const getUrl = 'http://localhost:8080/api/users';
 
-	const cancelDeleteHandler = () => {
-		setShowConfirmModal(false);
-	};
-
-	const confirmDeleteHandler = () => {
-		setShowConfirmModal(false);
-	};
-
+	// GET all users
 	useEffect(() => {
 		const fetchUsers = async () => {
-			await Axios.get('http://localhost:8080/api/users/', {
-				headers: {
-					Authorization: auth.token,
-				},
-			})
+			setIsLoading(true);
+			await Axios.get(getUrl, authHeader)
 				.then((response) => {
 					setLoadedUsers(response.data.users);
 					setFilteredUsers(response.data.users);
+					setIsLoading(false);
 				})
 				.catch((err) => {
 					console.log(err.response.data);
@@ -49,6 +43,25 @@ const AdminPage = () => {
 		};
 		fetchUsers();
 	}, []);
+
+	// DELETE an user
+	function deleteUser(UserID) {
+		const deleteUrl = 'http://localhost:8080/api/users/' + UserID;
+
+		setIsLoading(true);
+		Axios.delete(deleteUrl, authHeader)
+			.then(() => {
+				return Axios.get(getUrl, authHeader);
+			})
+			.then((response) => {
+				setLoadedUsers(response.data.users);
+				setFilteredUsers(response.data.users);
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+			});
+	}
 
 	useEffect(() => {
 		loadedUsers &&
@@ -60,61 +73,40 @@ const AdminPage = () => {
 	}, [search]);
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
-			<h1>List of users</h1>
-			<h3>Search user:</h3>
-			<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
-			<Segment>
-				<List as='ul' divided>
-					{loadedUsers &&
-						filteredUsers.map((item) => (
-							<List.Item key={item.ID} id={item.ID}>
-								<Item.Content>
-									<Modal
-										trigger={
+		<Grid columns={1} style={{ margin: '2.5rem' }}>
+			<Grid.Column>
+				<Grid.Row>
+					<h1>List of users</h1>
+					<h3>Search user:</h3>
+					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
+				</Grid.Row>
+				<Grid.Row style={{ marginTop: '1.5rem' }}>
+					<Segment>
+						<List divided relaxed>
+							{!isLoading &&
+								filteredUsers.map((item) => (
+									<List.Item key={item.ID} id={item.ID}>
+										<List.Icon name='user' verticalAlign='middle' />
+										<Item.Content>
+											<List.Header>{item.Username}</List.Header>
 											<Button
-												onClick={showDeleteWarningHandler}
 												floated='right'
-												size='small'
+												compact
 												negative
+												onClick={() => deleteUser(item.ID)}
 											>
 												Delete account
 											</Button>
-										}
-										open={showConfimModal}
-										onClose={cancelDeleteHandler}
-										closeIcon
-									>
-										<Header
-											icon='warning sign'
-											content='Do you want to delete your account?'
-										/>
-										<Modal.Content>
-											<p>
-												There is no way to recover your account after you delete
-												it. All your data including your key pairs will be
-												deleted.
-												<br /> <b>Are you sure?</b>
-											</p>
-										</Modal.Content>
-										<Modal.Actions>
-											<Button color='red' onClick={cancelDeleteHandler}>
-												<Icon name='remove' /> No
-											</Button>
-											<Button color='green' onClick={confirmDeleteHandler}>
-												<Icon name='checkmark' /> Yes
-											</Button>
-										</Modal.Actions>
-									</Modal>
-									<List.Header as='a'>{item.Username}</List.Header>
-									<List.Description as='a'>id: {item.ID}</List.Description>
-									<List.Description as='a'>{item.Email}</List.Description>
-								</Item.Content>
-							</List.Item>
-						))}
-				</List>
-			</Segment>
-		</div>
+											<List.Description>id: {item.ID}</List.Description>
+											<List.Description>{item.Email}</List.Description>
+										</Item.Content>
+									</List.Item>
+								))}
+						</List>
+					</Segment>
+				</Grid.Row>
+			</Grid.Column>
+		</Grid>
 	);
 };
 

@@ -33,7 +33,7 @@ const AccountSettingsPage = () => {
 				}
 			});
 		} catch {
-			console.log('Something went wrong! Could not delete user');
+			console.log('Something went wrong! Could not delete user.');
 		}
 	};
 
@@ -57,9 +57,9 @@ const AccountSettingsPage = () => {
 				<Modal.Content>
 					<p>
 						There is no way to recover your account after deletion. All your
-						keypairs will also be deleted in this process.
-						<br />
-						<br />
+						keypairs will also be <b>deleted</b> in this process.
+					</p>
+					<p>
 						<b>Are you sure?</b>
 					</p>
 				</Modal.Content>

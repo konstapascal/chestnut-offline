@@ -60,7 +60,6 @@ exports.getUser = (req, res) => {
 exports.getAllUsers = (req, res) => {
 	const isUserAdmin = res.locals.decodedData.isAdmin;
 	const adminID = res.locals.decodedData.id;
-	console.log(adminID);
 
 	const url = req.protocol + '://' + req.headers.host;
 

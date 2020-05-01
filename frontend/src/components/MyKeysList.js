@@ -46,8 +46,7 @@ const MyKeysList = () => {
 				return Axios.get(getUrl, authHeader);
 			})
 			.then((response) => {
-				const updatedKeys = response.data.keypairs;
-				setLoadedKeys(updatedKeys);
+				setLoadedKeys(response.data.keypairs);
 				setIsLoading(false);
 			})
 			.catch((err) => {

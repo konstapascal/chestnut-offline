@@ -1,17 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
-import {
-	List,
-	Item,
-	Grid,
-	Input,
-	Icon,
-	Button,
-	Modal,
-	Header,
-	Message,
-	Segment,
-} from 'semantic-ui-react';
+import { List, Item, Grid, Input, Button, Segment } from 'semantic-ui-react';
 import { AuthContext } from '../../context/auth-context';
 
 const UsersPage = () => {
@@ -48,35 +37,44 @@ const UsersPage = () => {
 	}, [search]);
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
-			<h1>List of users and their public keys</h1>
-			<h3>Search user:</h3>
-			<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
-			<Segment>
-				<List as='ul' divided>
-					{loadedUsers &&
-						filteredUsers.map((user) => (
-							<List.Item key={user.ID} id={user.ID}>
-								<Item.Content>
-									<h4 as='a'>{user.Username}</h4>
-									{user.Keypairs.map((key) => (
-										<Item.Content style={{ padding: '0.5rem' }}>
-											{key === undefined && <Message>Test</Message>}
-											<List.Header as='a'>{key.Name}</List.Header>
-											<List.Description as='a'>
-												{key.PublicKey}
-											</List.Description>
-											<Button color='green' compact>
-												Add
-											</Button>
+		<Grid columns={1} style={{ margin: '2.5rem' }}>
+			<Grid.Column>
+				<Grid.Row>
+					<h1>List of users and their public keys</h1>
+					<h3>Search user:</h3>
+					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
+				</Grid.Row>
+				<Grid.Row style={{ marginTop: '1.5rem' }}>
+					<Segment>
+						<List divided relaxed>
+							{loadedUsers &&
+								filteredUsers.map((user) => (
+									<List.Item key={user.ID} id={user.ID}>
+										<List.Icon name='user' />
+										<Item.Content>
+											<List.Header>{user.Username}</List.Header>
+											{user.Keypairs.map((key, index) => (
+												<List.Item key={index} style={{ margin: '1rem' }}>
+													<Item.Content>
+														<List.Header>{key.Name}</List.Header>
+														<List.Description>{key.PublicKey}</List.Description>
+														<Button
+															compact
+															color='green'
+															size='small'
+															content='Add'
+														/>
+													</Item.Content>
+												</List.Item>
+											))}
 										</Item.Content>
-									))}
-								</Item.Content>
-							</List.Item>
-						))}
-				</List>
-			</Segment>
-		</div>
+									</List.Item>
+								))}
+						</List>
+					</Segment>
+				</Grid.Row>
+			</Grid.Column>
+		</Grid>
 	);
 };
 
