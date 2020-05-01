@@ -133,7 +133,7 @@ exports.login = async (req, res) => {
 			const token = jwt.sign(
 				{ id: user.ID, username: user.Username, isAdmin: user.IsAdmin },
 				config.secret,
-				{ expiresIn: '1h' }
+				{ expiresIn: '24h' }
 			);
 
 			if (isUserAdmin) {
