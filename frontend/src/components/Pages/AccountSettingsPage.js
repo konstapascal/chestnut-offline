@@ -5,8 +5,6 @@ import Axios from 'axios';
 import { AuthContext } from '../../context/auth-context';
 
 const AccountSettingsPage = () => {
-	const [showConfirmModal, setShowConfirmModal] = useState(false);
-
 	const auth = useContext(AuthContext);
 	const deleteUrl = 'http://localhost:8080/api/users/me';
 	const authHeader = {
@@ -15,26 +13,18 @@ const AccountSettingsPage = () => {
 		},
 	};
 
-	const showDeleteWarningHandler = () => {
-		setShowConfirmModal(true);
-	};
+	const [ModalOpen, setModalOpen] = useState(false);
 
-	const cancelDeleteHandler = () => {
-		setShowConfirmModal(false);
-	};
+	const handleModalStatus = () => setModalOpen(!ModalOpen);
 
-	const confirmDeleteHandler = () => {
-		setShowConfirmModal(false);
-
-		try {
-			Axios.delete(deleteUrl, authHeader).then((response) => {
-				if (response.data != null) {
-					auth.logout();
-				}
+	const deleteUser = () => {
+		Axios.delete(deleteUrl, authHeader)
+			.then(() => {
+				auth.logout();
+			})
+			.catch((err) => {
+				console.log(err.response.data);
 			});
-		} catch {
-			console.log('Something went wrong! Could not delete user.');
-		}
 	};
 
 	return (
@@ -42,33 +32,30 @@ const AccountSettingsPage = () => {
 			<h1>Settings page</h1>
 			<Modal
 				trigger={
-					<Button negative onClick={showDeleteWarningHandler}>
+					<Button negative onClick={handleModalStatus}>
 						Delete account
 					</Button>
 				}
-				open={showConfirmModal}
-				onClose={cancelDeleteHandler}
+				open={ModalOpen === true}
+				onClose={handleModalStatus}
 				closeIcon
 			>
-				<Header
-					icon='warning sign'
-					content='Are you sure you want to delete your account?'
-				/>
+				<Header color='red' icon='warning sign' content='Delete account?' />
 				<Modal.Content>
 					<p>
-						There is no way to recover your account after deletion. All your
-						keypairs will also be <b>deleted</b> in this process.
+						This is a <b>permanent</b> action and will delete both your account
+						and your keys.
 					</p>
 					<p>
-						<b>Are you sure?</b>
+						Are you sure you want to <b>delete</b> your account?
 					</p>
 				</Modal.Content>
 				<Modal.Actions>
-					<Button color='red' onClick={cancelDeleteHandler}>
+					<Button color='red' onClick={handleModalStatus}>
 						<Icon name='remove' />
 						No
 					</Button>
-					<Button color='green' onClick={confirmDeleteHandler}>
+					<Button color='green' onClick={deleteUser}>
 						<Icon name='checkmark' />
 						Yes
 					</Button>
