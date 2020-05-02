@@ -49,12 +49,15 @@ const UsersPage = () => {
 						<List divided relaxed>
 							{loadedUsers &&
 								filteredUsers.map((user) => (
-									<List.Item key={user.ID} id={user.ID}>
+									<List.Item key={user.ID}>
 										<List.Icon name='user' />
 										<Item.Content>
 											<List.Header>{user.Username}</List.Header>
-											{user.Keypairs.map((key, index) => (
-												<List.Item key={index} style={{ margin: '1rem' }}>
+											{user.Keypairs.map((key) => (
+												<List.Item
+													key={key.KeypairID}
+													style={{ margin: '1rem' }}
+												>
 													<Item.Content>
 														<List.Header>{key.Name}</List.Header>
 														<List.Description>{key.PublicKey}</List.Description>

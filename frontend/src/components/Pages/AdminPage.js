@@ -10,6 +10,7 @@ import {
 	Modal,
 	Header,
 	Segment,
+	Loader,
 } from 'semantic-ui-react';
 import { AuthContext } from '../../context/auth-context';
 
@@ -24,14 +25,18 @@ const AdminPage = () => {
 	const [loadedUsers, setLoadedUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [search, setSearch] = useState('');
+	const [ModalOpen, setModalOpen] = useState(false);
 
 	const getUrl = 'http://localhost:8080/api/users';
 
+	const handleModalOpen = (modalID) => setModalOpen(modalID);
+	const handleModalClose = () => setModalOpen(false);
+
 	// GET all users
 	useEffect(() => {
-		const fetchUsers = async () => {
+		const fetchUsers = () => {
 			setIsLoading(true);
-			await Axios.get(getUrl, authHeader)
+			Axios.get(getUrl, authHeader)
 				.then((response) => {
 					setLoadedUsers(response.data.users);
 					setFilteredUsers(response.data.users);
@@ -45,7 +50,7 @@ const AdminPage = () => {
 	}, []);
 
 	// DELETE an user
-	function deleteUser(UserID) {
+	const deleteUser = (UserID) => {
 		const deleteUrl = 'http://localhost:8080/api/users/' + UserID;
 
 		setIsLoading(true);
@@ -56,12 +61,13 @@ const AdminPage = () => {
 			.then((response) => {
 				setLoadedUsers(response.data.users);
 				setFilteredUsers(response.data.users);
+				handleModalClose();
 				setIsLoading(false);
 			})
 			.catch((err) => {
 				console.log(err.response.data);
 			});
-	}
+	};
 
 	useEffect(() => {
 		loadedUsers &&
@@ -73,7 +79,7 @@ const AdminPage = () => {
 	}, [search]);
 
 	return (
-		<Grid columns={1} style={{ margin: '2.5rem' }}>
+		<Grid columns={1} stackable style={{ margin: '2.5rem' }}>
 			<Grid.Column>
 				<Grid.Row>
 					<h1>List of users</h1>
@@ -85,18 +91,55 @@ const AdminPage = () => {
 						<List divided relaxed>
 							{!isLoading &&
 								filteredUsers.map((item) => (
-									<List.Item key={item.ID} id={item.ID}>
-										<List.Icon name='user' verticalAlign='middle' />
+									<List.Item as='a' key={item.ID}>
+										<List.Icon
+											name='user'
+											size='large'
+											verticalAlign='middle'
+										/>
 										<Item.Content>
 											<List.Header>{item.Username}</List.Header>
-											<Button
-												floated='right'
-												compact
-												negative
-												onClick={() => deleteUser(item.ID)}
+											<Modal
+												trigger={
+													<Button
+														compact
+														negative
+														content='Delete user'
+														floated='right'
+														onClick={() => handleModalOpen(item.ID)}
+													/>
+												}
+												open={ModalOpen == item.ID}
 											>
-												Delete account
-											</Button>
+												<Header
+													icon='delete'
+													color='red'
+													content='Delete user?'
+												/>
+												<Modal.Content>
+													<p>
+														This is a <b>permanent</b> action and will delete
+														both the user and his keys.
+													</p>
+													<p>
+														Are you sure you want to delete{' '}
+														<b>{item.Username}</b>?
+													</p>
+												</Modal.Content>
+												<Modal.Actions>
+													<Button color='red' onClick={handleModalClose}>
+														<Icon name='remove' />
+														No
+													</Button>
+													<Button
+														color='green'
+														onClick={() => deleteUser(item.ID)}
+													>
+														<Icon name='checkmark' />
+														Yes
+													</Button>
+												</Modal.Actions>
+											</Modal>
 											<List.Description>id: {item.ID}</List.Description>
 											<List.Description>{item.Email}</List.Description>
 										</Item.Content>
