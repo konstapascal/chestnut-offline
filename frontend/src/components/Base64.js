@@ -51,7 +51,7 @@ const Base64 = () => {
 				/>
 				<br />
 				<br />
-				<Button onClick={switchModeHandler}>
+				<Button color='green' onClick={switchModeHandler}>
 					Switch to {!isEncodeMode ? 'Encoder' : 'Decoder'}
 				</Button>
 			</Form>

@@ -7,6 +7,7 @@ const UsersPage = () => {
 	const auth = useContext(AuthContext);
 	const [loadedUsers, setLoadedUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
+	const [loadedPublicKeys, setLoadedPublicKeys] = useState([]);
 	const [search, setSearch] = useState('');
 
 	useEffect(() => {
@@ -28,6 +29,18 @@ const UsersPage = () => {
 	}, []);
 
 	useEffect(() => {
+		const storageKeys = JSON.parse(localStorage.getItem('addedPublicKeys'));
+
+		if (storageKeys == null) {
+			// Make new local storage field if there isn't one
+			return localStorage.setItem('addedPublicKeys', JSON.stringify([]));
+		} else {
+			// If there is local storage data, add it to state
+			setLoadedPublicKeys(storageKeys);
+		}
+	}, []);
+
+	useEffect(() => {
 		loadedUsers &&
 			setFilteredUsers(
 				loadedUsers.filter((user) =>
@@ -36,48 +49,90 @@ const UsersPage = () => {
 			);
 	}, [search]);
 
+	// Add key to state and local storage
+
+	const addPublicKey = (keyOwner, keyID, keyName, keyLength, publicKey) => {
+		const updatedState = [
+			...loadedPublicKeys,
+			{
+				keyOwner: keyOwner,
+				ID: keyID,
+				keyName: keyName,
+				keyLength: keyLength,
+				publicKey: publicKey,
+			},
+		];
+
+		localStorage.setItem('addedPublicKeys', JSON.stringify(updatedState));
+		setLoadedPublicKeys(updatedState);
+	};
+
+	// Function to check if key exists in the state array, returns true or false
+	const isKeyAdded = (publicKey) => {
+		return loadedPublicKeys.some((key) => key.publicKey === publicKey);
+	};
+
 	return (
-		<Grid columns={1} style={{ margin: '2.5rem' }}>
-			<Grid.Column>
-				<Grid.Row>
-					<h1>List of users and their public keys</h1>
+		<div style={{ margin: '2.5rem' }}>
+			<h1>List of users and their public keys</h1>
+			<Grid stackable columns={1}>
+				<Grid.Column width={6} style={{ minWidth: '400px' }}>
 					<h3>Search user:</h3>
 					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
-				</Grid.Row>
-				<Grid.Row style={{ marginTop: '1.5rem' }}>
-					<Segment>
-						<List divided relaxed>
-							{loadedUsers &&
-								filteredUsers.map((user) => (
-									<List.Item key={user.ID}>
-										<List.Icon name='user' />
-										<Item.Content>
-											<List.Header>{user.Username}</List.Header>
+					<Grid.Row style={{ marginTop: '1.5rem' }}>
+						<Segment>
+							<List divided relaxed>
+								{loadedUsers &&
+									filteredUsers.map((user) => (
+										<List.Item key={user.ID}>
+											<List.Header as='h4'>{user.Username}</List.Header>
 											{user.Keypairs.map((key) => (
-												<List.Item
-													key={key.KeypairID}
-													style={{ margin: '1rem' }}
-												>
-													<Item.Content>
-														<List.Header>{key.Name}</List.Header>
-														<List.Description>{key.PublicKey}</List.Description>
+												<List.List key={key.KeypairID} divided>
+													<List.Item>
 														<Button
-															compact
+															onClick={() =>
+																addPublicKey(
+																	user.Username,
+																	key.KeypairID,
+																	key.Name,
+																	key.Length,
+																	key.PublicKey
+																)
+															}
+															disabled={isKeyAdded(key.PublicKey)}
+															content={
+																isKeyAdded(key.PublicKey) ? 'Added' : 'Add'
+															}
+															icon={
+																isKeyAdded(key.PublicKey) ? 'checkmark' : 'add'
+															}
 															color='green'
 															size='small'
-															content='Add'
+															compact
+															floated='right'
 														/>
-													</Item.Content>
-												</List.Item>
+														<List.Icon
+															name='key'
+															size='large'
+															verticalAlign='middle'
+														/>
+														<Item.Content>
+															<List.Header>{key.Name}</List.Header>
+															<List.Description>
+																Length: {key.Length}
+															</List.Description>
+														</Item.Content>
+													</List.Item>
+												</List.List>
 											))}
-										</Item.Content>
-									</List.Item>
-								))}
-						</List>
-					</Segment>
-				</Grid.Row>
-			</Grid.Column>
-		</Grid>
+										</List.Item>
+									))}
+							</List>
+						</Segment>
+					</Grid.Row>
+				</Grid.Column>
+			</Grid>
+		</div>
 	);
 };
 

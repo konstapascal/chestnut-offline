@@ -21,7 +21,7 @@ const AdminPage = () => {
 			Authorization: auth.token,
 		},
 	};
-	const [isLoading, setIsLoading] = useState(false);
+
 	const [loadedUsers, setLoadedUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [search, setSearch] = useState('');
@@ -35,12 +35,10 @@ const AdminPage = () => {
 	// GET all users
 	useEffect(() => {
 		const fetchUsers = () => {
-			setIsLoading(true);
 			Axios.get(getUrl, authHeader)
 				.then((response) => {
 					setLoadedUsers(response.data.users);
 					setFilteredUsers(response.data.users);
-					setIsLoading(false);
 				})
 				.catch((err) => {
 					console.log(err.response.data);
@@ -53,7 +51,6 @@ const AdminPage = () => {
 	const deleteUser = (UserID) => {
 		const deleteUrl = 'http://localhost:8080/api/users/' + UserID;
 
-		setIsLoading(true);
 		Axios.delete(deleteUrl, authHeader)
 			.then(() => {
 				return Axios.get(getUrl, authHeader);
@@ -62,7 +59,6 @@ const AdminPage = () => {
 				setLoadedUsers(response.data.users);
 				setFilteredUsers(response.data.users);
 				handleModalClose();
-				setIsLoading(false);
 			})
 			.catch((err) => {
 				console.log(err.response.data);
@@ -79,18 +75,16 @@ const AdminPage = () => {
 	}, [search]);
 
 	return (
-		<Grid columns={1} stackable style={{ margin: '2.5rem' }}>
-			<Grid.Column>
-				<Grid.Row>
-					<h1>List of users</h1>
+		<div style={{ margin: '2.5rem' }}>
+			<h1>Admin page</h1>
+			<Grid stackable columns={1}>
+				<Grid.Column width={6} style={{ minWidth: '400px' }}>
 					<h3>Search user:</h3>
 					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
-				</Grid.Row>
-				<Grid.Row style={{ marginTop: '1.5rem' }}>
-					<Segment>
-						<List divided relaxed>
-							{!isLoading &&
-								filteredUsers.map((item) => (
+					<Grid.Row style={{ marginTop: '1.5rem' }}>
+						<Segment>
+							<List divided relaxed>
+								{filteredUsers.map((item) => (
 									<List.Item as='a' key={item.ID}>
 										<List.Icon
 											name='user'
@@ -145,11 +139,12 @@ const AdminPage = () => {
 										</Item.Content>
 									</List.Item>
 								))}
-						</List>
-					</Segment>
-				</Grid.Row>
-			</Grid.Column>
-		</Grid>
+							</List>
+						</Segment>
+					</Grid.Row>
+				</Grid.Column>
+			</Grid>
+		</div>
 	);
 };
 

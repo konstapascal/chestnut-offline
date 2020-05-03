@@ -34,29 +34,22 @@ exports.getMyKeys = (req, res) => {
 				});
 			});
 
-			if (keypairs != 0) {
-				return res.status(200).json({ status: '200 - OK', keypairs }, [
-					{
-						self: {
-							method: 'GET',
-							description:
-								'Get all keys, public and private of currently logged in user.',
-							href: url + '/api/keys/users/me',
-						},
+			return res.status(200).json({ status: '200 - OK', keypairs }, [
+				{
+					self: {
+						method: 'GET',
+						description:
+							'Get all keys, public and private of currently logged in user.',
+						href: url + '/api/keys/users/me',
 					},
-					{
-						method: 'POST',
-						description: 'Generate a new keypair for currently logged in user.',
-						href: url + '/api/keys/new/users/me',
-					},
-					{ deleteKeyByID: deleteKeyArray },
-				]);
-			} else {
-				return res.status(404).json({
-					status: '404 - Not Found',
-					message: `User with id of ${userID} was not found or does not have any keys.`,
-				});
-			}
+				},
+				{
+					method: 'POST',
+					description: 'Generate a new keypair for currently logged in user.',
+					href: url + '/api/keys/new/users/me',
+				},
+				{ deleteKeyByID: deleteKeyArray },
+			]);
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -78,7 +71,7 @@ exports.getAllPublicKeysByID = (req, res) => {
 		include: [
 			{
 				model: Keypair,
-				attributes: ['Name', 'PublicKey'],
+				attributes: ['KeypairID', 'Name', 'Length', 'PublicKey'],
 			},
 		],
 	})
@@ -123,7 +116,7 @@ exports.getAllPublicKeys = (req, res) => {
 		include: [
 			{
 				model: Keypair,
-				attributes: ['KeypairID', 'Name', 'PublicKey'],
+				attributes: ['KeypairID', 'Name', 'Length', 'PublicKey'],
 			},
 		],
 	})
