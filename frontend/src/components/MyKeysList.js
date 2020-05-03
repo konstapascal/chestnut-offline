@@ -108,8 +108,10 @@ const MyKeysList = () => {
 									<List.Header>{item.Name}</List.Header>
 									<List.Description>Length: {item.Length}</List.Description>
 									<List.Description>
-										Date:
-										{moment(item.createdAt).local().format('DD/MM/YYYY, HH:MM')}
+										Created:{' '}
+										{moment(item.createdAt)
+											.local()
+											.format('DD MMM YYYY, HH:MM')}
 									</List.Description>
 								</List.Content>
 								{location.pathname === '/keys' && (
@@ -157,7 +159,6 @@ const MyKeysList = () => {
 			),
 		},
 		{
-			// Working on this - Kon
 			menuItem: 'Public Keys',
 			render: () => (
 				<Tab.Pane>
@@ -173,8 +174,9 @@ const MyKeysList = () => {
 								<List.Icon name='key' size='large' verticalAlign='middle' />
 								<List.Content>
 									<List.Header>{key.keyName}</List.Header>
-									<List.Header>Owner: {key.keyOwner}</List.Header>
-
+									<List.Description>
+										Owner: <b>{key.keyOwner}</b>
+									</List.Description>
 									<List.Description>Length: {key.keyLength}</List.Description>
 								</List.Content>
 								{location.pathname === '/keys' && (

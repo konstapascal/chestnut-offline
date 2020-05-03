@@ -50,7 +50,6 @@ const UsersPage = () => {
 	}, [search]);
 
 	// Add key to state and local storage
-
 	const addPublicKey = (keyOwner, keyID, keyName, keyLength, publicKey) => {
 		const updatedState = [
 			...loadedPublicKeys,
