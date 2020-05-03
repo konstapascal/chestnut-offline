@@ -10,44 +10,36 @@ import {
    Modal,
    Header,
    Segment,
+   Loader,
 } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth-context";
 
 const AdminPage = () => {
    const auth = useContext(AuthContext);
+   const authHeader = {
+      headers: {
+         Authorization: auth.token,
+      },
+   };
    const [isLoading, setIsLoading] = useState(false);
-   const [loadedUser, setLoadedUsers] = useState([]);
-   const [search, setSearch] = useState("");
+   const [loadedUsers, setLoadedUsers] = useState([]);
    const [filteredUsers, setFilteredUsers] = useState([]);
-   const [userId, setUserId] = useState("");
-   const [showConfimModal, setShowConfirmModal] = useState(false);
+   const [search, setSearch] = useState("");
+   const [ModalOpen, setModalOpen] = useState(false);
 
-   const showDeleteWarningHandler = () => {
-      setShowConfirmModal(true);
-      console.log("opened");
-   };
+   const getUrl = "http://localhost:8080/api/users";
 
-   const cancelDeleteHandler = () => {
-      setShowConfirmModal(false);
-      console.log("closed");
-   };
+   const handleModalOpen = (modalID) => setModalOpen(modalID);
+   const handleModalClose = () => setModalOpen(false);
 
-   console.log("http://localhost:8080/api/users/" + userId);
-
-   const confirmDeleteHandler = () => {
-      setShowConfirmModal(false);
-   };
-
+   // GET all users
    useEffect(() => {
-      const fetchUsers = async () => {
+      const fetchUsers = () => {
          setIsLoading(true);
-         const response = await Axios.get("http://localhost:8080/api/users/", {
-            headers: {
-               Authorization: auth.token,
-            },
-         })
+         Axios.get(getUrl, authHeader)
             .then((response) => {
                setLoadedUsers(response.data.users);
+               setFilteredUsers(response.data.users);
                setIsLoading(false);
             })
             .catch((err) => {
@@ -55,85 +47,122 @@ const AdminPage = () => {
             });
       };
       fetchUsers();
-   }, [Axios.get]);
+   }, []);
+
+   // DELETE an user
+   const deleteUser = (UserID) => {
+      const deleteUrl = "http://localhost:8080/api/users/" + UserID;
+
+      setIsLoading(true);
+      Axios.delete(deleteUrl, authHeader)
+         .then(() => {
+            return Axios.get(getUrl, authHeader);
+         })
+         .then((response) => {
+            setLoadedUsers(response.data.users);
+            setFilteredUsers(response.data.users);
+            handleModalClose();
+            setIsLoading(false);
+         })
+         .catch((err) => {
+            console.log(err.response.data);
+         });
+   };
 
    useEffect(() => {
-      !isLoading &&
-         loadedUser &&
+      loadedUsers &&
          setFilteredUsers(
-            loadedUser.filter((user) =>
+            loadedUsers.filter((user) =>
                user.Username.toLowerCase().includes(search.toLowerCase())
             )
          );
-   }, [search, loadedUser]);
+   }, [search]);
 
    return (
-      <div style={{ margin: "2.5rem" }}>
-         <h1>List of users</h1>
-         <h3>Search user:</h3>
-         <Input icon="search" onChange={(e) => setSearch(e.target.value)} />
-         <Segment>
-            <List as="ul" divided>
-               {!isLoading &&
-                  loadedUser &&
-                  filteredUsers.map((item) => (
-                     <List.Item key={setUserId} id={item.ID}>
-                        <Item.Content>
-                           <Modal
-                              trigger={
-                                 <Button
-                                    onClick={showDeleteWarningHandler}
-                                    floated="right"
-                                    size="small"
-                                    negative
-                                 >
-                                    Delete account
-                                 </Button>
-                              }
-                              open={showConfimModal}
-                              onClose={cancelDeleteHandler}
-                              closeIcon
-                           >
-                              <Header
-                                 icon="warning sign"
-                                 content="Do you want to delete your account?"
+      <Grid columns={1} stackable style={{ margin: "2.5rem" }}>
+         <Grid.Column>
+            <Grid.Row>
+               <h1>List of users</h1>
+               <h3>Search user:</h3>
+               <Input
+                  icon="search"
+                  onChange={(e) => setSearch(e.target.value)}
+               />
+            </Grid.Row>
+            <Grid.Row style={{ marginTop: "1.5rem" }}>
+               <Segment>
+                  <List divided relaxed>
+                     {!isLoading &&
+                        filteredUsers.map((item) => (
+                           <List.Item as="a" key={item.ID}>
+                              <List.Icon
+                                 name="user"
+                                 size="large"
+                                 verticalAlign="middle"
                               />
-                              <Modal.Content>
-                                 <p>
-                                    There is no way to recover your account
-                                    after you delete it. All your data including
-                                    your key pairs will be deleted.
-                                    <br /> <b>Are you sure?</b>
-                                 </p>
-                              </Modal.Content>
-                              <Modal.Actions>
-                                 <Button
-                                    color="red"
-                                    onClick={cancelDeleteHandler}
+                              <Item.Content>
+                                 <List.Header>{item.Username}</List.Header>
+                                 <Modal
+                                    trigger={
+                                       <Button
+                                          compact
+                                          negative
+                                          content="Delete user"
+                                          floated="right"
+                                          onClick={() =>
+                                             handleModalOpen(item.ID)
+                                          }
+                                       />
+                                    }
+                                    open={ModalOpen == item.ID}
                                  >
-                                    <Icon name="remove" /> No
-                                 </Button>
-                                 <Button
-                                    color="green"
-                                    onClick={confirmDeleteHandler}
-                                 >
-                                    <Icon name="checkmark" /> Yes
-                                 </Button>
-                              </Modal.Actions>
-                           </Modal>
-                           <List.Header as="a">{item.Username}</List.Header>
-                           <List.Description as="a">
-                              id: {item.ID}
-                           </List.Description>
-                           <List.Description as="a">
-                              {item.Email}
-                           </List.Description>
-                        </Item.Content>
-                     </List.Item>
-                  ))}
-            </List>
-         </Segment>
-      </div>
+                                    <Header
+                                       icon="delete"
+                                       color="red"
+                                       content="Delete user?"
+                                    />
+                                    <Modal.Content>
+                                       <p>
+                                          This is a <b>permanent</b> action and
+                                          will delete both the user and his
+                                          keys.
+                                       </p>
+                                       <p>
+                                          Are you sure you want to delete{" "}
+                                          <b>{item.Username}</b>?
+                                       </p>
+                                    </Modal.Content>
+                                    <Modal.Actions>
+                                       <Button
+                                          color="red"
+                                          onClick={handleModalClose}
+                                       >
+                                          <Icon name="remove" />
+                                          No
+                                       </Button>
+                                       <Button
+                                          color="green"
+                                          onClick={() => deleteUser(item.ID)}
+                                       >
+                                          <Icon name="checkmark" />
+                                          Yes
+                                       </Button>
+                                    </Modal.Actions>
+                                 </Modal>
+                                 <List.Description>
+                                    id: {item.ID}
+                                 </List.Description>
+                                 <List.Description>
+                                    {item.Email}
+                                 </List.Description>
+                              </Item.Content>
+                           </List.Item>
+                        ))}
+                  </List>
+               </Segment>
+            </Grid.Row>
+         </Grid.Column>
+      </Grid>
    );
 };
 

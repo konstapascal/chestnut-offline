@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-
-import { AuthContext } from '../context/auth-context';
 import { useForm } from '../hooks/form-hook';
 import {
 	VALIDATOR_EMAIL,
@@ -10,9 +8,12 @@ import {
 } from '../util/validators';
 import Input from './FormElements/Input';
 
-import { Form, Button, Message, Segment } from 'semantic-ui-react';
+import { Form, Button, Message, Segment, Icon } from 'semantic-ui-react';
 
 const Signup = (props) => {
+	const [errorMessage, setError] = useState('');
+	const [statusMessage, setStatus] = useState('');
+
 	const [formState, inputHandler] = useForm(
 		{
 			username: {
@@ -39,8 +40,13 @@ const Signup = (props) => {
 				email: formState.inputs.email.value,
 				password: formState.inputs.password.value,
 			})
+			.then((response) => {
+				setStatus(response.data.message);
+				setError('');
+			})
 			.catch((err) => {
-				console.log(err.response.data);
+				setError(err.response.data.message);
+				setStatus('');
 			});
 	};
 
@@ -94,6 +100,18 @@ const Signup = (props) => {
 					<Button type='submit' positive disabled={!formState.isValid}>
 						Signup
 					</Button>
+					{errorMessage && (
+						<Message error visible>
+							<Icon color='red' name='times' size='large' />
+							{errorMessage}
+						</Message>
+					)}
+					{statusMessage && (
+						<Message positive visible>
+							<Icon color='green' name='checkmark' size='large' />
+							{statusMessage}
+						</Message>
+					)}
 					<Message>
 						Already have an account?{' '}
 						<a href='#' onClick={toggleComponent}>

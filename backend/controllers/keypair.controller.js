@@ -1,6 +1,7 @@
 const db = require('../models/db.index');
 const Keypair = db.keypair;
 const User = db.user;
+const { Op } = require('sequelize');
 
 // Get all keys of currently logged in user
 exports.getMyKeys = (req, res) => {
@@ -13,6 +14,14 @@ exports.getMyKeys = (req, res) => {
 		where: {
 			UserID: userID,
 		},
+		attributes: [
+			'KeypairID',
+			'Name',
+			'Length',
+			'PublicKey',
+			'PrivateKey',
+			'createdAt',
+		],
 	})
 		.then((keypairs) => {
 			let deleteKeyArray = [];
@@ -63,15 +72,19 @@ exports.getAllPublicKeysByID = (req, res) => {
 
 	const url = req.protocol + '://' + req.headers.host;
 
-	Keypair.findAll({
-		where: {
-			UserID: userID,
-		},
-		attributes: ['Name', 'Type', 'Length', 'PublicKey', 'UserID'],
+	User.findAll({
+		where: { ID: userID },
+		attributes: ['ID', 'Username'],
+		include: [
+			{
+				model: Keypair,
+				attributes: ['Name', 'PublicKey'],
+			},
+		],
 	})
-		.then((keypairs) => {
-			if (keypairs != 0) {
-				return res.status(200).json({ status: '200 - OK', keypairs }, [
+		.then((user) => {
+			if (user != 0) {
+				return res.status(200).json({ status: '200 - OK', user }, [
 					{
 						self: {
 							method: 'GET',
@@ -83,7 +96,7 @@ exports.getAllPublicKeysByID = (req, res) => {
 			} else {
 				return res.status(404).json({
 					status: '404 - Not Found',
-					message: `User with id of ${id} was not found or does not have any keys.`,
+					message: `User with id of ${userId} was not found or does not have any keys.`,
 				});
 			}
 		})
@@ -97,23 +110,31 @@ exports.getAllPublicKeysByID = (req, res) => {
 
 // Get all public keypairs for all users, including their username
 exports.getAllPublicKeys = (req, res) => {
-	Keypair.findAll({
-		attributes: ['KeypairID', 'Name', 'Type', 'Length', 'PublicKey', 'UserID'],
+	const url = req.protocol + '://' + req.headers.host;
+	const userId = res.locals.decodedData.id;
+
+	User.findAll({
+		where: {
+			ID: {
+				[Op.ne]: userId,
+			},
+		},
+		attributes: ['ID', 'Username'],
 		include: [
 			{
-				model: User,
-				attributes: ['Username'],
+				model: Keypair,
+				attributes: ['KeypairID', 'Name', 'PublicKey'],
 			},
 		],
 	})
-		.then((keypairs) => {
+		.then((users) => {
 			let idArray = [];
 			let getKeysByUserIdArray = [];
 
 			// Populate array with all unique user id's
-			keypairs.forEach((keypair) => {
-				if (idArray.indexOf(keypair.UserID) === -1) {
-					idArray.push(keypair.UserID);
+			users.forEach((user) => {
+				if (idArray.indexOf(user.ID) === -1) {
+					idArray.push(user.ID);
 				}
 			});
 
@@ -126,8 +147,8 @@ exports.getAllPublicKeys = (req, res) => {
 				});
 			});
 
-			if (keypairs) {
-				return res.status(200).json({ status: '200 - OK', keypairs }, [
+			if (users) {
+				return res.status(200).json({ status: '200 - OK', users }, [
 					{
 						self: {
 							method: 'GET',

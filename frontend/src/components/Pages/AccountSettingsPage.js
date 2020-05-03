@@ -6,48 +6,25 @@ import { AuthContext } from '../../context/auth-context';
 
 const AccountSettingsPage = () => {
 	const auth = useContext(AuthContext);
-	const [showConfimModal, setShowConfirmModal] = useState(false);
-
-	const showDeleteWarningHandler = () => {
-		setShowConfirmModal(true);
-		console.log('opend');
+	const deleteUrl = 'http://localhost:8080/api/users/me';
+	const authHeader = {
+		headers: {
+			Authorization: auth.token,
+		},
 	};
 
-	const cancelDeleteHandler = () => {
-		setShowConfirmModal(false);
-		console.log('closed');
-	};
+	const [ModalOpen, setModalOpen] = useState(false);
 
-	const confirmDeleteHandler = () => {
-		setShowConfirmModal(false);
-		try {
-			Axios.delete('http://localhost:8080/api/users/' + auth.id).then(
-				(response) => {
-					if (response.data != null) {
-						alert('User deleted');
-						//Also should logout user/ delete localStorage
-					}
-				}
-			);
-			//   const deleteUser = async () => {
-			//     const response = await Axios.delete(
-			//       `http://localhost:8080/api/users/${auth.id}`,
-			//       {
-			//         headers: {
-			//           Authorization: auth.token,
-			//         },
-			//       }
-			//     )
-			//       .then((response) => {
-			//         console.log("deleted user");
-			//       })
-			//       .catch((err) => {
-			//         console.log(err.response);
-			//       });
-			//   };
-		} catch {
-			console.log('Something went wrong! Could not delete user');
-		}
+	const handleModalStatus = () => setModalOpen(!ModalOpen);
+
+	const deleteUser = () => {
+		Axios.delete(deleteUrl, authHeader)
+			.then(() => {
+				auth.logout();
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+			});
 	};
 
 	return (
@@ -55,31 +32,32 @@ const AccountSettingsPage = () => {
 			<h1>Settings page</h1>
 			<Modal
 				trigger={
-					<Button negative onClick={showDeleteWarningHandler}>
+					<Button negative onClick={handleModalStatus}>
 						Delete account
 					</Button>
 				}
-				open={showConfimModal}
-				onClose={cancelDeleteHandler}
+				open={ModalOpen === true}
+				onClose={handleModalStatus}
 				closeIcon
 			>
-				<Header
-					icon='warning sign'
-					content='Are you sure you want to delete your account?'
-				/>
+				<Header color='red' icon='warning sign' content='Delete account?' />
 				<Modal.Content>
 					<p>
-						There is no way to recover your account after deletion. All your
-						data including your keypairs will also be deleted.
-						<br /> <b>Are you sure?</b>
+						This is a <b>permanent</b> action and will delete both your account
+						and your keys.
+					</p>
+					<p>
+						Are you sure you want to <b>delete</b> your account?
 					</p>
 				</Modal.Content>
 				<Modal.Actions>
-					<Button color='red' onClick={cancelDeleteHandler}>
-						<Icon name='remove' /> No
+					<Button color='red' onClick={handleModalStatus}>
+						<Icon name='remove' />
+						No
 					</Button>
-					<Button color='green' onClick={confirmDeleteHandler}>
-						<Icon name='checkmark' /> Yes
+					<Button color='green' onClick={deleteUser}>
+						<Icon name='checkmark' />
+						Yes
 					</Button>
 				</Modal.Actions>
 			</Modal>
