@@ -98,7 +98,7 @@ const MyKeysList = () => {
 						{loadedKeys.length == 0 && (
 							<Message>
 								<Icon name='key' size='large' />
-								No Keypairs.
+								No keypairs.
 							</Message>
 						)}
 						{loadedKeys.map((item) => (
@@ -111,7 +111,7 @@ const MyKeysList = () => {
 										Created:{' '}
 										{moment(item.createdAt)
 											.local()
-											.format('DD MMM YYYY, HH:MM')}
+											.format('DD MMM YYYY, HH:mm')}
 									</List.Description>
 								</List.Content>
 								{location.pathname === '/keys' && (
