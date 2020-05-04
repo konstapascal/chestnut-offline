@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Grid } from "semantic-ui-react";
 
 import MyKeysList from "../MyKeysList";
+import GenerateKey from "../GenerateKey";
 
 const KeysPage = () => {
    return (
@@ -32,7 +33,7 @@ const KeysPage = () => {
                   </Form>
                </Grid.Row>
                <Grid.Row>
-                  <h3>Create new keypair</h3>
+                  <GenerateKey />
                </Grid.Row>
             </Grid.Column>
          </Grid>

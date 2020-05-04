@@ -12,6 +12,7 @@ import ApplicationPage from "./components/Pages/ApplicationPage";
 import KeysPage from "./components/Pages/KeysPage";
 import AccountSettingsPage from "./components/Pages/AccountSettingsPage";
 import AdminPage from "./components/Pages/AdminPage";
+import GenerateKey from "./components/GenerateKey";
 import Navbar from "./components/Navbar";
 import jwtDecode from "jwt-decode";
 
@@ -71,6 +72,7 @@ const App = () => {
             <Route exact path="/users" component={UsersPage} />
             <Route exact path="/settings" component={AccountSettingsPage} />
             <Route exact path="/admin" component={AdminPage} />
+            <Route exact path="/newkey" component={GenerateKey} />
             <Redirect to="/" />
          </Switch>
       );
