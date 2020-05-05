@@ -1,15 +1,11 @@
-import React from "react";
-// import rsaKeyPair from "rsa-keypair";
+import React from 'react';
 
 const GenerateKey = () => {
-   //    const keys = rsaKeyPair.generate();
-
-   //    console.log(keys);
-   return (
-      <div>
-         <h1>Gen</h1>
-      </div>
-   );
+	return (
+		<div>
+			<h3>Generate key</h3>
+		</div>
+	);
 };
 
 export default GenerateKey;
