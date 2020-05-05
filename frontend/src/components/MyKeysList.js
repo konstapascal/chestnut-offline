@@ -8,10 +8,18 @@ import {
    Modal,
    Header,
    Message,
+   Form,
+   Grid,
+   Segment,
+   TextArea,
+   Container,
+   Card,
 } from "semantic-ui-react";
 import { AuthContext } from "../context/auth-context";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+import "./MyKeyList.css";
 
 import moment from "moment";
 
@@ -26,9 +34,13 @@ const MyKeysList = () => {
    const [loadedKeys, setLoadedKeys] = useState([]);
    const [loadedPublicKeys, setLoadedPublicKeys] = useState([]);
    const [ModalOpen, setModalOpen] = useState(false);
+   const [viewModalOpen, setViewModalOpen] = useState(false);
 
-   const handleModalOpen = (modalID) => setModalOpen(modalID);
-   const handleModalClose = () => setModalOpen(false);
+   const handleDeleteModalOpen = (modalID) => setModalOpen(modalID);
+   const handleDeleteModalClose = () => setModalOpen(false);
+
+   const handleViewModalOpen = (modalID) => setViewModalOpen(modalID);
+   const handleViewModalClose = () => setViewModalOpen(false);
 
    const getUrl = "http://localhost:8080/api/keys/users/me";
    let location = useLocation();
@@ -101,6 +113,7 @@ const MyKeysList = () => {
                         No keypairs.
                      </Message>
                   )}
+
                   {loadedKeys.map((item) => (
                      <List.Item as="a" key={item.KeypairID}>
                         <List.Icon
@@ -120,6 +133,65 @@ const MyKeysList = () => {
                                  .format("DD MMM YYYY, HH:mm")}
                            </List.Description>
                         </List.Content>
+
+                        {/* view */}
+
+                        {location.pathname === "/keys" && (
+                           <Modal
+                              trigger={
+                                 <List.Icon
+                                    name="eye"
+                                    floated="right"
+                                    size="large"
+                                    color="yellow"
+                                    verticalAlign="middle"
+                                    negative
+                                    onClick={() =>
+                                       handleViewModalOpen(item.KeypairID)
+                                    }
+                                 />
+                              }
+                              size="small"
+                              open={viewModalOpen == item.KeypairID}
+                              onClose={handleViewModalClose}
+                              closeIcon
+                           >
+                              <Header content={item.Name} />
+                              <Modal.Content>
+                                 <Grid columns={2} divided>
+                                    <Grid.Column width={8}>
+                                       <Card fluid className="keyDiv">
+                                          <Card.Content>
+                                             <Card.Header>
+                                                Public Key
+                                             </Card.Header>
+                                             <hr />
+                                             <Card.Description>
+                                                {item.PublicKey}
+                                             </Card.Description>
+                                          </Card.Content>
+                                       </Card>
+                                    </Grid.Column>
+                                    <Grid.Column width={8}>
+                                       <Card fluid className="keyDiv">
+                                          <Card.Content>
+                                             <Card.Header>
+                                                Private Key
+                                             </Card.Header>
+                                             <hr />
+                                             <Card.Description>
+                                                {item.PrivateKey}
+                                             </Card.Description>
+                                          </Card.Content>
+                                       </Card>
+                                    </Grid.Column>
+                                 </Grid>
+                              </Modal.Content>
+                           </Modal>
+                        )}
+
+                        {/* delete  */}
+
                         {location.pathname === "/keys" && (
                            <Modal
                               trigger={
@@ -131,13 +203,13 @@ const MyKeysList = () => {
                                     verticalAlign="middle"
                                     negative
                                     onClick={() =>
-                                       handleModalOpen(item.KeypairID)
+                                       handleDeleteModalOpen(item.KeypairID)
                                     }
                                  />
                               }
                               size="tiny"
                               open={ModalOpen == item.KeypairID}
-                              onClose={handleModalClose}
+                              onClose={handleDeleteModalClose}
                               closeIcon
                            >
                               <Header
@@ -152,7 +224,10 @@ const MyKeysList = () => {
                                  </p>
                               </Modal.Content>
                               <Modal.Actions>
-                                 <Button color="red" onClick={handleModalClose}>
+                                 <Button
+                                    color="red"
+                                    onClick={handleDeleteModalClose}
+                                 >
                                     <Icon name="remove" /> No
                                  </Button>
                                  <Button
@@ -198,6 +273,45 @@ const MyKeysList = () => {
                               Length: {key.keyLength}
                            </List.Description>
                         </List.Content>
+                        {location.pathname === "/keys" && (
+                           <Modal
+                              trigger={
+                                 <List.Icon
+                                    name="eye"
+                                    floated="right"
+                                    size="large"
+                                    color="yellow"
+                                    verticalAlign="middle"
+                                    negative
+                                    onClick={() => handleViewModalOpen(key.ID)}
+                                 />
+                              }
+                              size="small"
+                              open={viewModalOpen == key.ID}
+                              onClose={handleViewModalClose}
+                              closeIcon
+                           >
+                              <Header content={key.keyName} />
+                              <Modal.Content>
+                                 <Grid textAlign="center">
+                                    <Grid.Column width={12}>
+                                       <Card fluid className="keyDiv">
+                                          <Card.Content>
+                                             <Card.Header>
+                                                Public Key
+                                             </Card.Header>
+                                             <hr />
+                                             <Card.Description>
+                                                {key.publicKey}
+                                             </Card.Description>
+                                          </Card.Content>
+                                       </Card>
+                                    </Grid.Column>
+                                 </Grid>
+                              </Modal.Content>
+                           </Modal>
+                        )}
+
                         {location.pathname === "/keys" && (
                            <List.Icon
                               name="delete"
