@@ -37,8 +37,6 @@ const AccountSettingsPage = () => {
 					</Button>
 				}
 				open={ModalOpen === true}
-				onClose={handleModalStatus}
-				closeIcon
 			>
 				<Header color='red' icon='warning sign' content='Delete account?' />
 				<Modal.Content>
