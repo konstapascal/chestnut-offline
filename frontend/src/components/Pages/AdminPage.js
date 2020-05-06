@@ -99,7 +99,7 @@ const AdminPage = () => {
 								</Message>
 							)}
 							{filteredUsers.map((item) => (
-								<List.Item as='a' key={item.ID}>
+								<List.Item key={item.ID}>
 									<List.Icon name='user' size='large' verticalAlign='middle' />
 									<Item.Content>
 										<List.Header>{item.Username}</List.Header>
