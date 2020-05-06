@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
-import { List, Item, Grid, Input, Button, Segment } from 'semantic-ui-react';
+import {
+	List,
+	Item,
+	Grid,
+	Input,
+	Button,
+	Message,
+	Icon,
+} from 'semantic-ui-react';
 import { AuthContext } from '../../context/auth-context';
 
 const UsersPage = () => {
@@ -10,21 +18,22 @@ const UsersPage = () => {
 	const [loadedPublicKeys, setLoadedPublicKeys] = useState([]);
 	const [search, setSearch] = useState('');
 
-	useEffect(() => {
-		const fetchUsers = async () => {
-			await Axios.get('http://localhost:8080/api/keys/', {
-				headers: {
-					Authorization: auth.token,
-				},
+	const fetchUsers = async () => {
+		await Axios.get('http://localhost:8080/api/keys/', {
+			headers: {
+				Authorization: auth.token,
+			},
+		})
+			.then((response) => {
+				setLoadedUsers(response.data.users);
+				setFilteredUsers(response.data.users);
 			})
-				.then((response) => {
-					setLoadedUsers(response.data.users);
-					setFilteredUsers(response.data.users);
-				})
-				.catch((err) => {
-					console.log(err.response.data);
-				});
-		};
+			.catch((err) => {
+				console.log(err.response.data);
+			});
+	};
+
+	useEffect(() => {
 		fetchUsers();
 	}, []);
 
@@ -41,12 +50,11 @@ const UsersPage = () => {
 	}, []);
 
 	useEffect(() => {
-		loadedUsers &&
-			setFilteredUsers(
-				loadedUsers.filter((user) =>
-					user.Username.toLowerCase().includes(search.toLowerCase())
-				)
-			);
+		setFilteredUsers(
+			loadedUsers.filter((user) =>
+				user.Username.toLowerCase().includes(search.toLowerCase())
+			)
+		);
 	}, [search]);
 
 	// Add key to state and local storage
@@ -79,55 +87,67 @@ const UsersPage = () => {
 					<h3>Search user:</h3>
 					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
 					<Grid.Row style={{ marginTop: '1.5rem' }}>
-						<Segment>
-							<List divided relaxed>
-								{loadedUsers &&
-									filteredUsers.map((user) => (
-										<List.Item key={user.ID}>
-											<List.Header as='h4'>{user.Username}</List.Header>
-											{user.Keypairs.map((key) => (
-												<List.List key={key.KeypairID} divided>
-													<List.Item>
-														<Button
-															onClick={() =>
-																addPublicKey(
-																	user.Username,
-																	key.KeypairID,
-																	key.Name,
-																	key.Length,
-																	key.PublicKey
-																)
-															}
-															disabled={isKeyAdded(key.PublicKey)}
-															content={
-																isKeyAdded(key.PublicKey) ? 'Added' : 'Add'
-															}
-															icon={
-																isKeyAdded(key.PublicKey) ? 'checkmark' : 'add'
-															}
-															color='green'
-															size='small'
-															compact
-															floated='right'
-														/>
-														<List.Icon
-															name='key'
-															size='large'
-															verticalAlign='middle'
-														/>
-														<Item.Content>
-															<List.Header>{key.Name}</List.Header>
-															<List.Description>
-																Length: {key.Length}
-															</List.Description>
-														</Item.Content>
-													</List.Item>
-												</List.List>
-											))}
-										</List.Item>
-									))}
-							</List>
-						</Segment>
+						<List
+							divided
+							relaxed
+							style={{
+								border: '1px solid #e3e3e3',
+								borderRadius: '0.5rem',
+								padding: '1rem',
+							}}
+						>
+							{filteredUsers.length == 0 && (
+								<Message>
+									<Icon name='user' size='large' />
+									No user results for {search}.
+								</Message>
+							)}
+							{loadedUsers &&
+								filteredUsers.map((user) => (
+									<List.Item key={user.ID}>
+										<List.Header as='h4'>{user.Username}</List.Header>
+										{user.Keypairs.map((key) => (
+											<List.List key={key.KeypairID} divided>
+												<List.Item>
+													<Button
+														onClick={() =>
+															addPublicKey(
+																user.Username,
+																key.KeypairID,
+																key.Name,
+																key.Length,
+																key.PublicKey
+															)
+														}
+														disabled={isKeyAdded(key.PublicKey)}
+														content={
+															isKeyAdded(key.PublicKey) ? 'Added' : 'Add'
+														}
+														icon={
+															isKeyAdded(key.PublicKey) ? 'checkmark' : 'add'
+														}
+														color='green'
+														size='small'
+														compact
+														floated='right'
+													/>
+													<List.Icon
+														name='key'
+														size='large'
+														verticalAlign='middle'
+													/>
+													<Item.Content>
+														<List.Header>{key.Name}</List.Header>
+														<List.Description>
+															Length: {key.Length}
+														</List.Description>
+													</Item.Content>
+												</List.Item>
+											</List.List>
+										))}
+									</List.Item>
+								))}
+						</List>
 					</Grid.Row>
 				</Grid.Column>
 			</Grid>

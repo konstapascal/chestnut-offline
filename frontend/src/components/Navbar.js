@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../images/chestnut.png';
 import { AuthContext } from '../context/auth-context';
 
-const Navbar = (props) => {
+const Navbar = () => {
 	const [activeItem, setActiveItem] = useState('');
 	const auth = useContext(AuthContext);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Header, Button } from 'semantic-ui-react';
 
-const LandignPageDescription = () => {
+const LandingPageDescription = () => {
 	return (
 		<Grid>
 			<Grid.Column>
@@ -22,4 +22,4 @@ const LandignPageDescription = () => {
 	);
 };
 
-export default LandignPageDescription;
+export default LandingPageDescription;

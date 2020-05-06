@@ -6,15 +6,16 @@ import {
 	Redirect,
 } from 'react-router-dom';
 import LandingPage from './components/Pages/LandingPage';
-import { AuthContext } from './context/auth-context';
 import UsersPage from './components/Pages/UsersPage';
 import ApplicationPage from './components/Pages/ApplicationPage';
 import KeysPage from './components/Pages/KeysPage';
 import AccountSettingsPage from './components/Pages/AccountSettingsPage';
 import AdminPage from './components/Pages/AdminPage';
-import GenerateKey from './components/GenerateKey';
 import Navbar from './components/Navbar';
 import jwtDecode from 'jwt-decode';
+
+import { AuthContext } from './context/auth-context';
+import { SelectedKeyContext } from './context/selected-key-context';
 
 const App = () => {
 	// Defining state variables
@@ -23,6 +24,10 @@ const App = () => {
 	const [id, setId] = useState('');
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(false);
+
+	// Selected key state
+	const [selectedKey, setSelectedKey] = useState('');
+	const defaultSelectedKeyValues = { selectedKey, setSelectedKey };
 
 	const login = useCallback((token) => {
 		setToken(token);
@@ -55,6 +60,18 @@ const App = () => {
 		}
 	}, [login]);
 
+	// Default values for the auth context
+	const defaultAuthValues = {
+		token: token,
+		username: username,
+		id: id,
+		isLoggedIn: loggedIn,
+		isAdmin: isAdmin,
+		login: login,
+		logout: logout,
+	};
+
+	// Setting routes based on if logged in or not
 	let routes;
 
 	if (!token) {
@@ -78,21 +95,13 @@ const App = () => {
 	}
 
 	return (
-		<AuthContext.Provider
-			value={{
-				token: token,
-				username: username,
-				id: id,
-				isLoggedIn: loggedIn,
-				isAdmin: isAdmin,
-				login: login,
-				logout: logout,
-			}}
-		>
-			<Router>
-				<Navbar />
-				<main>{routes}</main>
-			</Router>
+		<AuthContext.Provider value={defaultAuthValues}>
+			<SelectedKeyContext.Provider value={defaultSelectedKeyValues}>
+				<Router>
+					<Navbar />
+					<main>{routes}</main>
+				</Router>
+			</SelectedKeyContext.Provider>
 		</AuthContext.Provider>
 	);
 };

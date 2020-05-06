@@ -8,55 +8,53 @@ import {
 	Modal,
 	Header,
 	Message,
-	Form,
-	Grid,
-	Segment,
-	TextArea,
-	Container,
-	Card,
 } from 'semantic-ui-react';
-import { AuthContext } from '../context/auth-context';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
-import './MyKeyList.css';
-
 import moment from 'moment';
+
+import { AuthContext } from '../context/auth-context';
+import { SelectedKeyContext } from '../context/selected-key-context';
 
 const MyKeysList = () => {
 	const auth = useContext(AuthContext);
+	const { selectedKey, setSelectedKey } = useContext(SelectedKeyContext);
+
+	const [loadedKeys, setLoadedKeys] = useState([]);
+	const [loadedPublicKeys, setLoadedPublicKeys] = useState([]);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [activeKey, setActiveKey] = useState('');
+
 	const authHeader = {
 		headers: {
 			Authorization: auth.token,
 		},
 	};
 
-	const [loadedKeys, setLoadedKeys] = useState([]);
-	const [loadedPublicKeys, setLoadedPublicKeys] = useState([]);
-	const [ModalOpen, setModalOpen] = useState(false);
-	const [viewModalOpen, setViewModalOpen] = useState(false);
-
 	const handleDeleteModalOpen = (modalID) => setModalOpen(modalID);
 	const handleDeleteModalClose = () => setModalOpen(false);
 
-	const handleViewModalOpen = (modalID) => setViewModalOpen(modalID);
-	const handleViewModalClose = () => setViewModalOpen(false);
+	const handleActiveKey = (name, publicKey, privateKey = '') => {
+		setActiveKey(name);
+		setSelectedKey({ PublicKey: publicKey, PrivateKey: privateKey });
+	};
 
 	const getUrl = 'http://localhost:8080/api/keys/users/me';
 	let location = useLocation();
 
 	// GET all my keys request
+	const fetchMyKeys = () => {
+		Axios.get(getUrl, authHeader)
+			.then((response) => {
+				setLoadedKeys(response.data.keypairs);
+			})
+			.catch((err) => {
+				setLoadedKeys([]);
+				console.log(err.response.data);
+			});
+	};
+
 	useEffect(() => {
-		const fetchMyKeys = () => {
-			Axios.get(getUrl, authHeader)
-				.then((response) => {
-					setLoadedKeys(response.data.keypairs);
-				})
-				.catch((err) => {
-					setLoadedKeys([]);
-					console.log(err.response.data);
-				});
-		};
 		fetchMyKeys();
 	}, []);
 
@@ -64,7 +62,7 @@ const MyKeysList = () => {
 	useEffect(() => {
 		const storageKeys = JSON.parse(localStorage.getItem('addedPublicKeys'));
 
-		if (storageKeys == null) {
+		if (storageKeys === null) {
 			// Make new local storage field if there isn't one
 			return localStorage.setItem('addedPublicKeys', JSON.stringify([]));
 		} else {
@@ -89,6 +87,7 @@ const MyKeysList = () => {
 			});
 	};
 
+	// Remove public key from list and local storage
 	const removePublicKey = (KeypairID) => {
 		const newLoadedPublicKeys = loadedPublicKeys.filter(
 			(key) => key.ID !== KeypairID
@@ -107,7 +106,7 @@ const MyKeysList = () => {
 			render: () => (
 				<Tab.Pane>
 					<List divided relaxed>
-						{loadedKeys.length == 0 && (
+						{loadedKeys.length === 0 && (
 							<Message>
 								<Icon name='key' size='large' />
 								No keypairs.
@@ -115,7 +114,15 @@ const MyKeysList = () => {
 						)}
 
 						{loadedKeys.map((item) => (
-							<List.Item as='a' key={item.KeypairID}>
+							<List.Item
+								as='a'
+								key={item.KeypairID}
+								name={item.Name}
+								active={activeKey === item.Name}
+								onClick={() =>
+									handleActiveKey(item.Name, item.PublicKey, item.PrivateKey)
+								}
+							>
 								<List.Icon name='key' size='large' verticalAlign='middle' />
 								<List.Content>
 									<List.Header>{item.Name}</List.Header>
@@ -127,58 +134,6 @@ const MyKeysList = () => {
 											.format('DD MMM YYYY, HH:mm')}
 									</List.Description>
 								</List.Content>
-
-								{/* view */}
-
-								{location.pathname === '/keys' && (
-									<Modal
-										trigger={
-											<List.Icon
-												name='eye'
-												floated='right'
-												size='large'
-												color='black'
-												verticalAlign='middle'
-												negative
-												onClick={() => handleViewModalOpen(item.KeypairID)}
-											/>
-										}
-										size='small'
-										open={viewModalOpen == item.KeypairID}
-										onClose={handleViewModalClose}
-										closeIcon
-									>
-										<Header content={item.Name} />
-										<Modal.Content>
-											<Grid columns={2} divided>
-												<Grid.Column width={8}>
-													<Card fluid className='keyDiv'>
-														<Card.Content>
-															<Card.Header>Public Key</Card.Header>
-															<hr />
-															<Card.Description>
-																{item.PublicKey}
-															</Card.Description>
-														</Card.Content>
-													</Card>
-												</Grid.Column>
-												<Grid.Column width={8}>
-													<Card fluid className='keyDiv'>
-														<Card.Content>
-															<Card.Header>Private Key</Card.Header>
-															<hr />
-															<Card.Description>
-																{item.PrivateKey}
-															</Card.Description>
-														</Card.Content>
-													</Card>
-												</Grid.Column>
-											</Grid>
-										</Modal.Content>
-									</Modal>
-								)}
-
-								{/* delete  */}
 
 								{location.pathname === '/keys' && (
 									<Modal
@@ -194,7 +149,7 @@ const MyKeysList = () => {
 											/>
 										}
 										size='tiny'
-										open={ModalOpen == item.KeypairID}
+										open={modalOpen === item.KeypairID}
 										onClose={handleDeleteModalClose}
 										closeIcon
 									>
@@ -229,14 +184,20 @@ const MyKeysList = () => {
 			render: () => (
 				<Tab.Pane>
 					<List divided relaxed>
-						{loadedPublicKeys.length == 0 && (
+						{loadedPublicKeys.length === 0 && (
 							<Message>
 								<Icon name='key' size='large' verticalAlign='middle' />
 								Click <Link to='/users'>here</Link> to add public keys.
 							</Message>
 						)}
 						{loadedPublicKeys.map((key) => (
-							<List.Item as='a' key={key.ID}>
+							<List.Item
+								as='a'
+								key={key.ID}
+								name={key.keyName}
+								active={activeKey === key.keyName}
+								onClick={() => handleActiveKey(key.keyName, key.publicKey)}
+							>
 								<List.Icon name='key' size='large' verticalAlign='middle' />
 								<List.Content>
 									<List.Header>{key.keyName}</List.Header>
@@ -245,43 +206,6 @@ const MyKeysList = () => {
 									</List.Description>
 									<List.Description>Length: {key.keyLength}</List.Description>
 								</List.Content>
-								{location.pathname === '/keys' && (
-									<Modal
-										trigger={
-											<List.Icon
-												name='eye'
-												floated='right'
-												size='large'
-												color='black'
-												verticalAlign='middle'
-												negative
-												onClick={() => handleViewModalOpen(key.ID)}
-											/>
-										}
-										size='small'
-										open={viewModalOpen == key.ID}
-										onClose={handleViewModalClose}
-										closeIcon
-									>
-										<Header content={key.keyName} />
-										<Modal.Content>
-											<Grid textAlign='center'>
-												<Grid.Column width={12}>
-													<Card fluid className='keyDiv'>
-														<Card.Content>
-															<Card.Header>Public Key</Card.Header>
-															<hr />
-															<Card.Description>
-																{key.publicKey}
-															</Card.Description>
-														</Card.Content>
-													</Card>
-												</Grid.Column>
-											</Grid>
-										</Modal.Content>
-									</Modal>
-								)}
-
 								{location.pathname === '/keys' && (
 									<List.Icon
 										name='delete'
