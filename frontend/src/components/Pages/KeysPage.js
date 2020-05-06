@@ -5,9 +5,6 @@ import MyKeysList from "../MyKeysList";
 import GenerateKey from "../GenerateKey";
 
 const KeysPage = () => {
-   const [privateKey, setPrivateKey] = useState("");
-   const [publikKey, setPublicKey] = useState("");
-
    return (
       <div style={{ margin: "2.5rem" }}>
          <h1>Keys Page</h1>
@@ -24,14 +21,12 @@ const KeysPage = () => {
                            label="Public Key:"
                            placeholder="Public Key"
                            style={{ minHeight: 100 }}
-                           value={publikKey}
                            disabled
                         />
                         <Form.TextArea
                            label="Private Key:"
                            placeholder="Private Key"
                            style={{ minHeight: 100 }}
-                           value={privateKey}
                            disabled
                         />
                      </Form.Group>

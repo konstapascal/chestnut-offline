@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
+import axios from "axios";
 import { useForm } from "../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../util/validators";
 import Input from "../components/FormElements/Input";
+import { AuthContext } from "../context/auth-context";
+
 var forge = require("node-forge");
 
 // import rsaKeyPair from "rsa-keypair";
 
 const GenerateKey = () => {
+   const auth = useContext(AuthContext);
+
    const typeOptions = [
       {
          key: "rsa",
@@ -37,9 +42,12 @@ const GenerateKey = () => {
          value: "4096",
       },
    ];
+
    let pki = forge.pki;
-   const [generatedPrivateKey, setGeneratedPrivateKey] = useState("");
-   const [generatedPublicKey, setGeneratedPublicKey] = useState("");
+   const [keyType, setKeyType] = useState("");
+   const [keyLength, setKeyLength] = useState();
+   const [statusMessage, setStatus] = useState("");
+   const [errorMessage, setError] = useState("");
    const [formState, inputHandler] = useForm(
       {
          keyname: {
@@ -53,28 +61,43 @@ const GenerateKey = () => {
    const exampleString =
       "Text that is going to be sent over an insecure channel and must be encrypted at all costs! ";
 
-   const submitGenerateKey = () => {
+   const authHeader = {
+      headers: {
+         Authorization: auth.token,
+      },
+   };
+
+   const submitGenerateKey = async (event) => {
+      event.preventDefault();
+      let length = keyLength;
+
       let keypair = pki.rsa.generateKeyPair({ bits: 2048, e: 0x10001 });
 
       let pemPublicKey = pki.publicKeyToPem(keypair.publicKey);
       let pemPrivateKey = pki.privateKeyToPem(keypair.privateKey);
-      setGeneratedPrivateKey(pemPrivateKey);
-      // ENCRYPT String
-      let toEncrypt = Buffer.from(exampleString);
-      let encrypted = forge.util.encode64(
-         keypair.publicKey.encrypt(toEncrypt, "RSA-OAEP")
-      );
 
-      // DECRYPT String
-      let decrypted = keypair.privateKey.decrypt(
-         forge.util.decode64(encrypted),
-         "RSA-OAEP"
-      );
-
-      // console.log(pemPublicKey);
-      console.log(generatedPrivateKey);
-      // console.log(encrypted);
-      // console.log(decrypted);
+      await axios
+         .post(
+            "http://localhost:8080/api/keys/new/users/me",
+            {
+               name: formState.inputs.keyname.value,
+               type: "RSA",
+               length: 2048,
+               publicKey: pemPublicKey,
+               privateKey: pemPrivateKey,
+            },
+            authHeader
+         )
+         .then((response) => {
+            console.log(response);
+            setStatus(response.data.message);
+            setError("");
+         })
+         .catch((err) => {
+            console.log(err);
+            setError(err.response.data.message);
+            setStatus("");
+         });
    };
 
    return (
@@ -88,7 +111,7 @@ const GenerateKey = () => {
                   element="input"
                   id="keyname"
                   type="text"
-                  label="Your username"
+                  label="Key name"
                   validators={[VALIDATOR_REQUIRE()]}
                   errorText="Please enter a name for the key."
                   onInput={inputHandler}
@@ -96,11 +119,15 @@ const GenerateKey = () => {
                />
             </Form.Field>
             <Form.Select
+               label="Type"
                defaultValue={typeOptions[0].value}
                options={typeOptions}
             ></Form.Select>
             <Form.Select
+               label="Length"
                defaultValue={lengthOptions[2].value}
+               onChange={(e) => setKeyLength(e.target.value)}
+               onBlur={(e) => setKeyLength(e.target.value)}
                options={lengthOptions}
             ></Form.Select>
 
