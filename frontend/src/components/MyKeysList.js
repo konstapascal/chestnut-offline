@@ -119,11 +119,16 @@ const MyKeysList = () => {
 
                   {loadedKeys.map((item) => (
                      <List.Item
-                        as='a'
                         key={item.KeypairID}
-                        name={item.Name}
-                        active={activeKey === item.Name}
-                        git
+                        style={
+                           activeKey == item.Name
+                              ? {
+                                   background: "#c4edcd",
+                                   padding: ".5rem",
+                                   cursor: "pointer",
+                                }
+                              : { padding: ".5rem", cursor: "pointer" }
+                        }
                      >
                         <List.Icon
                            name='key'
@@ -218,10 +223,16 @@ const MyKeysList = () => {
                   )}
                   {loadedPublicKeys.map((key) => (
                      <List.Item
-                        as='a'
                         key={key.ID}
-                        name={key.keyName}
-                        active={activeKey === key.keyName}
+                        style={
+                           activeKey == key.keyName
+                              ? {
+                                   background: "#c4edcd",
+                                   padding: ".5rem",
+                                   cursor: "pointer",
+                                }
+                              : { padding: ".5rem", cursor: "pointer" }
+                        }
                      >
                         <List.Icon
                            name='key'
