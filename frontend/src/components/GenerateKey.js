@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
-import axios from "axios";
-import { useForm } from "../hooks/form-hook";
-import { VALIDATOR_REQUIRE } from "../util/validators";
-import Input from "../components/FormElements/Input";
-import { AuthContext } from "../context/auth-context";
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, Form, Segment } from 'semantic-ui-react';
+import axios from 'axios';
+import { useForm } from '../hooks/form-hook';
+import { VALIDATOR_REQUIRE } from '../util/validators';
+import Input from '../components/FormElements/Input';
+import { AuthContext } from '../context/auth-context';
 
-var forge = require("node-forge");
+var forge = require('node-forge');
 
 // import rsaKeyPair from "rsa-keypair";
 
@@ -15,43 +15,43 @@ const GenerateKey = () => {
 
    const typeOptions = [
       {
-         key: "rsa",
-         text: "RSA",
-         value: "rsa",
+         key: 'rsa',
+         text: 'RSA',
+         value: 'rsa',
       },
    ];
    const lengthOptions = [
       {
-         key: "512",
-         text: "512",
-         value: "512",
+         key: '512',
+         text: '512',
+         value: '512',
       },
       {
-         key: "1024",
-         text: "1024",
-         value: "1024",
+         key: '1024',
+         text: '1024',
+         value: '1024',
       },
       {
-         key: "2048",
-         text: "2048",
-         value: "2048",
+         key: '2048',
+         text: '2048',
+         value: '2048',
       },
       {
-         key: "4096",
-         text: "4096",
-         value: "4096",
+         key: '4096',
+         text: '4096',
+         value: '4096',
       },
    ];
 
    let pki = forge.pki;
-   const [keyType, setKeyType] = useState("");
+   const [keyType, setKeyType] = useState('');
    const [keyLength, setKeyLength] = useState();
-   const [statusMessage, setStatus] = useState("");
-   const [errorMessage, setError] = useState("");
+   const [statusMessage, setStatus] = useState('');
+   const [errorMessage, setError] = useState('');
    const [formState, inputHandler] = useForm(
       {
          keyname: {
-            value: "",
+            value: '',
             isValid: false,
          },
       },
@@ -59,7 +59,7 @@ const GenerateKey = () => {
    );
 
    const exampleString =
-      "Text that is going to be sent over an insecure channel and must be encrypted at all costs! ";
+      'Text that is going to be sent over an insecure channel and must be encrypted at all costs! ';
 
    const authHeader = {
       headers: {
@@ -78,10 +78,10 @@ const GenerateKey = () => {
 
       await axios
          .post(
-            "http://localhost:8080/api/keys/new/users/me",
+            'http://localhost:8080/api/keys/new/users/me',
             {
                name: formState.inputs.keyname.value,
-               type: "RSA",
+               type: 'RSA',
                length: 2048,
                publicKey: pemPublicKey,
                privateKey: pemPrivateKey,
@@ -91,18 +91,18 @@ const GenerateKey = () => {
          .then((response) => {
             console.log(response);
             setStatus(response.data.message);
-            setError("");
+            setError('');
          })
          .catch((err) => {
             console.log(err);
             setError(err.response.data.message);
-            setStatus("");
+            setStatus('');
          });
    };
 
    return (
-      <Segment style={{ textAlign: "center", maxWidth: 400, minWidth: 400 }}>
-         <h3 style={{ textAlign: "center" }}>Generate keypair</h3>
+      <Segment style={{ textAlign: 'center', maxWidth: 400, minWidth: 400 }}>
+         <h3 style={{ textAlign: 'center' }}>Generate keypair</h3>
          <hr />
          <Form onSubmit={submitGenerateKey}>
             <Form.Field>
