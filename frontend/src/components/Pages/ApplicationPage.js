@@ -1,18 +1,19 @@
-import React from "react";
-import { Grid, Tab } from "semantic-ui-react";
-import Base64 from "../Base64";
-import Rot13 from "../Rot13";
-import MyKeysList from "../MyKeysList";
-import AesEncryption from "../AesEncryption";
+import React from 'react';
+import { Grid, Tab } from 'semantic-ui-react';
+import Base64 from '../Base64';
+import Rot13 from '../Rot13';
+import MyKeysList from '../MyKeysList';
+import AesEncryption from '../AesEncryption';
+import AesDecryption from '../AesDecryption';
 
 const ApplicationPage = () => {
    const appSubpages = [
       {
-         menuItem: "RSA",
+         menuItem: 'RSA',
          render: () => <Tab.Pane>RSA Page</Tab.Pane>,
       },
       {
-         menuItem: "AES",
+         menuItem: 'AES',
          render: () => (
             <Tab.Pane>
                <AesEncryption />
@@ -20,7 +21,15 @@ const ApplicationPage = () => {
          ),
       },
       {
-         menuItem: "Base64",
+         menuItem: 'AES Decrypt',
+         render: () => (
+            <Tab.Pane>
+               <AesDecryption />
+            </Tab.Pane>
+         ),
+      },
+      {
+         menuItem: 'Base64',
          render: () => (
             <Tab.Pane>
                <Base64 />
@@ -29,7 +38,7 @@ const ApplicationPage = () => {
       },
 
       {
-         menuItem: "ROT13",
+         menuItem: 'ROT13',
          render: () => (
             <Tab.Pane>
                <Rot13 />
@@ -37,19 +46,19 @@ const ApplicationPage = () => {
          ),
       },
       {
-         menuItem: "UUID",
+         menuItem: 'UUID',
          render: () => <Tab.Pane>UUID</Tab.Pane>,
       },
       {
-         menuItem: "Checksum",
+         menuItem: 'Checksum',
          render: () => <Tab.Pane>Checksum</Tab.Pane>,
       },
    ];
    return (
-      <div style={{ margin: "2.5rem" }}>
+      <div style={{ margin: '2.5rem' }}>
          <h1>Application Page</h1>
          <Grid stackable columns={2}>
-            <Grid.Column width={3} style={{ minWidth: "400px" }}>
+            <Grid.Column width={3} style={{ minWidth: '400px' }}>
                <MyKeysList />
             </Grid.Column>
             <Grid.Column width={9}>

@@ -3,9 +3,9 @@ import { Form, Input } from 'semantic-ui-react';
 
 var forge = require('node-forge');
 
-const AesEncryption = () => {
+const AesDecryption = () => {
    const [userInput, setUserInput] = useState('');
-   const [aesEncrypted, setAesEncrypted] = useState('');
+   const [aesDecrypted, setAesDecrypted] = useState('');
    const [userPassword, setUserPassword] = useState('');
 
    useEffect(() => {
@@ -15,26 +15,40 @@ const AesEncryption = () => {
          // the password used for derviation of a key, assign your password here
          // if none is assigned a random one is generated
          let password = userPassword;
-         if (password === '' || userInput === '') {
+         if (password === '') {
             return;
          }
 
+         // derive key with password and salt
+         // keylength adheres to the "ECRYPT-CSA Recommendations" on "www.keylength.com"
          let salt = 'this is my salt';
          let key = forge.pkcs5.pbkdf2(password, salt, 300, 32);
 
+         // generate a random initialization Vector
          let iv = 'this is my vector';
 
          //  console.log(userInput);
 
          // ENCRYPT the text
          let cipher = forge.cipher.createCipher('AES-CBC', key);
-         cipher.start({ iv: iv });
-         cipher.update(forge.util.createBuffer(exampleString));
-         cipher.finish();
 
-         let encrypted = forge.util.encode64(cipher.output.data);
+         // DECRYPT the text
+         let tag = cipher.mode.tag;
+         let decipher = forge.cipher.createDecipher('AES-CBC', key);
+         decipher.start({
+            iv: iv,
+            tag: tag,
+         });
+         decipher.update(
+            forge.util.createBuffer(forge.util.decode64(userInput))
+         );
+         decipher.finish();
+         let decrypted = decipher.output.data;
 
-         setAesEncrypted(encrypted);
+         setAesDecrypted(decrypted);
+
+         console.log('decrypted: ' + decrypted);
+         //  console.log(password);
       };
 
       encrypt();
@@ -63,7 +77,7 @@ const AesEncryption = () => {
             <Form.TextArea
                readOnly
                placeholder='Ecrypted text appears here...'
-               value={aesEncrypted}
+               value={aesDecrypted}
                style={{ minHeight: 100 }}
             />
          </Form>
@@ -71,4 +85,4 @@ const AesEncryption = () => {
    );
 };
 
-export default AesEncryption;
+export default AesDecryption;

@@ -28,7 +28,7 @@ const Rot13 = () => {
                onChange={(e) => setUserInput(e.target.value)}
             />
             <Form.TextArea
-               readonly
+               readOnly
                placeholder='Cipher appears here...'
                value={rotData}
                style={{ minHeight: 100 }}
