@@ -80,7 +80,7 @@ const MyKeysList = () => {
 		const deleteUrl = 'http://localhost:8080/api/keys/' + KeypairID;
 
 		// If the key being deleted is already selected by the user, unselect it.
-		if (KeypairName == selectedKey.Name) {
+		if (KeypairName === selectedKey.Name) {
 			setSelectedKey({
 				PublicKey: '',
 				PrivateKey: '',
@@ -103,7 +103,7 @@ const MyKeysList = () => {
 	// Remove public key from list and local storage
 	const removePublicKey = (KeypairID, KeypairName) => {
 		// If the public key being removed is already selected, unselect it.
-		if (KeypairName == selectedKey.Name) {
+		if (KeypairName === selectedKey.Name) {
 			setSelectedKey({
 				PublicKey: '',
 				PrivateKey: '',
@@ -144,7 +144,7 @@ const MyKeysList = () => {
 							<List.Item
 								key={item.KeypairID}
 								style={
-									activeKey == item.Name
+									activeKey === item.Name
 										? {
 												background: '#c4edcd',
 												padding: '.5rem',
@@ -228,7 +228,7 @@ const MyKeysList = () => {
 							<List.Item
 								key={key.ID}
 								style={
-									activeKey == key.keyName
+									activeKey === key.keyName
 										? {
 												background: '#c4edcd',
 												padding: '.5rem',

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Tab } from 'semantic-ui-react';
-import RsaEncryption from '../RsaEncyption';
+import RsaEncryption from '../RsaEncryption';
 import RsaDecryption from '../RsaDecryption';
 import RsaSigning from '../RsaSigning';
 import RsaVerifying from '../RsaVerifying';

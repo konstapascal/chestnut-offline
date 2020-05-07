@@ -96,7 +96,7 @@ const UsersPage = () => {
 								padding: '1rem',
 							}}
 						>
-							{filteredUsers.length == 0 && (
+							{filteredUsers.length === 0 && (
 								<Message>
 									<Icon name='user' size='large' />
 									No user results for {search}.

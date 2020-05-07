@@ -28,7 +28,7 @@ const RsaEncryption = () => {
 		const encryptUrl = 'http://localhost:8080/api/encrypt';
 		const pubKey = selectedKey.PublicKey;
 
-		if (userInput == '') {
+		if (userInput === '') {
 			setError('Your field cannot be empty!');
 			return;
 		}

@@ -1,12 +1,5 @@
-import React, { useContext } from 'react';
-import {
-	Grid,
-	Tab,
-	Segment,
-	Placeholder,
-	PlaceholderHeader,
-	PlaceholderParagraph,
-} from 'semantic-ui-react';
+import React from 'react';
+import { Grid, Tab } from 'semantic-ui-react';
 import Base64 from '../Base64';
 import Rot13 from '../Rot13';
 import MyKeysList from '../MyKeysList';

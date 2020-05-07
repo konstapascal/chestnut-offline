@@ -28,7 +28,7 @@ const RsaDecryption = () => {
 		const decryptUrl = 'http://localhost:8080/api/decrypt';
 		const privKey = selectedKey.PrivateKey;
 
-		if (userInput == '') {
+		if (userInput === '') {
 			setError('Your field cannot be empty!');
 			return;
 		}

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Form, Grid, Header, Container } from 'semantic-ui-react';
+import { Form, Grid, Header } from 'semantic-ui-react';
 
 import MyKeysList from '../MyKeysList';
 import GenerateKey from '../GenerateKey';
