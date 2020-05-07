@@ -130,11 +130,16 @@ const MyKeysList = () => {
 					<List divided relaxed>
 						{loadedKeys.length === 0 && (
 							<Message>
-								<Icon name='key' size='large' />
+								<Icon name='key' size='large' verticalAlign='middle' />
 								No keypairs.
+								{location.pathname === '/' && (
+									<span>
+										{' '}
+										Click <Link to='/keys'>here</Link> to make one.
+									</span>
+								)}
 							</Message>
 						)}
-
 						{loadedKeys.map((item) => (
 							<List.Item
 								key={item.KeypairID}
