@@ -112,22 +112,23 @@ const MyKeysList = () => {
                <List divided relaxed>
                   {loadedKeys.length === 0 && (
                      <Message>
-                        <Icon name="key" size="large" />
+                        <Icon name='key' size='large' />
                         No keypairs.
                      </Message>
                   )}
 
                   {loadedKeys.map((item) => (
                      <List.Item
-                        as="a"
+                        as='a'
                         key={item.KeypairID}
                         name={item.Name}
                         active={activeKey === item.Name}
+                        git
                      >
                         <List.Icon
-                           name="key"
-                           size="large"
-                           verticalAlign="middle"
+                           name='key'
+                           size='large'
+                           verticalAlign='middle'
                         />
                         <List.Content
                            onClick={() =>
@@ -154,26 +155,26 @@ const MyKeysList = () => {
                            <Modal
                               trigger={
                                  <List.Icon
-                                    name="delete"
-                                    floated="right"
-                                    size="large"
-                                    color="red"
-                                    verticalAlign="middle"
+                                    name='delete'
+                                    floated='right'
+                                    size='large'
+                                    color='red'
+                                    verticalAlign='middle'
                                     negative
                                     onClick={() =>
                                        handleDeleteModalOpen(item.KeypairID)
                                     }
                                  />
                               }
-                              size="tiny"
+                              size='tiny'
                               open={modalOpen === item.KeypairID}
                               onClose={handleDeleteModalClose}
                               closeIcon
                            >
                               <Header
-                                 icon="delete"
-                                 color="red"
-                                 content="Delete key?"
+                                 icon='delete'
+                                 color='red'
+                                 content='Delete key?'
                               />
                               <Modal.Content>
                                  <p>
@@ -183,16 +184,16 @@ const MyKeysList = () => {
                               </Modal.Content>
                               <Modal.Actions>
                                  <Button
-                                    color="red"
+                                    color='red'
                                     onClick={handleDeleteModalClose}
                                  >
-                                    <Icon name="remove" /> No
+                                    <Icon name='remove' /> No
                                  </Button>
                                  <Button
-                                    color="green"
+                                    color='green'
                                     onClick={() => deleteKey(item.KeypairID)}
                                  >
-                                    <Icon name="checkmark" />
+                                    <Icon name='checkmark' />
                                     Yes
                                  </Button>
                               </Modal.Actions>
@@ -211,21 +212,21 @@ const MyKeysList = () => {
                <List divided relaxed>
                   {loadedPublicKeys.length === 0 && (
                      <Message>
-                        <Icon name="key" size="large" verticalAlign="middle" />
-                        Click <Link to="/users">here</Link> to add public keys.
+                        <Icon name='key' size='large' verticalAlign='middle' />
+                        Click <Link to='/users'>here</Link> to add public keys.
                      </Message>
                   )}
                   {loadedPublicKeys.map((key) => (
                      <List.Item
-                        as="a"
+                        as='a'
                         key={key.ID}
                         name={key.keyName}
                         active={activeKey === key.keyName}
                      >
                         <List.Icon
-                           name="key"
-                           size="large"
-                           verticalAlign="middle"
+                           name='key'
+                           size='large'
+                           verticalAlign='middle'
                         />
                         <List.Content
                            onClick={() =>
@@ -242,11 +243,11 @@ const MyKeysList = () => {
                         </List.Content>
                         {location.pathname === "/keys" && (
                            <List.Icon
-                              name="delete"
-                              floated="right"
-                              size="large"
-                              color="red"
-                              verticalAlign="middle"
+                              name='delete'
+                              floated='right'
+                              size='large'
+                              color='red'
+                              verticalAlign='middle'
                               negative
                               onClick={() => removePublicKey(key.ID)}
                            />

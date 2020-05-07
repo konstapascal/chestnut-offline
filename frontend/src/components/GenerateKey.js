@@ -107,31 +107,31 @@ const GenerateKey = () => {
          <Form onSubmit={submitGenerateKey}>
             <Form.Field>
                <Input
-                  iconPosition="left"
-                  element="input"
-                  id="keyname"
-                  type="text"
-                  label="Key name"
+                  iconPosition='left'
+                  element='input'
+                  id='keyname'
+                  type='text'
+                  label='Key name'
                   validators={[VALIDATOR_REQUIRE()]}
-                  errorText="Please enter a name for the key."
+                  errorText='Please enter a name for the key.'
                   onInput={inputHandler}
-                  placeholder="Key name"
+                  placeholder='Key name'
                />
             </Form.Field>
             <Form.Select
-               label="Type"
+               label='Type'
                defaultValue={typeOptions[0].value}
                options={typeOptions}
             ></Form.Select>
             <Form.Select
-               label="Length"
+               label='Length'
                defaultValue={lengthOptions[2].value}
                onChange={(e) => setKeyLength(e.target.value)}
                onBlur={(e) => setKeyLength(e.target.value)}
                options={lengthOptions}
             ></Form.Select>
 
-            <Button type="submit" positive disabled={!formState.isValid}>
+            <Button type='submit' positive disabled={!formState.isValid}>
                Generate
             </Button>
          </Form>

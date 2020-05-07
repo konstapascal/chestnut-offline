@@ -21,18 +21,18 @@ const KeysPage = () => {
                   <Form>
                      <h3>Select a keypair to view it</h3>
                      <h5>Selected key: {selectedKey.Name}</h5>
-                     <Form.Group widths="equal">
+                     <Form.Group widths='equal'>
                         <Form.TextArea
                            value={selectedKey.PrivateKey}
-                           label="Private Key:"
-                           placeholder="Private Key"
+                           label='Private Key:'
+                           placeholder='Private Key'
                            style={{ minHeight: 100 }}
                            // disabled
                         />
                         <Form.TextArea
                            value={selectedKey.PublicKey}
-                           label="Public Key:"
-                           placeholder="Public Key"
+                           label='Public Key:'
+                           placeholder='Public Key'
                            style={{ minHeight: 100 }}
                            // disabled
                         />
