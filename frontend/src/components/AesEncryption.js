@@ -52,7 +52,7 @@ const AesEncryption = () => {
             <Form.Input
                label='Enter your password here'
                type='text'
-               flucid
+               flucid='true'
                onChange={(e) => setUserPassword(e.target.value)}
             />
             <Form.TextArea

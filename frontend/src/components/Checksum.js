@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
+
 var forge = require('node-forge');
 
 const Checksum = () => {
@@ -8,6 +9,22 @@ const Checksum = () => {
    const [sha1Hash, setSHA1Hash] = useState('');
    const [sha256Hash, setSHA256] = useState('');
    const [sha512Hash, setSHA512] = useState('');
+
+   const [file, setFile] = useState('');
+   const [filename, setFilename] = useState('');
+
+   const uploadHandler = (e) => {
+      // setFile(e.target.files[0]);
+      // setFilename(e.target.files[0].name);
+
+      let reader = new FileReader();
+      reader.onload = function () {
+         console.log(reader.result);
+         setUserInput(reader.result);
+      };
+
+      reader.readAsBinaryString(e.target.files[0]);
+   };
 
    useEffect(() => {
       if (userInput === '') {
@@ -28,7 +45,7 @@ const Checksum = () => {
       let sha512Hasher = forge.md.sha512.create();
       sha512Hasher.update(userInput);
       setSHA512(sha512Hasher.digest().toHex());
-   }, [userInput]);
+   }, [userInput, file]);
 
    return (
       <div>
@@ -39,14 +56,19 @@ const Checksum = () => {
                onChange={(e) => {
                   setUserInput(e.target.value);
                }}
-            ></Form.Input>
-            {/* {console.log(userInput)} */}
+            />
+
+            <Form.Input type='file' onChange={uploadHandler} />
+
+            {/* {console.log(file)} */}
 
             <Form.TextArea
+               id='md5hashed'
                type='text'
                value={md5Hash}
                label='MD5'
             ></Form.TextArea>
+
             <Form.TextArea
                type='text'
                value={sha1Hash}
