@@ -19,7 +19,6 @@ const Checksum = () => {
 
       let reader = new FileReader();
       reader.onload = function () {
-         console.log(reader.result);
          setUserInput(reader.result);
       };
 
@@ -59,8 +58,6 @@ const Checksum = () => {
             />
 
             <Form.Input type='file' onChange={uploadHandler} />
-
-            {/* {console.log(file)} */}
 
             <Form.TextArea
                id='md5hashed'
