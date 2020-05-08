@@ -5,6 +5,7 @@ import Rot13 from '../Rot13';
 import MyKeysList from '../MyKeysList';
 import AesEncryption from '../AesEncryption';
 import AesDecryption from '../AesDecryption';
+import UUIDGenerator from '../UUIDGenerator';
 
 const ApplicationPage = () => {
    const appSubpages = [
@@ -47,7 +48,11 @@ const ApplicationPage = () => {
       },
       {
          menuItem: 'UUID',
-         render: () => <Tab.Pane>UUID</Tab.Pane>,
+         render: () => (
+            <Tab.Pane>
+               <UUIDGenerator />
+            </Tab.Pane>
+         ),
       },
       {
          menuItem: 'Checksum',
