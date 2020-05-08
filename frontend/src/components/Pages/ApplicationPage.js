@@ -6,12 +6,17 @@ import MyKeysList from '../MyKeysList';
 import AesEncryption from '../AesEncryption';
 import AesDecryption from '../AesDecryption';
 import UUIDGenerator from '../UUIDGenerator';
+import RsaSubpage from './RsaSubpage';
 
 const ApplicationPage = () => {
    const appSubpages = [
       {
-         menuItem: 'RSA',
-         render: () => <Tab.Pane>RSA Page</Tab.Pane>,
+         menuItem: 'Asymmetric Encryption (RSA)',
+         render: () => (
+            <Tab.Pane>
+               <RsaSubpage />
+            </Tab.Pane>
+         ),
       },
       {
          menuItem: 'AES',
