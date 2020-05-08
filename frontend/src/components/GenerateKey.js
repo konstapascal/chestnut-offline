@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Segment, Header } from 'semantic-ui-react';
 import axios from 'axios';
 import { useForm } from '../hooks/form-hook';
 import { VALIDATOR_REQUIRE } from '../util/validators';
@@ -101,11 +101,13 @@ const GenerateKey = () => {
 	};
 
 	return (
-		<Segment style={{ textAlign: 'center', maxWidth: 400, minWidth: 400 }}>
-			<h3 style={{ textAlign: 'center' }}>Generate keypair</h3>
-			<hr />
+		<Segment style={{ maxWidth: 400, minWidth: 400, padding: '1.5rem' }}>
+			<Header as='h2' dividing content='Generate a keypair' />
 			<Form onSubmit={submitGenerateKey}>
 				<Form.Field>
+					<p style={{ paddingBottom: '1rem' }}>
+						Create a new key with desired length to add to your list.
+					</p>
 					<Input
 						iconPosition='left'
 						element='input'
@@ -130,7 +132,6 @@ const GenerateKey = () => {
 					onBlur={(e) => setKeyLength(e.target.value)}
 					options={lengthOptions}
 				></Form.Select>
-
 				<Button type='submit' positive disabled={!formState.isValid}>
 					Generate
 				</Button>
