@@ -8,6 +8,7 @@ import AesDecryption from '../AesDecryption';
 import UUIDGenerator from '../UUIDGenerator';
 import RsaSubpage from './RsaSubpage';
 import Base64Decode from '../Base64Decode';
+import Checksum from '../Checksum';
 
 const ApplicationPage = () => {
    const appSubpages = [
@@ -69,7 +70,11 @@ const ApplicationPage = () => {
       },
       {
          menuItem: 'Checksum',
-         render: () => <Tab.Pane>Checksum</Tab.Pane>,
+         render: () => (
+            <Tab.Pane>
+               <Checksum />
+            </Tab.Pane>
+         ),
       },
    ];
    return (
