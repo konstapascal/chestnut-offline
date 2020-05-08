@@ -3,13 +3,13 @@ import { Form } from 'semantic-ui-react';
 
 var forge = require('node-forge');
 
-const Base64 = () => {
+const Base64Decode = () => {
    const [userInput, setUserInput] = useState('');
-   const [base64Encoded, setBase64Encoded] = useState('');
+   const [base64Decoded, setBase64Decoded] = useState('');
 
    useEffect(() => {
-      const newBase64Encoded = forge.util.encode64(userInput);
-      setBase64Encoded(newBase64Encoded);
+      const newBase64Decoded = forge.util.decode64(userInput);
+      setBase64Decoded(newBase64Decoded);
    }, [userInput]);
 
    return (
@@ -28,7 +28,7 @@ const Base64 = () => {
             <Form.TextArea
                readOnly
                placeholder='Encoded text appears here...'
-               value={base64Encoded}
+               value={base64Decoded}
                style={{ minHeight: 100 }}
             />
          </Form>
@@ -36,4 +36,4 @@ const Base64 = () => {
    );
 };
 
-export default Base64;
+export default Base64Decode;

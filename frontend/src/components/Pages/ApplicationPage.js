@@ -7,6 +7,7 @@ import AesEncryption from '../AesEncryption';
 import AesDecryption from '../AesDecryption';
 import UUIDGenerator from '../UUIDGenerator';
 import RsaSubpage from './RsaSubpage';
+import Base64Decode from '../Base64Decode';
 
 const ApplicationPage = () => {
    const appSubpages = [
@@ -42,7 +43,14 @@ const ApplicationPage = () => {
             </Tab.Pane>
          ),
       },
-
+      {
+         menuItem: 'Base64Decode',
+         render: () => (
+            <Tab.Pane>
+               <Base64Decode />
+            </Tab.Pane>
+         ),
+      },
       {
          menuItem: 'ROT13',
          render: () => (
