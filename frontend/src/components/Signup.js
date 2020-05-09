@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import axios from 'axios';
 import { useForm } from '../hooks/form-hook';
 import {
@@ -10,7 +10,7 @@ import Input from './FormElements/Input';
 
 import { Form, Button, Message, Segment, Icon } from 'semantic-ui-react';
 
-const Signup = (props) => {
+const Signup = ({ componentSwap }) => {
 	const [errorMessage, setError] = useState('');
 	const [statusMessage, setStatus] = useState('');
 
@@ -32,9 +32,9 @@ const Signup = (props) => {
 		false
 	);
 
-	const authSubmitHandler = async (event) => {
+	const authSubmitHandler = (event) => {
 		event.preventDefault();
-		await axios
+		axios
 			.post('http://localhost:8080/api/signup', {
 				username: formState.inputs.username.value,
 				email: formState.inputs.email.value,
@@ -50,13 +50,16 @@ const Signup = (props) => {
 			});
 	};
 
-	const toggleComponent = () => {
-		props.componentSwap();
-	};
-
 	return (
-		<div>
-			<Segment style={{ textAlign: 'center', maxWidth: 400, minWidth: 400 }}>
+		<div
+			style={{
+				textAlign: 'center',
+				maxWidth: '400px',
+				minWidth: '400px',
+				margin: 'auto',
+			}}
+		>
+			<Segment>
 				<h3 style={{ textAlign: 'center' }}>Create an account</h3>
 				<hr />
 				<Form onSubmit={authSubmitHandler}>
@@ -114,7 +117,7 @@ const Signup = (props) => {
 					)}
 					<Message>
 						Already have an account?{' '}
-						<a href='#' onClick={toggleComponent}>
+						<a href='#' onClick={componentSwap}>
 							Login
 						</a>
 					</Message>

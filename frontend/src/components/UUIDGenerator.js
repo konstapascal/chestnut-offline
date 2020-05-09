@@ -12,8 +12,8 @@ const UuidGenerator = () => {
 
 		const uuids = [];
 
-		if (number <= 0 || number > 100) {
-			setErrorMessage('Choose an amount between 1 and 100.');
+		if (number <= 0 || number > 50) {
+			setErrorMessage('Choose an amount between 1 and 50.');
 			setGeneratedUuids([]);
 			return;
 		} else {
@@ -35,7 +35,7 @@ const UuidGenerator = () => {
 				<Form.Input
 					type='number'
 					fluid
-					placeholder='Max 100'
+					placeholder='Max 50'
 					label='UUID amount:'
 					focus
 					onChange={(e) => {

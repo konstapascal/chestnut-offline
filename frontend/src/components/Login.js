@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import axios from 'axios';
 
 import { AuthContext } from '../context/auth-context';
@@ -8,7 +8,7 @@ import Input from '../components/FormElements/Input';
 
 import { Form, Button, Segment, Message, Icon } from 'semantic-ui-react';
 
-const Login = (props) => {
+const Login = ({ componentSwap }) => {
 	const auth = useContext(AuthContext);
 
 	const [errorMessage, setError] = useState('');
@@ -42,13 +42,16 @@ const Login = (props) => {
 			});
 	};
 
-	const toggleComponent = () => {
-		props.componentSwap();
-	};
-
 	return (
-		<div>
-			<Segment style={{ textAlign: 'center', maxWidth: 400, minWidth: 400 }}>
+		<div
+			style={{
+				textAlign: 'center',
+				maxWidth: '400px',
+				minWidth: '400px',
+				margin: 'auto',
+			}}
+		>
+			<Segment>
 				<h3 style={{ textAlign: 'center' }}>Log in to your account</h3>
 				<hr />
 				<Form onSubmit={authSubmitHandler}>
@@ -86,7 +89,7 @@ const Login = (props) => {
 					)}
 					<Message>
 						Don't have an account?{' '}
-						<a href='#' onClick={toggleComponent}>
+						<a href='#' onClick={componentSwap}>
 							Signup
 						</a>
 					</Message>
