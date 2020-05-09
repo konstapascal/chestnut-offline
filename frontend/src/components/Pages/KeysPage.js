@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Form, Grid, Header, Container, Segment } from 'semantic-ui-react';
+import { Form, Grid, Header, Segment } from 'semantic-ui-react';
 
 import MyKeysList from '../MyKeysList';
 import GenerateKey from '../GenerateKey';
@@ -17,7 +17,7 @@ const KeysPage = () => {
 					<MyKeysList />
 				</Grid.Column>
 				<Grid.Column
-					width={8}
+					width={6}
 					style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
 				>
 					<Segment style={{ padding: '1.5rem' }}>
@@ -32,7 +32,7 @@ const KeysPage = () => {
 								value={selectedKey.PublicKey}
 								label='Public Key:'
 								placeholder='Public Key'
-								style={{ minHeight: 200 }}
+								style={{ minHeight: 150 }}
 							/>
 							<Form.TextArea
 								spellCheck={false}
@@ -40,7 +40,7 @@ const KeysPage = () => {
 								value={selectedKey.PrivateKey}
 								label='Private Key:'
 								placeholder='Private Key'
-								style={{ minHeight: 200 }}
+								style={{ minHeight: 150 }}
 							/>
 						</Form>
 					</Segment>
