@@ -63,7 +63,7 @@ const RsaEncryption = () => {
 				selected keypairs public key.
 			</p>
 
-			<Form onSubmit={encryptText}>
+			<Form>
 				<Form.TextArea
 					placeholder='Write or paste your text here...'
 					style={{ minHeight: 100 }}
@@ -75,7 +75,7 @@ const RsaEncryption = () => {
 					style={{ minHeight: 100 }}
 					value={rsaEncrypted}
 				/>
-				<Form.Button color='green' type='submit'>
+				<Form.Button color='green' onClick={encryptText}>
 					Encrypt
 				</Form.Button>
 				{error && (

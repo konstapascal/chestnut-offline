@@ -7,12 +7,11 @@ import {
 	Input,
 	Message,
 	Icon,
-	Loader,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import { AuthContext } from '../context/auth-context';
 
-var forge = require('node-forge');
+const forge = require('node-forge');
 const pki = forge.pki;
 
 const typeOptions = [
