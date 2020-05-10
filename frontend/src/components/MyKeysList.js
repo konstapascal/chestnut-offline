@@ -16,7 +16,7 @@ import moment from 'moment';
 import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
 
-const MyKeysList = () => {
+const MyKeysList = ({ refreshKeys }) => {
 	const auth = useContext(AuthContext);
 	const { selectedKey, setSelectedKey } = useContext(SelectedKeyContext);
 
@@ -61,7 +61,7 @@ const MyKeysList = () => {
 
 	useEffect(() => {
 		fetchMyKeys();
-	}, []);
+	}, [refreshKeys]);
 
 	// Get saved public keys from localstorage
 	useEffect(() => {

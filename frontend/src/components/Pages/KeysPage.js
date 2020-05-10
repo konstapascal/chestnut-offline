@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Grid, Header, Segment } from 'semantic-ui-react';
 
 import MyKeysList from '../MyKeysList';
@@ -8,13 +8,16 @@ import { SelectedKeyContext } from '../../context/selected-key-context';
 
 const KeysPage = () => {
 	const { selectedKey } = useContext(SelectedKeyContext);
+	const [refreshKeys, setRefreshKeys] = useState(false);
+
+	const handleRefresh = () => setRefreshKeys(!refreshKeys);
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
 			<h1>Keys Page</h1>
 			<Grid stackable columns={3}>
 				<Grid.Column width={3} style={{ minWidth: '400px' }}>
-					<MyKeysList />
+					<MyKeysList refreshKeys={refreshKeys} />
 				</Grid.Column>
 				<Grid.Column
 					width={6}
@@ -46,7 +49,7 @@ const KeysPage = () => {
 					</Segment>
 				</Grid.Column>
 				<Grid.Column width={3}>
-					<GenerateKey />
+					<GenerateKey handleRefresh={handleRefresh} />
 				</Grid.Column>
 			</Grid>
 		</div>

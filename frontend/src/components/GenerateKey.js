@@ -40,7 +40,7 @@ const lengthOptions = [
 	},
 ];
 
-const GenerateKey = () => {
+const GenerateKey = ({ handleRefresh }) => {
 	const auth = useContext(AuthContext);
 
 	const [keyName, setKeyName] = useState('');
@@ -84,6 +84,7 @@ const GenerateKey = () => {
 			)
 			.then((res) => {
 				setStatusMessage(`Keypair ${keyName} was generated successfully!`);
+				handleRefresh();
 			})
 			.catch((err) => {
 				console.log(err);
