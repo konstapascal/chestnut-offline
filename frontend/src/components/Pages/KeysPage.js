@@ -14,7 +14,6 @@ const KeysPage = () => {
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
-			<h1>Keys Page</h1>
 			<Grid stackable columns={3}>
 				<Grid.Column width={3} style={{ minWidth: '400px' }}>
 					<MyKeysList refreshKeys={refreshKeys} />
@@ -25,7 +24,9 @@ const KeysPage = () => {
 				>
 					<Segment style={{ padding: '1.5rem' }}>
 						<Form>
-							<Header as='h2' dividing content='Select a keypair' />
+							<Header as='h2' dividing>
+								{selectedKey.Name ? selectedKey.Name : 'Select keypair'}
+							</Header>
 							<p style={{ paddingBottom: '1rem' }}>
 								Select a keypair from the list on the left to view its keys.
 							</p>

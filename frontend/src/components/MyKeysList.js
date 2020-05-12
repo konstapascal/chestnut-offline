@@ -145,7 +145,7 @@ const MyKeysList = ({ refreshKeys }) => {
 							<List.Item
 								key={item.KeypairID}
 								style={
-									activeKey === item.KeypairID
+									selectedKey.ID === item.KeypairID
 										? {
 												background: '#c4edcd',
 												padding: '.5rem',
@@ -179,10 +179,10 @@ const MyKeysList = ({ refreshKeys }) => {
 									<Modal
 										trigger={
 											<List.Icon
-												name='delete'
+												name='remove'
+												color='red'
 												floated='right'
 												size='large'
-												color='red'
 												verticalAlign='middle'
 												negative
 												onClick={() => handleDeleteModalOpen(item.KeypairID)}
@@ -257,10 +257,10 @@ const MyKeysList = ({ refreshKeys }) => {
 								</List.Content>
 								{location.pathname === '/keys' && (
 									<List.Icon
-										name='delete'
+										name='remove'
+										color='red'
 										floated='right'
 										size='large'
-										color='red'
 										verticalAlign='middle'
 										negative
 										onClick={() => removePublicKey(key.ID, key.keyName)}

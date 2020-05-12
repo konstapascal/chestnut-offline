@@ -22,8 +22,8 @@ const Navbar = () => {
 					as={NavLink}
 					exact
 					to='/'
-					name='Application Page'
-					active={activeItem === 'Application Page'}
+					name='Home'
+					active={activeItem === 'Home'}
 					onClick={handleItemClick}
 				></Menu.Item>
 			)}
@@ -32,8 +32,8 @@ const Navbar = () => {
 					as={NavLink}
 					exact
 					to='/keys'
-					name='My Keys'
-					active={activeItem === 'My Keys'}
+					name='Keys'
+					active={activeItem === 'Keys'}
 					onClick={handleItemClick}
 				></Menu.Item>
 			)}

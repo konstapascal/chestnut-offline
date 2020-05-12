@@ -35,7 +35,6 @@ const ApplicationPage = () => {
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
-			<h1>Application Page</h1>
 			<Grid stackable columns={2}>
 				<Grid.Column width={3} style={{ minWidth: '400px' }}>
 					<MyKeysList />

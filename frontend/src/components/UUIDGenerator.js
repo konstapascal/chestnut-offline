@@ -36,7 +36,7 @@ const UuidGenerator = () => {
 					type='number'
 					fluid
 					placeholder='Max 50'
-					label='UUID amount:'
+					label='How many UUID do you want to generate?'
 					focus
 					onChange={(e) => {
 						setNumber(e.target.value);
