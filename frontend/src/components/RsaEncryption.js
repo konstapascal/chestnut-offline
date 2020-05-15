@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Form, Message, Icon } from 'semantic-ui-react';
+import { Form, Message, Icon, Label } from 'semantic-ui-react';
 import axios from 'axios';
 
 import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
+import { InfoTooltip } from './Tooltips';
 
 const RsaEncryption = () => {
 	const auth = useContext(AuthContext);
@@ -55,6 +56,35 @@ const RsaEncryption = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<InfoTooltip
+				content={
+					<div
+						style={{
+							textAlign: 'center',
+							padding: '.5rem',
+						}}
+					>
+						<p>
+							This process converts the original representation of the
+							information, known as plaintext, into an alternative form known as{' '}
+							<b>ciphertext</b>.
+						</p>
+					</div>
+				}
+			>
+				<span>
+					<Label
+						basic
+						color='green'
+						size='large'
+						as='a'
+						style={{ marginBottom: '1.5rem' }}
+					>
+						What is encryption?
+					</Label>
+				</span>
+			</InfoTooltip>
+
 			<p>
 				Selected key: <b>{selectedKey.Name ? selectedKey.Name : 'None'}</b>
 			</p>

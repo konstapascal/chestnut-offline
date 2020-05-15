@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 
 import logo from '../images/chestnut.png';
@@ -14,7 +14,13 @@ const Navbar = () => {
 
 	return (
 		<Menu color='green' stackable inverted attached='top'>
-			<Menu.Item as={Link} exact to='/' onClick={handleItemClick}>
+			<Menu.Item
+				as={Link}
+				exact
+				to='/'
+				onClick={handleItemClick}
+				style={{ textAlign: 'center' }}
+			>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
 			{auth.isLoggedIn && (
@@ -25,7 +31,11 @@ const Navbar = () => {
 					name='Home'
 					active={activeItem === 'Home'}
 					onClick={handleItemClick}
-				></Menu.Item>
+					style={{ textAlign: 'center' }}
+				>
+					<Icon name='home' style={{ marginRight: '.5rem' }} />
+					Home
+				</Menu.Item>
 			)}
 			{auth.isLoggedIn && (
 				<Menu.Item
@@ -35,7 +45,10 @@ const Navbar = () => {
 					name='Keys'
 					active={activeItem === 'Keys'}
 					onClick={handleItemClick}
-				></Menu.Item>
+				>
+					<Icon name='key' style={{ marginRight: '.5rem' }} />
+					Manage Keys
+				</Menu.Item>
 			)}
 			{auth.isLoggedIn && (
 				<Menu.Item
@@ -45,38 +58,54 @@ const Navbar = () => {
 					name='Search Users'
 					active={activeItem === 'Search Users'}
 					onClick={handleItemClick}
-				></Menu.Item>
-			)}
-			{auth.isLoggedIn && (
-				<Menu.Item
-					as={NavLink}
-					exact
-					to='/settings'
-					name='Account Settings'
-					active={activeItem === 'Account Settings'}
-					onClick={handleItemClick}
-				></Menu.Item>
-			)}
-			{auth.isLoggedIn && auth.isAdmin && (
-				<Menu.Item
-					as={NavLink}
-					exact
-					to='/admin'
-					name='Admin Page'
-					active={activeItem === 'Admin Page'}
-					onClick={handleItemClick}
-				></Menu.Item>
-			)}
-			{auth.isLoggedIn && (
-				<Menu.Item position='right'>
-					<p>
-						Logged in as <b>{auth.username}</b>
-					</p>
+				>
+					<Icon name='users' style={{ marginRight: '.5rem' }} />
+					Search Users
 				</Menu.Item>
 			)}
-			{auth.isLoggedIn && (
-				<Menu.Item name='Logout' onClick={auth.logout}></Menu.Item>
-			)}
+			<Menu.Menu position='right'>
+				{auth.isLoggedIn && auth.isAdmin && (
+					<Menu.Item
+						as={NavLink}
+						exact
+						to='/admin'
+						name='Admin Page'
+						active={activeItem === 'Admin Page'}
+						onClick={handleItemClick}
+					>
+						<Icon name='settings' style={{ marginRight: '.5rem' }} />
+						Admin Page
+					</Menu.Item>
+				)}
+				{auth.isLoggedIn && (
+					<Menu.Item
+						as={NavLink}
+						exact
+						to='/settings'
+						name='Account Settings'
+						active={activeItem === 'Account Settings'}
+						onClick={handleItemClick}
+						style={{ alignContent: 'center' }}
+					>
+						<Icon name='setting' style={{ marginRight: '.5rem' }} />
+						Account Settings
+					</Menu.Item>
+				)}
+				{auth.isLoggedIn && (
+					<Menu.Item>
+						<Icon name='user' style={{ marginRight: '.5rem' }} />
+						<p>
+							Logged in as <b>{auth.username}</b>
+						</p>
+					</Menu.Item>
+				)}
+				{auth.isLoggedIn && (
+					<Menu.Item name='Logout' onClick={auth.logout}>
+						<Icon name='logout' style={{ marginRight: '.5rem' }} />
+						Logout
+					</Menu.Item>
+				)}
+			</Menu.Menu>
 		</Menu>
 	);
 };

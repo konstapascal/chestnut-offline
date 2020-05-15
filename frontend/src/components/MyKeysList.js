@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
 import {
+	Menu,
 	List,
 	Tab,
 	Icon,
@@ -12,6 +13,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { BasicTooltip } from './Tooltips';
 
 import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
@@ -125,12 +127,12 @@ const MyKeysList = ({ refreshKeys }) => {
 
 	const listPanes = [
 		{
-			menuItem: 'My Keypairs',
+			menuItem: <Menu.Item>My Keypairs</Menu.Item>,
 			render: () => (
 				<Tab.Pane>
 					<List divided relaxed>
 						{loadedKeys.length === 0 && (
-							<Message>
+							<Message style={{ textAlign: 'center' }}>
 								<Icon name='key' size='large' verticalAlign='middle' />
 								No keypairs.
 								{location.pathname === '/' && (
@@ -179,10 +181,9 @@ const MyKeysList = ({ refreshKeys }) => {
 									<Modal
 										trigger={
 											<List.Icon
-												name='remove'
-												color='red'
-												floated='right'
+												name='trash alternate outline'
 												size='large'
+												floated='right'
 												verticalAlign='middle'
 												negative
 												onClick={() => handleDeleteModalOpen(item.KeypairID)}
@@ -215,17 +216,45 @@ const MyKeysList = ({ refreshKeys }) => {
 								)}
 							</List.Item>
 						))}
+						{loadedKeys.length !== 0 && location.pathname === '/' && (
+							<Message style={{ textAlign: 'center' }}>
+								Click <Link to='/keys'>here</Link> create more keys.
+							</Message>
+						)}
 					</List>
 				</Tab.Pane>
 			),
 		},
 		{
-			menuItem: 'Public Keys',
+			menuItem: (
+				<Menu.Item>
+					<span>Imported Keys</span>
+					<BasicTooltip
+						content={
+							<div
+								style={{
+									textAlign: 'center',
+									padding: '.25rem',
+								}}
+							>
+								<p>
+									Imported keys are stored in <b>localStorage</b> and will not
+									persist across devices.
+								</p>
+							</div>
+						}
+					>
+						<i style={{ marginLeft: '.25rem' }}>
+							<Icon name='warning' color='green' />
+						</i>
+					</BasicTooltip>
+				</Menu.Item>
+			),
 			render: () => (
 				<Tab.Pane>
 					<List divided relaxed>
 						{loadedPublicKeys.length === 0 && (
-							<Message>
+							<Message style={{ textAlign: 'center' }}>
 								<Icon name='key' size='large' verticalAlign='middle' />
 								Click <Link to='/users'>here</Link> to add public keys.
 							</Message>
@@ -234,7 +263,7 @@ const MyKeysList = ({ refreshKeys }) => {
 							<List.Item
 								key={key.ID}
 								style={
-									activeKey === key.ID
+									selectedKey.ID === key.ID
 										? {
 												background: '#c4edcd',
 												padding: '.5rem',
@@ -257,8 +286,8 @@ const MyKeysList = ({ refreshKeys }) => {
 								</List.Content>
 								{location.pathname === '/keys' && (
 									<List.Icon
-										name='remove'
-										color='red'
+										name='trash alternate outline'
+										size='large'
 										floated='right'
 										size='large'
 										verticalAlign='middle'
@@ -268,13 +297,25 @@ const MyKeysList = ({ refreshKeys }) => {
 								)}
 							</List.Item>
 						))}
+						{loadedPublicKeys.length !== 0 && (
+							<Message style={{ textAlign: 'center' }}>
+								Click <Link to='/users'>here</Link> to add more public keys.
+							</Message>
+						)}
 					</List>
 				</Tab.Pane>
 			),
 		},
 	];
 
-	return <Tab panes={listPanes} />;
+	return (
+		<Tab
+			panes={listPanes}
+			defaultActiveIndex={
+				selectedKey.PublicKey && !selectedKey.PrivateKey ? 1 : 0
+			}
+		/>
+	);
 };
 
 export default MyKeysList;
