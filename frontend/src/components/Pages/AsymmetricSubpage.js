@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, useState } from 'react';
 import { Tab, Message, Label, Icon } from 'semantic-ui-react';
 import RsaEncryption from '../RsaEncryption';
 import RsaDecryption from '../RsaDecryption';
@@ -9,6 +9,8 @@ import AsymmetricTooltip from '../Tooltips/AsymmetricTooltip';
 import { SelectedKeyContext } from '../../context/selected-key-context';
 
 const AsymmetricSubpage = () => {
+	const [mdData, setMdData] = useState();
+
 	const { selectedKey } = useContext(SelectedKeyContext);
 
 	const AsymmetricOptions = [
@@ -82,7 +84,7 @@ const AsymmetricSubpage = () => {
 							</p>
 						</Message>
 					) : (
-						<RsaSigning />
+						<RsaSigning setMdData={setMdData} />
 					)}
 				</Tab.Pane>
 			),
@@ -107,7 +109,7 @@ const AsymmetricSubpage = () => {
 							</p>
 						</Message>
 					) : (
-						<RsaVerifying />
+						<RsaVerifying mdData={mdData} />
 					)}
 				</Tab.Pane>
 			),

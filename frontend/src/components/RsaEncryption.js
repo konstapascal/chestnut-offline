@@ -50,7 +50,9 @@ const RsaEncryption = () => {
 				);
 			})
 			.catch(() => {
-				setError('Something went wrong!');
+				setError(
+					`Something went wrong encrypting your string using ${selectedKey.Name}.`
+				);
 			});
 	};
 

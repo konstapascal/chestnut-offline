@@ -50,7 +50,7 @@ const RsaDecryption = () => {
 				);
 			})
 			.catch(() => {
-				setError('Something went wrong!');
+				setError(`Could not decrypt your data using ${selectedKey.Name}.`);
 			});
 	};
 

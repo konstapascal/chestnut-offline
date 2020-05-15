@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Form, Message, Icon, Label } from 'semantic-ui-react';
+import { Form, Message, Icon } from 'semantic-ui-react';
 import SigningTooltip from './Tooltips/SigningTooltip';
 
 import { SelectedKeyContext } from '../context/selected-key-context';
 
-var forge = require('node-forge');
+const forge = require('node-forge');
 
-const RsaSigning = () => {
+const RsaSigning = ({ setMdData }) => {
 	const { selectedKey } = useContext(SelectedKeyContext);
 
 	const [userInput, setUserInput] = useState('');
@@ -20,8 +20,7 @@ const RsaSigning = () => {
 		setSignature('');
 
 		if (userInput === '') {
-			setError('Your field cannot be empty!');
-			return;
+			return setError('Your field cannot be empty!');
 		}
 
 		const pemPrivKey = selectedKey.PrivateKey;
@@ -29,12 +28,18 @@ const RsaSigning = () => {
 
 		const md = forge.md.sha256.create();
 		md.update(userInput);
+		const mdData = md.digest().bytes();
+
+		// Storing md in the parent component
+		setMdData(forge.util.encode64(mdData));
 
 		const signature = privKey.sign(md);
 		const encodedSignature = forge.util.encode64(signature);
 
 		setSignature(encodedSignature);
-		setSuccess('Your text has been signed successfully!');
+		setSuccess(
+			`Your text has been signed successfully using ${selectedKey.Name}.`
+		);
 	};
 
 	return (
