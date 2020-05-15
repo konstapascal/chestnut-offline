@@ -13,7 +13,13 @@ const Navbar = () => {
 	const handleItemClick = (name) => setActiveItem(name);
 
 	return (
-		<Menu color='green' stackable inverted attached='top' size='large'>
+		<Menu
+			color='green'
+			stackable
+			inverted
+			attached='top'
+			style={{ fontSize: '1.05rem' }}
+		>
 			<Menu.Item as={Link} to='/' style={{ textAlign: 'center' }}>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
