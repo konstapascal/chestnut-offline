@@ -77,11 +77,18 @@ const AdminPage = () => {
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
-			<h1>Admin page</h1>
+			<h1>Administrator settings</h1>
+			<p>
+				Overview of all registered users and possibility to manually delete
+				select users.
+			</p>
 			<Grid stackable columns={1}>
-				<Grid.Column width={6} style={{ minWidth: '400px' }}>
-					<h3>Search user:</h3>
-					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
+				<Grid.Column style={{ width: '40vw', minWidth: '400px' }}>
+					<Input
+						placeholder='Filter users'
+						icon='search'
+						onChange={(e) => setSearch(e.target.value)}
+					/>
 					<Grid.Row style={{ marginTop: '1.5rem' }}>
 						<List
 							divided

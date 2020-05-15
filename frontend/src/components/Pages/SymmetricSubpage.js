@@ -1,8 +1,9 @@
 import React from 'react';
-import { Tab } from 'semantic-ui-react';
+import { Tab, Label } from 'semantic-ui-react';
 import AesEncryption from '../AesEncryption';
 import AesDecryption from '../AesDecryption';
 import Rot13 from '../Rot13';
+import SymmetricTooltip from '../Tooltips/SymmetricTooltip';
 
 const SymmetricSubpage = () => {
 	const SymmetricOptions = [
@@ -32,7 +33,12 @@ const SymmetricSubpage = () => {
 		},
 	];
 
-	return <Tab panes={SymmetricOptions} />;
+	return (
+		<div>
+			<SymmetricTooltip />
+			<Tab panes={SymmetricOptions} />
+		</div>
+	);
 };
 
 export default SymmetricSubpage;

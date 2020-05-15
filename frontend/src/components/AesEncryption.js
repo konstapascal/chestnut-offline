@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
+import EncryptionTooltip from './Tooltips/EncryptionTooltip';
 
 var forge = require('node-forge');
 
@@ -40,6 +41,7 @@ const AesEncryption = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<EncryptionTooltip />
 			<p>
 				Write plain text in the first area and it will be encrypted using the
 				AES algorithm and your chosen password.

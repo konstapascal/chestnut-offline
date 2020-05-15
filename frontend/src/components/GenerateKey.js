@@ -60,6 +60,10 @@ const GenerateKey = ({ handleRefresh }) => {
 		setErrorMessage('');
 		setStatusMessage('');
 
+		// Restoring defaults
+		setKeyName('');
+		setKeyLength(lengthOptions[1].value);
+
 		// Check if key name is empty
 		if (keyName === '') {
 			return setErrorMessage('Name cannot be empty!');
@@ -104,6 +108,7 @@ const GenerateKey = ({ handleRefresh }) => {
 						type='text'
 						placeholder='Key name'
 						onChange={(e) => setKeyName(e.target.value)}
+						value={keyName}
 					/>
 				</Form.Field>
 				<Form.Select

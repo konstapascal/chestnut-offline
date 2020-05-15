@@ -19,8 +19,12 @@ const KeysPage = () => {
 					<MyKeysList refreshKeys={refreshKeys} />
 				</Grid.Column>
 				<Grid.Column
-					width={6}
-					style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
+					width={7}
+					style={{
+						paddingLeft: '1.5rem',
+						paddingRight: '1.5rem',
+						minWidth: '550px',
+					}}
 				>
 					<Segment style={{ padding: '1.5rem' }}>
 						<Form>

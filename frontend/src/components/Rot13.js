@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
+import RotTooltip from './Tooltips/RotTooltip';
 
 const Rot13 = () => {
 	const [userInput, setUserInput] = useState('');
@@ -19,6 +20,7 @@ const Rot13 = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<RotTooltip />
 			<p>Simple conversion of plain text to ROT13 text.</p>
 			<Form>
 				<Form.TextArea

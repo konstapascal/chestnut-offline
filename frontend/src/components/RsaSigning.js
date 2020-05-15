@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { Form, Message, Icon } from 'semantic-ui-react';
+import { Form, Message, Icon, Label } from 'semantic-ui-react';
+import SigningTooltip from './Tooltips/SigningTooltip';
 
 import { SelectedKeyContext } from '../context/selected-key-context';
 
@@ -38,6 +39,7 @@ const RsaSigning = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<SigningTooltip />
 			<p>
 				Selected key: <b>{selectedKey.Name ? selectedKey.Name : 'None'}</b>
 			</p>

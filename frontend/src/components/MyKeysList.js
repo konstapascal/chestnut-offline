@@ -13,7 +13,8 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { BasicTooltip } from './Tooltips';
+import KeysWarningTooltip from './Tooltips/KeysWarningTooltip';
+import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
@@ -47,7 +48,8 @@ const MyKeysList = ({ refreshKeys }) => {
 	};
 
 	const getUrl = 'http://localhost:8080/api/keys/users/me';
-	let location = useLocation();
+	const location = useLocation();
+	const history = useHistory();
 
 	// GET all my keys request
 	const fetchMyKeys = () => {
@@ -125,6 +127,11 @@ const MyKeysList = ({ refreshKeys }) => {
 		);
 	};
 
+	const toKeysPage = () => {
+		setSelectedKey('');
+		history.push('/keys');
+	};
+
 	const listPanes = [
 		{
 			menuItem: <Menu.Item>My Keypairs</Menu.Item>,
@@ -138,7 +145,8 @@ const MyKeysList = ({ refreshKeys }) => {
 								{location.pathname === '/' && (
 									<span>
 										{' '}
-										Click <Link to='/keys'>here</Link> to make one.
+										Click <Link onClick={() => toKeysPage()}>here</Link> to make
+										one.
 									</span>
 								)}
 							</Message>
@@ -218,7 +226,8 @@ const MyKeysList = ({ refreshKeys }) => {
 						))}
 						{loadedKeys.length !== 0 && location.pathname === '/' && (
 							<Message style={{ textAlign: 'center' }}>
-								Click <Link to='/keys'>here</Link> create more keys.
+								Click <Link onClick={() => toKeysPage()}>here</Link> create more
+								keys.
 							</Message>
 						)}
 					</List>
@@ -229,25 +238,7 @@ const MyKeysList = ({ refreshKeys }) => {
 			menuItem: (
 				<Menu.Item>
 					<span>Imported Keys</span>
-					<BasicTooltip
-						content={
-							<div
-								style={{
-									textAlign: 'center',
-									padding: '.25rem',
-								}}
-							>
-								<p>
-									Imported keys are stored in <b>localStorage</b> and will not
-									persist across devices.
-								</p>
-							</div>
-						}
-					>
-						<i style={{ marginLeft: '.25rem' }}>
-							<Icon name='warning' color='green' />
-						</i>
-					</BasicTooltip>
+					<KeysWarningTooltip />
 				</Menu.Item>
 			),
 			render: () => (

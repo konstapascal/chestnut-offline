@@ -39,7 +39,7 @@ const ApplicationPage = () => {
 				<Grid.Column width={3} style={{ minWidth: '400px' }}>
 					<MyKeysList />
 				</Grid.Column>
-				<Grid.Column width={9}>
+				<Grid.Column width={9} style={{ minWidth: '650px' }}>
 					<Tab panes={appSubpages} />
 				</Grid.Column>
 			</Grid>

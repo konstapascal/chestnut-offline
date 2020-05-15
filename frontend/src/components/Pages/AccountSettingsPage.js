@@ -29,7 +29,11 @@ const AccountSettingsPage = () => {
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
-			<h1>Settings page</h1>
+			<h1>Account settings</h1>
+			<p>
+				Delete your account permanently, erasing all personal info and
+				associated data such as your keys from the database.
+			</p>
 			<Modal
 				trigger={
 					<Button negative onClick={handleModalStatus}>

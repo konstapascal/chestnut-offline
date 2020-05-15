@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
+import DecryptionTooltip from './Tooltips/DecryptionTooltip';
 
 var forge = require('node-forge');
 
@@ -49,6 +50,7 @@ const AesDecryption = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<DecryptionTooltip />
 			<p>
 				Paste in your decrypted data, write in the correct password and it will
 				be decrypted using the AES algorithm.

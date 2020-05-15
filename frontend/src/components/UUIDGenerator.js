@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Form, List, Message, Icon } from 'semantic-ui-react';
+import UuidTooltip from './Tooltips/UuidTooltip';
 
 const UuidGenerator = () => {
 	const [generatedUuids, setGeneratedUuids] = useState([]);
@@ -31,6 +32,7 @@ const UuidGenerator = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<UuidTooltip />
 			<Form>
 				<Form.Input
 					type='number'

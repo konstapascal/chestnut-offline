@@ -81,11 +81,18 @@ const UsersPage = () => {
 
 	return (
 		<div style={{ margin: '2.5rem' }}>
-			<h1>List of users and their public keys</h1>
+			<h1>List of users</h1>
+			<p>
+				This is a list of all registered users and their public keys. You may
+				filter users and easily add their public keys to your keys list.
+			</p>
 			<Grid stackable columns={1}>
-				<Grid.Column width={6} style={{ minWidth: '400px' }}>
-					<h3>Search user:</h3>
-					<Input icon='search' onChange={(e) => setSearch(e.target.value)} />
+				<Grid.Column style={{ width: '40vw', minWidth: '400px' }}>
+					<Input
+						placeholder='Filter users'
+						icon='search'
+						onChange={(e) => setSearch(e.target.value)}
+					/>
 					<Grid.Row style={{ marginTop: '1.5rem' }}>
 						<List
 							divided

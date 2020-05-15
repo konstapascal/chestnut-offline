@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
+import ChecksumTooltip from './Tooltips/ChecksumTooltip';
 
 var forge = require('node-forge');
 
@@ -42,6 +43,7 @@ const Checksum = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<ChecksumTooltip />
 			<p>
 				Write or paste in plain text in the first area or choose a .txt file to
 				generate hash values based on its content.

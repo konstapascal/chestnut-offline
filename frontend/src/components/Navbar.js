@@ -14,20 +14,14 @@ const Navbar = () => {
 
 	return (
 		<Menu color='green' stackable inverted attached='top'>
-			<Menu.Item
-				as={Link}
-				exact
-				to='/'
-				onClick={handleItemClick}
-				style={{ textAlign: 'center' }}
-			>
+			<Menu.Item as={Link} to='/' style={{ textAlign: 'center' }}>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
 			{auth.isLoggedIn && (
 				<Menu.Item
 					as={NavLink}
-					exact
 					to='/'
+					exact
 					name='Home'
 					active={activeItem === 'Home'}
 					onClick={handleItemClick}
@@ -40,7 +34,6 @@ const Navbar = () => {
 			{auth.isLoggedIn && (
 				<Menu.Item
 					as={NavLink}
-					exact
 					to='/keys'
 					name='Keys'
 					active={activeItem === 'Keys'}
@@ -53,7 +46,6 @@ const Navbar = () => {
 			{auth.isLoggedIn && (
 				<Menu.Item
 					as={NavLink}
-					exact
 					to='/users'
 					name='Search Users'
 					active={activeItem === 'Search Users'}
@@ -67,7 +59,6 @@ const Navbar = () => {
 				{auth.isLoggedIn && auth.isAdmin && (
 					<Menu.Item
 						as={NavLink}
-						exact
 						to='/admin'
 						name='Admin Page'
 						active={activeItem === 'Admin Page'}
@@ -80,7 +71,6 @@ const Navbar = () => {
 				{auth.isLoggedIn && (
 					<Menu.Item
 						as={NavLink}
-						exact
 						to='/settings'
 						name='Account Settings'
 						active={activeItem === 'Account Settings'}

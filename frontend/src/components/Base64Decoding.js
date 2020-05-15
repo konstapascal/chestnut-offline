@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'semantic-ui-react';
+import Base64Tooltip from './Tooltips/Base64Tooltip';
 
 var forge = require('node-forge');
 
@@ -14,6 +15,7 @@ const Base64Decoding = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
+			<Base64Tooltip />
 			<p>
 				Paste in your Base64 encoded text in the first field and it will be
 				automatically decoded.

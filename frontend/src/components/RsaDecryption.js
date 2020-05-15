@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Form, Message, Icon, Label } from 'semantic-ui-react';
 import axios from 'axios';
-import { InfoTooltip } from './Tooltips';
+import DecryptionTooltip from './Tooltips/DecryptionTooltip';
 
 import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
@@ -56,37 +56,7 @@ const RsaDecryption = () => {
 
 	return (
 		<div style={{ margin: '1.5rem' }}>
-			<InfoTooltip
-				content={
-					<div
-						style={{
-							textAlign: 'center',
-							padding: '.5rem',
-						}}
-					>
-						<p>
-							The conversion of encrypted data into its original form is called
-							decryption.
-						</p>
-						<p>
-							It is generally a reverse process of encryption that requires a
-							secret key of password.
-						</p>
-					</div>
-				}
-			>
-				<span>
-					<Label
-						basic
-						color='green'
-						size='large'
-						as='a'
-						style={{ marginBottom: '1.5rem' }}
-					>
-						What is decryption?
-					</Label>
-				</span>
-			</InfoTooltip>
+			<DecryptionTooltip />
 			<p>
 				Selected key: <b>{selectedKey.Name ? selectedKey.Name : 'None'}</b>
 			</p>
