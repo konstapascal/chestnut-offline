@@ -24,7 +24,7 @@
 
 ### Methodology
 
-- some Kanban principles
+- Kanban principles
 
 ## Project phases
 
@@ -48,7 +48,7 @@
 
 #### Ideas to develop Application
 
-#### Ideas to develop admin gui
+#### Ideas to develop admin GUI
 
 # Security
 
@@ -70,7 +70,7 @@
 
 #### Register
 
-#### application
+#### Application
 
 ### Admin page
 
@@ -94,7 +94,7 @@
 
 ### Security
 
-#### React and nodejs security
+#### React and Node security
 
 ## Publishing
 
