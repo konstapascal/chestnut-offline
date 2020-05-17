@@ -24,8 +24,7 @@
 
 ### Methodology
 
--  some Kanban principles
--
+- some Kanban principles
 
 ## Project phases
 
