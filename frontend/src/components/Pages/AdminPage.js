@@ -76,7 +76,7 @@ const AdminPage = () => {
 	}, [search]);
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
+		<div style={{ margin: '3rem' }}>
 			<h1>Administrator settings</h1>
 			<p>
 				Overview of all registered users and possibility to manually delete

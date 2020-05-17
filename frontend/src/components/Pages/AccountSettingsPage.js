@@ -28,7 +28,7 @@ const AccountSettingsPage = () => {
 	};
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
+		<div style={{ margin: '3rem' }}>
 			<h1>Account settings</h1>
 			<p>
 				Delete your account permanently, erasing all personal info and

@@ -13,7 +13,7 @@ const KeysPage = () => {
 	const handleRefresh = () => setRefreshKeys(!refreshKeys);
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
+		<div style={{ margin: '3rem' }}>
 			<Grid stackable columns={3}>
 				<Grid.Column width={3} style={{ minWidth: '400px' }}>
 					<MyKeysList refreshKeys={refreshKeys} />

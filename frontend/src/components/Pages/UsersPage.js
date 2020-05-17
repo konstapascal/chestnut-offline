@@ -80,7 +80,7 @@ const UsersPage = () => {
 	};
 
 	return (
-		<div style={{ margin: '2.5rem' }}>
+		<div style={{ margin: '3rem' }}>
 			<h1>List of users</h1>
 			<p>
 				This is a list of all registered users and their public keys. You may
