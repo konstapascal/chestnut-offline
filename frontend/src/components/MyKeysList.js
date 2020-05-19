@@ -226,8 +226,8 @@ const MyKeysList = ({ refreshKeys }) => {
 						))}
 						{loadedKeys.length !== 0 && location.pathname === '/' && (
 							<Message style={{ textAlign: 'center' }}>
-								Click <Link onClick={() => toKeysPage()}>here</Link> create more
-								keys.
+								Click <Link onClick={() => toKeysPage()}>here</Link> to create
+								more keys.
 							</Message>
 						)}
 					</List>
