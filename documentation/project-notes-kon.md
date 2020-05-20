@@ -1,7 +1,5 @@
 ## Chestnut API Overview
 
-**NEEDS UPDATING**
-
 ### HTTP requests
 
 #### GET requests
@@ -20,8 +18,8 @@
 | `POST` | **/api/keys/new/users/me** | User         | Generate a new keypair for currently **authenticated** user.                                                     |
 | `POST` | **/api/login**             | User         | Log in endpoint. Check if username exists, check if password is correct. Provide **token** on successful log in. |
 | `POST` | **/api/signup**            | User         | Signup endpoint. Makes sure username and email are unique. Hashes password and adds info to db.                  |
-| `POST` | **/api/encrypt**           | Public       | Endpoint that will **encrypt** provided string.                                                                  |
-| `POST` | **/api/decrypt**           | Public       | Endpoint that will **decrypt** provided cipher.                                                                  |
+| `POST` | **/api/encrypt**           | User         | Endpoint that will **encrypt** provided string.                                                                  |
+| `POST` | **/api/decrypt**           | User         | Endpoint that will **decrypt** provided cipher.                                                                  |
 
 #### DELETE requests
 
@@ -40,8 +38,6 @@
 \* While `GET` **/api/users/:id** is implemented, it is unavailable as we could not find an use for it. We chose to just not make it active rather than delete it altogether.
 
 \* User availability includes **both** users and admins.
-
-\* **Public** means that the endpoint can be used without a token. Everyone can use it.
 
 ## Chestnut API notes
 
