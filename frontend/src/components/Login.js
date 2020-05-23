@@ -78,9 +78,13 @@ const Login = ({ componentSwap }) => {
 							placeholder='Choose a password'
 						/>
 					</Form.Field>
-					<Button type='submit' positive disabled={!formState.isValid}>
-						Log in
-					</Button>
+					<Form.Button
+						type='submit'
+						disabled={!formState.isValid}
+						style={{ backgroundColor: '#14872f' }}
+					>
+						<p style={{ color: '#FFF' }}>Log in</p>
+					</Form.Button>
 					{errorMessage && (
 						<Message error visible>
 							<Icon color='red' name='times' size='large' />

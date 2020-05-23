@@ -128,14 +128,14 @@ const UsersPage = () => {
 														}
 														disabled={isKeyAdded(key.PublicKey)}
 														content={
-															isKeyAdded(key.PublicKey) ? 'Added' : 'Add'
+															isKeyAdded(key.PublicKey) ? (
+																<span style={{ color: '#FFF' }}>Added</span>
+															) : (
+																<span style={{ color: '#FFF' }}>Add</span>
+															)
 														}
-														icon={
-															isKeyAdded(key.PublicKey) ? 'checkmark' : 'add'
-														}
-														color='green'
+														style={{ backgroundColor: '#14872f' }}
 														size='small'
-														compact
 														floated='right'
 													/>
 													<List.Icon

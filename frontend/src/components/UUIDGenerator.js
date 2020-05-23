@@ -44,8 +44,14 @@ const UuidGenerator = () => {
 						setNumber(e.target.value);
 					}}
 				/>
-				<Form.Button type='button' color='green' onClick={generateUuid}>
-					Generate
+				<Form.Button
+					type='button'
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={generateUuid}
+				>
+					<p style={{ color: '#FFF' }}>Generate</p>
 				</Form.Button>
 				{errorMessage && (
 					<Message error visible>

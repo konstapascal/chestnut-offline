@@ -20,7 +20,12 @@ const KeysWarningTooltip = () => {
 			}
 		>
 			<i style={{ marginLeft: '.4rem' }}>
-				<Icon name='warning' color='green' />
+				<Icon
+					name='warning'
+					style={{
+						color: '#14872f',
+					}}
+				/>
 			</i>
 		</BasicTooltip>
 	);

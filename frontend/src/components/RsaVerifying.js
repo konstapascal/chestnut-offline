@@ -54,12 +54,18 @@ const RsaVerifying = ({ mdData }) => {
 
 			<Form>
 				<Form.TextArea
+					spellCheck={false}
 					placeholder='Write or paste your signature here...'
 					style={{ minHeight: 100 }}
 					onChange={(e) => setSignature(e.target.value)}
 				/>
-				<Form.Button color='green' onClick={verifySignature}>
-					Verify
+				<Form.Button
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={verifySignature}
+				>
+					<p style={{ color: '#FFF' }}>Verify</p>
 				</Form.Button>
 
 				{error && (

@@ -160,6 +160,7 @@ const MyKeysList = ({ refreshKeys }) => {
 												background: '#c4edcd',
 												padding: '.5rem',
 												cursor: 'pointer',
+												borderRadius: '.5rem',
 										  }
 										: { padding: '.5rem', cursor: 'pointer' }
 								}
@@ -259,6 +260,7 @@ const MyKeysList = ({ refreshKeys }) => {
 												background: '#c4edcd',
 												padding: '.5rem',
 												cursor: 'pointer',
+												borderRadius: '.5rem',
 										  }
 										: { padding: '.5rem', cursor: 'pointer' }
 								}

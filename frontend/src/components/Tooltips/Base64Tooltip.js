@@ -23,10 +23,13 @@ const Base64Tooltip = () => {
 			<span>
 				<Label
 					basic
-					color='green'
 					size='large'
 					as='a'
-					style={{ marginBottom: '1.5rem' }}
+					style={{
+						marginBottom: '1.5rem',
+						color: '#14872f',
+						borderColor: '#14872f',
+					}}
 				>
 					What is Base64?
 				</Label>

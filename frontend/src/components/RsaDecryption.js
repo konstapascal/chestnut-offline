@@ -66,6 +66,7 @@ const RsaDecryption = () => {
 			</p>
 			<Form onSubmit={decryptText}>
 				<Form.TextArea
+					spellCheck={false}
 					placeholder='Write or paste your encrypted text here...'
 					style={{ minHeight: 100 }}
 					onChange={(e) => setUserInput(e.target.value)}
@@ -76,8 +77,13 @@ const RsaDecryption = () => {
 					style={{ minHeight: 100 }}
 					value={rsaDecrypted}
 				/>
-				<Form.Button color='green' type='submit'>
-					Decrypt
+				<Form.Button
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={decryptText}
+				>
+					<p style={{ color: '#FFF' }}>Decrypt</p>
 				</Form.Button>
 				{error && (
 					<Message error visible>

@@ -123,9 +123,14 @@ const GenerateKey = ({ handleRefresh }) => {
 					value={keyLength}
 					onChange={(e, { value }) => setKeyLength(value)}
 				></Form.Select>
-				<Button onClick={generateKey} color='green'>
-					Generate
-				</Button>
+				<Form.Button
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={generateKey}
+				>
+					<p style={{ color: '#FFF' }}>Generate</p>
+				</Form.Button>
 				{errorMessage && (
 					<Message error visible>
 						<Icon color='red' name='times' size='large' />

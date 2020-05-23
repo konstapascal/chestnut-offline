@@ -27,11 +27,11 @@ const DemoPage = ({ componentSwap }) => {
 		<div style={{ minWidth: '600px', margin: 'auto' }}>
 			<Tab panes={demoSubpages} />
 			<Button
-				color='green'
-				style={{ marginTop: '1rem' }}
 				onClick={componentSwap}
-				content='Back'
-			/>
+				style={{ marginTop: '1rem', backgroundColor: '#14872f' }}
+			>
+				<p style={{ color: '#FFF' }}>Back</p>
+			</Button>
 		</div>
 	);
 };

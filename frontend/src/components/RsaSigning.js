@@ -55,18 +55,25 @@ const RsaSigning = ({ setMdData }) => {
 
 			<Form>
 				<Form.TextArea
+					spellCheck={false}
 					placeholder='Write or paste your text here...'
 					style={{ minHeight: 100 }}
 					onChange={(e) => setUserInput(e.target.value)}
 				/>
 				<Form.TextArea
+					spellCheck={false}
 					readOnly
 					placeholder='Signature appears here...'
 					style={{ minHeight: 100 }}
 					value={signature}
 				/>
-				<Form.Button color='green' onClick={signText}>
-					Sign
+				<Form.Button
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={signText}
+				>
+					<p style={{ color: '#FFF' }}>Sign</p>
 				</Form.Button>
 				{error && (
 					<Message error visible>

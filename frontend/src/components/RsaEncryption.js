@@ -69,18 +69,25 @@ const RsaEncryption = () => {
 
 			<Form>
 				<Form.TextArea
+					spellCheck={false}
 					placeholder='Write or paste your text here...'
 					style={{ minHeight: 100 }}
 					onChange={(e) => setUserInput(e.target.value)}
 				/>
 				<Form.TextArea
+					spellCheck={false}
 					readOnly
 					placeholder='Ecrypted text appears here...'
 					style={{ minHeight: 100 }}
 					value={rsaEncrypted}
 				/>
-				<Form.Button color='green' onClick={encryptText}>
-					Encrypt
+				<Form.Button
+					style={{
+						backgroundColor: '#14872f',
+					}}
+					onClick={encryptText}
+				>
+					<p style={{ color: '#FFF' }}>Encrypt</p>
 				</Form.Button>
 				{error && (
 					<Message error visible>
