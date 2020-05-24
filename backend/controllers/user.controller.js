@@ -80,10 +80,7 @@ exports.getAllUsers = (req, res) => {
 		},
 	})
 		.then((users) => {
-			// Some code is commented out, alternative implementation
 			let getUserArray = [];
-			// let deleteUserArray = [];
-			// let patchUserArray = [];
 
 			users.forEach((user) => {
 				getUserArray.push({
@@ -91,16 +88,6 @@ exports.getAllUsers = (req, res) => {
 					description: `Get individual user with id ${user.ID}`,
 					href: url + '/api/users/' + user.ID,
 				});
-				/* deleteUserArray.push({
-					method: 'DELETE',
-					description: `Delete individual user with id ${user.ID}`,
-					href: url + '/api/users/' + user.ID,
-				});
-				patchUserArray.push({
-					method: 'PATCH',
-					description: `Update individual user with id ${user.ID}`,
-					href: url + '/api/users/' + user.ID,
-				}); */
 			});
 
 			if (users) {
