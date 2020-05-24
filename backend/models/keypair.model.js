@@ -27,7 +27,7 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 			validate: {
 				isInt: true,
-				isIn: [[512, 1024, 2048, 4096]],
+				isIn: [[512, 1024, 2048]],
 			},
 		},
 		PublicKey: {
