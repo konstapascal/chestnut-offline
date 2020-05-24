@@ -225,7 +225,7 @@ const MyKeysList = ({ refreshKeys }) => {
                               </Modal.Content>
                               <Modal.Actions>
                                  <Button onClick={handleDeleteModalClose}>
-                                    <Icon name='remove' /> cancel
+                                    <Icon name='remove' /> Cancel
                                  </Button>
                                  <Button
                                     color='red'
@@ -234,7 +234,7 @@ const MyKeysList = ({ refreshKeys }) => {
                                     }
                                  >
                                     <Icon name='checkmark' />
-                                    delete
+                                    Delete
                                  </Button>
                               </Modal.Actions>
                            </Modal>
