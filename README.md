@@ -1,9 +1,14 @@
-# Chestnut
+<center>
+<img src="./frontend/src/images/chestnut.png" width="75" height="75" />
+<h1>Chestnut</h1>
+</center>
 
 ### Description
+
 Chestnut aims to be a simple educational tool that can be used to teach both students and others interested, the principles behind PKI (Public Key Infrastructure). Currently, Chestnut has a Java implementation written in JavaFX and the application can be found [here](https://gitlab.com/OsloMet-ABI/chestnut).
 
 As part of our bachelor project work, we are converting this application to the web by making use of technologies such as [React](https://reactjs.org/), [Node](https://nodejs.org/en/), [Express](https://expressjs.com/), [MySQL](https://www.mysql.com/), [Semantic UI](https://semantic-ui.com) and others.
 
 ### Documentation
-For more detailed documentation, check the ***documentation*** folder.
+
+For more detailed documentation, check the **_documentation_** folder.
