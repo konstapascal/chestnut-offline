@@ -1,7 +1,4 @@
-<center>
-<img src="./frontend/src/images/chestnut.png" width="75" height="75" />
-<h1>Chestnut</h1>
-</center>
+# Chestnut
 
 ### Description
 
@@ -12,3 +9,6 @@ As part of our bachelor project work, we are converting this application to the 
 ### Documentation
 
 For more detailed documentation, check the **_documentation_** folder.
+
+**API documentation:** \
+https://app.swaggerhub.com/apis-docs/konstapascal/chestnut-api/1.0#/
