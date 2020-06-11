@@ -8,7 +8,8 @@ As part of our bachelor project work, we are converting this application to the 
 
 ### Documentation
 
-For more detailed documentation, check the **_documentation_** folder.
+#### API documentation
 
-**API documentation:** \
 https://app.swaggerhub.com/apis-docs/konstapascal/chestnut-api/1.0#/
+
+For more detailed documentation, check the **documentation** folder.
