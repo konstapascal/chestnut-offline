@@ -1,6 +1,6 @@
 const db = require('../models/db.index');
 const jwt = require('jsonwebtoken');
-const config = require('../config/secret.token');
+// const config = require('../config/secret.token');
 const User = db.user;
 var bcrypt = require('bcrypt');
 
@@ -84,7 +84,7 @@ exports.signup = async (req, res) => {
 				]
 			);
 		})
-		.catch((err) => {
+		.catch(err => {
 			res.status(500).json({
 				status: '500 - Internal Server Error',
 				message: `Error occurred while creating user ${username}:` + err,
@@ -110,7 +110,7 @@ exports.login = async (req, res) => {
 	});
 
 	User.findOne({ where: { Username: username } })
-		.then((user) => {
+		.then(user => {
 			// Check if username exists in the DB
 			if (!user) {
 				return res.status(404).json({
@@ -132,7 +132,7 @@ exports.login = async (req, res) => {
 			// Create unique for user jwt with stored values of id, isAdmin
 			const token = jwt.sign(
 				{ id: user.ID, username: user.Username, isAdmin: user.IsAdmin },
-				config.secret,
+				'konstajwtsecret',
 				{ expiresIn: '12h' }
 			);
 
@@ -234,7 +234,7 @@ exports.login = async (req, res) => {
 				);
 			}
 		})
-		.catch((err) => {
+		.catch(err => {
 			res.status(500).json({
 				status: 'Error',
 				message: 'Error occured while logging in: ' + err,

@@ -24,7 +24,7 @@ const App = () => {
 	const [selectedKey, setSelectedKey] = useState('');
 	const defaultSelectedKeyValues = { selectedKey, setSelectedKey };
 
-	const login = useCallback((token) => {
+	const login = useCallback(token => {
 		setToken(token);
 		setLoggedIn(true);
 
@@ -39,14 +39,14 @@ const App = () => {
 		localStorage.setItem('userData', JSON.stringify({ token: token }));
 	}, []);
 
-	const logout = useCallback(() => {
+	const logout = () => {
 		// Restoring all defaults on logout
 		setToken(null);
 		setUsername('');
-		setLoggedIn(false);
+		test(false);
 		setIsAdmin(false);
 		localStorage.removeItem('userData');
-	}, []);
+	};
 
 	useEffect(() => {
 		const storedData = JSON.parse(localStorage.getItem('userData'));
