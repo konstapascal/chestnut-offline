@@ -2,14 +2,6 @@
 
 ### Description
 
-Chestnut aims to be a simple educational tool that can be used to teach both students and others interested, the principles behind PKI (Public Key Infrastructure). Currently, Chestnut has a Java implementation written in JavaFX and the application can be found [here](https://gitlab.com/OsloMet-ABI/chestnut).
+Chestnut Offline is the local version of Chestnut. It does not have a backend and has restricted functionalities.
 
-As part of our bachelor project work, we are converting this application to the web by making use of technologies such as [React](https://reactjs.org/), [Node](https://nodejs.org/en/), [Express](https://expressjs.com/), [MySQL](https://www.mysql.com/), [Semantic UI](https://semantic-ui.com) and others.
-
-### Documentation
-
-#### API documentation
-
-https://app.swaggerhub.com/apis-docs/konstapascal/chestnut-api/1.0#/
-
-For more detailed documentation, check the **documentation** folder.
+Chestnut repo at https://github.com/konstapascal/chestnut
