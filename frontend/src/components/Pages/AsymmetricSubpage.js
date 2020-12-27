@@ -24,20 +24,19 @@ const AsymmetricSubpage = () => {
 							style={{
 								margin: '1.5rem',
 								padding: '1.5rem',
-								textAlign: 'center',
-							}}
-						>
+								textAlign: 'center'
+							}}>
 							<h3>No valid key!</h3>
 							<p>
-								Select a valid <b>public key</b> from the list on the left to
-								encrypt using RSA.
+								Select a valid <b>public key</b> from the list on the
+								left to encrypt using RSA.
 							</p>
 						</Message>
 					) : (
 						<RsaEncryption />
 					)}
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'RSA Decryption',
@@ -49,20 +48,19 @@ const AsymmetricSubpage = () => {
 							style={{
 								margin: '1.5rem',
 								padding: '1.5rem',
-								textAlign: 'center',
-							}}
-						>
+								textAlign: 'center'
+							}}>
 							<h3>No valid key!</h3>
 							<p>
-								Select a valid <b>private key</b> from the list on the left to
-								decrypt using RSA.
+								Select a valid <b>private key</b> from the list on the
+								left to decrypt using RSA.
 							</p>
 						</Message>
 					) : (
 						<RsaDecryption />
 					)}
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'RSA Signing',
@@ -74,20 +72,19 @@ const AsymmetricSubpage = () => {
 							style={{
 								margin: '1.5rem',
 								padding: '1.5rem',
-								textAlign: 'center',
-							}}
-						>
+								textAlign: 'center'
+							}}>
 							<h3>No valid key!</h3>
 							<p>
-								Select a valid <b>private key</b> from the list on the left to
-								sign using RSA.
+								Select a valid <b>private key</b> from the list on the
+								left to sign using RSA.
 							</p>
 						</Message>
 					) : (
 						<RsaSigning setMdData={setMdData} />
 					)}
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'RSA Verifying',
@@ -99,21 +96,20 @@ const AsymmetricSubpage = () => {
 							style={{
 								margin: '1.5rem',
 								padding: '1.5rem',
-								textAlign: 'center',
-							}}
-						>
+								textAlign: 'center'
+							}}>
 							<h3>No valid key!</h3>
 							<p>
-								Select a valid <b>public key</b> from the list on the left to
-								verify using RSA.
+								Select a valid <b>public key</b> from the list on the
+								left to verify using RSA.
 							</p>
 						</Message>
 					) : (
 						<RsaVerifying mdData={mdData} />
 					)}
 				</Tab.Pane>
-			),
-		},
+			)
+		}
 	];
 
 	return (

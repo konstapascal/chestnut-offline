@@ -3,7 +3,7 @@ import Tippy from '@tippy.js/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
-const BasicTooltip = (props) => {
+const BasicTooltip = props => {
 	return (
 		<Tippy
 			animation='fade'
@@ -15,7 +15,7 @@ const BasicTooltip = (props) => {
 	);
 };
 
-const InfoTooltip = (props) => {
+const InfoTooltip = props => {
 	return (
 		<Tippy
 			animation='fade'

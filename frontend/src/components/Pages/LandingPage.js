@@ -10,8 +10,8 @@ const LandingPage = () => {
 	const [demoComponent, setDemoComponent] = useState(true);
 	const [authComponent, setAuthComponent] = useState(true);
 
-	const DemoComponentSwap = () => setDemoComponent((component) => !component);
-	const AuthComponentSwap = () => setAuthComponent((component) => !component);
+	const DemoComponentSwap = () => setDemoComponent(component => !component);
+	const AuthComponentSwap = () => setAuthComponent(component => !component);
 
 	return (
 		<Grid
@@ -19,8 +19,7 @@ const LandingPage = () => {
 			centered
 			verticalAlign='middle'
 			columns={2}
-			style={{ height: '90vh' }}
-		>
+			style={{ height: '90vh' }}>
 			<Grid.Column width={6}>
 				{demoComponent ? (
 					<LandingPageDescription componentSwap={DemoComponentSwap} />

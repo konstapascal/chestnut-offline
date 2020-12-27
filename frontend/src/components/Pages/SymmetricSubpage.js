@@ -13,7 +13,7 @@ const SymmetricSubpage = () => {
 				<Tab.Pane>
 					<AesEncryption />
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'AES Decryption',
@@ -21,7 +21,7 @@ const SymmetricSubpage = () => {
 				<Tab.Pane>
 					<AesDecryption />
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'ROT13',
@@ -29,8 +29,8 @@ const SymmetricSubpage = () => {
 				<Tab.Pane>
 					<Rot13 />
 				</Tab.Pane>
-			),
-		},
+			)
+		}
 	];
 
 	return (

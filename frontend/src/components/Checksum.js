@@ -11,7 +11,7 @@ const Checksum = () => {
 	const [sha256Hash, setSHA256] = useState('');
 	const [sha512Hash, setSHA512] = useState('');
 
-	const uploadHandler = (e) => {
+	const uploadHandler = e => {
 		const reader = new FileReader();
 
 		reader.onload = function () {
@@ -45,8 +45,8 @@ const Checksum = () => {
 		<div style={{ margin: '1.5rem' }}>
 			<ChecksumTooltip />
 			<p>
-				Write or paste in plain text in the first area or choose a .txt file to
-				generate hash values based on its content.
+				Write or paste in plain text in the first area or choose a .txt file
+				to generate hash values based on its content.
 			</p>
 			<Form>
 				<Form.TextArea
@@ -55,11 +55,15 @@ const Checksum = () => {
 					type='text'
 					label='Text to checksum:'
 					value={userInput}
-					onChange={(e) => {
+					onChange={e => {
 						setUserInput(e.target.value);
 					}}
 				/>
-				<Form.Input type='file' accept='text/plain' onChange={uploadHandler} />
+				<Form.Input
+					type='file'
+					accept='text/plain'
+					onChange={uploadHandler}
+				/>
 				<Form.Input spellCheck={false} value={md5Hash} label='MD5' />
 				<Form.Input spellCheck={false} value={sha1Hash} label='SHA-1' />
 				<Form.Input spellCheck={false} value={sha256Hash} label='SHA-256' />

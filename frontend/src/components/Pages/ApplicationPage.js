@@ -13,7 +13,7 @@ const ApplicationPage = () => {
 				<Tab.Pane>
 					<AsymmetricSubpage />
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'Symmetric Encryption',
@@ -21,7 +21,7 @@ const ApplicationPage = () => {
 				<Tab.Pane>
 					<SymmetricSubpage />
 				</Tab.Pane>
-			),
+			)
 		},
 		{
 			menuItem: 'Utilities',
@@ -29,8 +29,8 @@ const ApplicationPage = () => {
 				<Tab.Pane>
 					<UtilitiesSubpage />
 				</Tab.Pane>
-			),
-		},
+			)
+		}
 	];
 
 	return (

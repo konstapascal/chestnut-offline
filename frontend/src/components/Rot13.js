@@ -26,7 +26,7 @@ const Rot13 = () => {
 				<Form.TextArea
 					placeholder='Write your text here...'
 					style={{ minHeight: 100 }}
-					onChange={(e) => setUserInput(e.target.value)}
+					onChange={e => setUserInput(e.target.value)}
 				/>
 				<Form.TextArea
 					readOnly

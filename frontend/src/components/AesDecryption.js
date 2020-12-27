@@ -36,9 +36,11 @@ const AesDecryption = () => {
 			let decipher = forge.cipher.createDecipher('AES-CBC', key);
 			decipher.start({
 				iv: iv,
-				tag: tag,
+				tag: tag
 			});
-			decipher.update(forge.util.createBuffer(forge.util.decode64(userInput)));
+			decipher.update(
+				forge.util.createBuffer(forge.util.decode64(userInput))
+			);
 			decipher.finish();
 			let decrypted = decipher.output.data;
 
@@ -52,8 +54,8 @@ const AesDecryption = () => {
 		<div style={{ margin: '1.5rem' }}>
 			<DecryptionTooltip />
 			<p>
-				Paste in your decrypted data, write in the correct password and it will
-				be decrypted using the AES algorithm.
+				Paste in your decrypted data, write in the correct password and it
+				will be decrypted using the AES algorithm.
 			</p>
 
 			<Form>
@@ -61,12 +63,12 @@ const AesDecryption = () => {
 					label='Enter your password here:'
 					type='text'
 					flucid
-					onChange={(e) => setUserPassword(e.target.value)}
+					onChange={e => setUserPassword(e.target.value)}
 				/>
 				<Form.TextArea
 					placeholder='Write or paste your text here...'
 					style={{ minHeight: 100 }}
-					onChange={(e) => setUserInput(e.target.value)}
+					onChange={e => setUserInput(e.target.value)}
 				/>
 				<Form.TextArea
 					readOnly

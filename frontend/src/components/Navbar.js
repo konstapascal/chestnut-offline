@@ -17,8 +17,7 @@ const Navbar = () => {
 			stackable
 			inverted
 			attached='top'
-			style={{ backgroundColor: '#14872f' }}
-		>
+			style={{ backgroundColor: '#14872f' }}>
 			<Menu.Item as={Link} to='/' style={{ textAlign: 'center' }}>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
@@ -30,8 +29,7 @@ const Navbar = () => {
 					name='Home'
 					active={activeItem === 'Home'}
 					onClick={handleItemClick}
-					style={{ textAlign: 'center' }}
-				>
+					style={{ textAlign: 'center' }}>
 					<Icon name='home' style={{ marginRight: '.5rem' }} />
 					Home
 				</Menu.Item>
@@ -42,8 +40,7 @@ const Navbar = () => {
 					to='/keys'
 					name='Keys'
 					active={activeItem === 'Keys'}
-					onClick={handleItemClick}
-				>
+					onClick={handleItemClick}>
 					<Icon name='key' style={{ marginRight: '.5rem' }} />
 					Manage Keys
 				</Menu.Item>
@@ -54,8 +51,7 @@ const Navbar = () => {
 					to='/users'
 					name='Search Users'
 					active={activeItem === 'Search Users'}
-					onClick={handleItemClick}
-				>
+					onClick={handleItemClick}>
 					<Icon name='users' style={{ marginRight: '.5rem' }} />
 					Search Users
 				</Menu.Item>
@@ -67,8 +63,7 @@ const Navbar = () => {
 						to='/admin'
 						name='Admin Page'
 						active={activeItem === 'Admin Page'}
-						onClick={handleItemClick}
-					>
+						onClick={handleItemClick}>
 						<Icon name='settings' style={{ marginRight: '.5rem' }} />
 						Admin Page
 					</Menu.Item>
@@ -80,8 +75,7 @@ const Navbar = () => {
 						name='Account Settings'
 						active={activeItem === 'Account Settings'}
 						onClick={handleItemClick}
-						style={{ alignContent: 'center' }}
-					>
+						style={{ alignContent: 'center' }}>
 						<Icon name='setting' style={{ marginRight: '.5rem' }} />
 						Account Settings
 					</Menu.Item>
