@@ -8,8 +8,6 @@ import {
 	Message,
 	Icon
 } from 'semantic-ui-react';
-import axios from 'axios';
-import { AuthContext } from '../context/auth-context';
 
 const forge = require('node-forge');
 const pki = forge.pki;
@@ -41,8 +39,6 @@ const lengthOptions = [
 ];
 
 const GenerateKey = ({ handleRefresh }) => {
-	const auth = useContext(AuthContext);
-
 	const [keyName, setKeyName] = useState('');
 	const [keyType, setKeyType] = useState(typeOptions[0].value);
 	const [keyLength, setKeyLength] = useState(lengthOptions[1].value);
@@ -51,12 +47,6 @@ const GenerateKey = ({ handleRefresh }) => {
 	const [statusMessage, setStatusMessage] = useState('');
 
 	const [isLoading, setIsLoading] = useState(false);
-
-	const authHeader = {
-		headers: {
-			Authorization: auth.token
-		}
-	};
 
 	const generateKey = () => {
 		setErrorMessage('');
@@ -74,26 +64,8 @@ const GenerateKey = ({ handleRefresh }) => {
 
 		const pemPublicKey = pki.publicKeyToPem(keypair.publicKey);
 		const pemPrivateKey = pki.privateKeyToPem(keypair.privateKey);
-		axios
-			.post(
-				'http://localhost:8080/api/keys/new/users/me',
-				{
-					name: keyName,
-					type: keyType,
-					length: keyLength,
-					publicKey: pemPublicKey,
-					privateKey: pemPrivateKey
-				},
-				authHeader
-			)
-			.then(res => {
-				setIsLoading(false);
-				setStatusMessage(`Keypair ${keyName} was generated successfully!`);
-				handleRefresh();
-			})
-			.catch(err => {
-				console.log(err);
-			});
+
+		// TODO: generate key and push it to localStorage
 	};
 
 	return (

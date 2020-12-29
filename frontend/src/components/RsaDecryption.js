@@ -3,11 +3,9 @@ import { Form, Message, Icon, Label } from 'semantic-ui-react';
 import axios from 'axios';
 import DecryptionTooltip from './Tooltips/DecryptionTooltip';
 
-import { AuthContext } from '../context/auth-context';
 import { SelectedKeyContext } from '../context/selected-key-context';
 
 const RsaDecryption = () => {
-	const auth = useContext(AuthContext);
 	const { selectedKey } = useContext(SelectedKeyContext);
 
 	const [userInput, setUserInput] = useState('');
@@ -15,18 +13,11 @@ const RsaDecryption = () => {
 	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
 
-	const authHeader = {
-		headers: {
-			Authorization: auth.token
-		}
-	};
-
 	const decryptText = () => {
 		setError('');
 		setSuccess('');
 		setRsaDecrypted('');
 
-		const decryptUrl = 'http://localhost:8080/api/decrypt';
 		const privKey = selectedKey.PrivateKey;
 
 		if (userInput === '') {
@@ -34,24 +25,7 @@ const RsaDecryption = () => {
 			return;
 		}
 
-		axios
-			.post(
-				decryptUrl,
-				{
-					encryptedText: userInput,
-					privateKey: privKey
-				},
-				authHeader
-			)
-			.then(response => {
-				setRsaDecrypted(response.data.decryptedText);
-				setSuccess(
-					`Your string has been decrypted successfully using ${selectedKey.Name}.`
-				);
-			})
-			.catch(() => {
-				setError(`Could not decrypt your data using ${selectedKey.Name}.`);
-			});
+		// TODO: decrypt RSA text
 	};
 
 	return (

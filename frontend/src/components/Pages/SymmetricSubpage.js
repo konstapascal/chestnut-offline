@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab, Label } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 import AesEncryption from '../AesEncryption';
 import AesDecryption from '../AesDecryption';
 import Rot13 from '../Rot13';
