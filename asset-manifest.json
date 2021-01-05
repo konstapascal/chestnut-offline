@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.js": "/chestnut-offline/static/js/main.dc378503.chunk.js",
+    "main.js.map": "/chestnut-offline/static/js/main.dc378503.chunk.js.map",
+    "runtime-main.js": "/chestnut-offline/static/js/runtime-main.c2e1fb51.js",
+    "runtime-main.js.map": "/chestnut-offline/static/js/runtime-main.c2e1fb51.js.map",
+    "static/css/2.0fcc0773.chunk.css": "/chestnut-offline/static/css/2.0fcc0773.chunk.css",
+    "static/js/2.c7a2df51.chunk.js": "/chestnut-offline/static/js/2.c7a2df51.chunk.js",
+    "static/js/2.c7a2df51.chunk.js.map": "/chestnut-offline/static/js/2.c7a2df51.chunk.js.map",
+    "index.html": "/chestnut-offline/index.html",
+    "precache-manifest.7cc65a373d45e39e64d8e2c749a2b24f.js": "/chestnut-offline/precache-manifest.7cc65a373d45e39e64d8e2c749a2b24f.js",
+    "service-worker.js": "/chestnut-offline/service-worker.js",
+    "static/css/2.0fcc0773.chunk.css.map": "/chestnut-offline/static/css/2.0fcc0773.chunk.css.map",
+    "static/js/2.c7a2df51.chunk.js.LICENSE.txt": "/chestnut-offline/static/js/2.c7a2df51.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/chestnut-offline/static/media/outline-icons.ef60a4f6.woff",
+    "static/media/chestnut.png": "/chestnut-offline/static/media/chestnut.1a8f3e3e.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c2e1fb51.js",
+    "static/css/2.0fcc0773.chunk.css",
+    "static/js/2.c7a2df51.chunk.js",
+    "static/js/main.dc378503.chunk.js"
+  ]
+}
