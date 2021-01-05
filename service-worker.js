@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/chestnut-offline/precache-manifest.7cc65a373d45e39e64d8e2c749a2b24f.js"
+  "/chestnut-offline/precache-manifest.bf884b8838f8aa4f5afcb982fd40ab13.js"
 );
 
 self.addEventListener('message', (event) => {
