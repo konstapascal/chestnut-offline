@@ -16,12 +16,15 @@ const Navbar = () => {
 			inverted
 			attached='top'
 			style={{ backgroundColor: '#14872f' }}>
-			<Menu.Item as={Link} to='/' style={{ textAlign: 'center' }}>
+			<Menu.Item
+				as={Link}
+				to='/chestnut-offline'
+				style={{ textAlign: 'center' }}>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
 			<Menu.Item
 				as={NavLink}
-				to='/application'
+				to='/chestnut-offline/application'
 				exact
 				name='Home'
 				active={activeItem === 'Home'}
@@ -32,7 +35,7 @@ const Navbar = () => {
 			</Menu.Item>
 			<Menu.Item
 				as={NavLink}
-				to='/keys'
+				to='/chestnut-offline/keys'
 				name='Keys'
 				active={activeItem === 'Keys'}
 				onClick={handleItemClick}>
