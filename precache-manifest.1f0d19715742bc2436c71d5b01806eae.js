@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "74263663a4a43b746d6e5351ad739cfd",
+    "revision": "65dfc17092c8976dcf8d54b131d6d89f",
     "url": "/chestnut-offline/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/chestnut-offline/static/js/2.c7a2df51.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d00dcb6fb981133f0b98",
-    "url": "/chestnut-offline/static/js/main.0e54998d.chunk.js"
+    "revision": "7a00208cdc2bff90a694",
+    "url": "/chestnut-offline/static/js/main.b48e9ba8.chunk.js"
   },
   {
     "revision": "d5f1a3520abdcc52bbd8",
