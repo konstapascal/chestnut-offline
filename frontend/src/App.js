@@ -19,10 +19,22 @@ const App = () => {
 			<BrowserRouter>
 				<Navbar />
 				<Switch>
-					<Route exact path='/' component={HomePage} />
-					<Route exact path='/application' component={ApplicationPage} />
-					<Route exact path='/keys' component={KeysPage} />
-					<Route exact path='/:queryParam' component={ErrorPage} />
+					<Route exact path='/chestnut-offline' component={HomePage} />
+					<Route
+						exact
+						path='/chestnut-offline/application'
+						component={ApplicationPage}
+					/>
+					<Route
+						exact
+						path='/chestnut-offline/keys'
+						component={KeysPage}
+					/>
+					<Route
+						exact
+						path='/chestnut-offline/:queryParam'
+						component={ErrorPage}
+					/>
 				</Switch>
 			</BrowserRouter>
 		</SelectedKeyContext.Provider>
