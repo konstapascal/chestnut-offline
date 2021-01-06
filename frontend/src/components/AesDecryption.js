@@ -11,8 +11,6 @@ const AesDecryption = () => {
 
 	useEffect(() => {
 		const encrypt = () => {
-			let exampleString = userInput;
-
 			// the password used for derviation of a key, assign your password here
 			// if none is assigned a random one is generated
 			let password = userPassword;

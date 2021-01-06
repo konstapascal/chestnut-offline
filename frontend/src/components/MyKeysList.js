@@ -11,7 +11,6 @@ import {
 } from 'semantic-ui-react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import moment from 'moment';
-import KeysWarningTooltip from './Tooltips/KeysWarningTooltip';
 
 import { SelectedKeyContext } from '../context/selected-key-context';
 
@@ -76,26 +75,26 @@ const MyKeysList = ({ refreshKeys }) => {
 	};
 
 	// Remove public key from list and local storage
-	const removePublicKey = (KeypairID, KeypairName) => {
-		// If the public key being removed is already selected, unselect it.
-		if (KeypairName === selectedKey.Name) {
-			setSelectedKey({
-				PublicKey: '',
-				PrivateKey: '',
-				Name: ''
-			});
-		}
+	// const removePublicKey = (KeypairID, KeypairName) => {
+	// 	// If the public key being removed is already selected, unselect it.
+	// 	if (KeypairName === selectedKey.Name) {
+	// 		setSelectedKey({
+	// 			PublicKey: '',
+	// 			PrivateKey: '',
+	// 			Name: ''
+	// 		});
+	// 	}
 
-		const newLoadedPublicKeys = loadedPublicKeys.filter(
-			key => key.ID !== KeypairID
-		);
+	// 	const newLoadedPublicKeys = loadedPublicKeys.filter(
+	// 		key => key.ID !== KeypairID
+	// 	);
 
-		setLoadedPublicKeys(newLoadedPublicKeys);
-		localStorage.setItem(
-			'addedPublicKeys',
-			JSON.stringify(newLoadedPublicKeys)
-		);
-	};
+	// 	setLoadedPublicKeys(newLoadedPublicKeys);
+	// 	localStorage.setItem(
+	// 		'addedPublicKeys',
+	// 		JSON.stringify(newLoadedPublicKeys)
+	// 	);
+	// };
 
 	const toKeysPage = () => {
 		setSelectedKey('');

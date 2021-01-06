@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Tab, Message, Label, Icon } from 'semantic-ui-react';
+import { Tab, Message } from 'semantic-ui-react';
 import RsaEncryption from '../RsaEncryption';
 import RsaDecryption from '../RsaDecryption';
 import RsaSigning from '../RsaSigning';

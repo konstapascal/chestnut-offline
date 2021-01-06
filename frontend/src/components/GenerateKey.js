@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
 	Button,
 	Form,
@@ -9,8 +9,8 @@ import {
 	Icon
 } from 'semantic-ui-react';
 
-const forge = require('node-forge');
-const pki = forge.pki;
+// const forge = require('node-forge');
+// const pki = forge.pki;
 
 const typeOptions = [
 	{
@@ -40,7 +40,7 @@ const lengthOptions = [
 
 const GenerateKey = ({ handleRefresh }) => {
 	const [keyName, setKeyName] = useState('');
-	const [keyType, setKeyType] = useState(typeOptions[0].value);
+	// const [keyType, setKeyType] = useState(typeOptions[0].value);
 	const [keyLength, setKeyLength] = useState(lengthOptions[1].value);
 
 	const [errorMessage, setErrorMessage] = useState('');
@@ -57,15 +57,18 @@ const GenerateKey = ({ handleRefresh }) => {
 			return setErrorMessage('Name cannot be empty!');
 		}
 
-		const keypair = pki.rsa.generateKeyPair({
-			bits: keyLength,
-			e: 0x10001
-		});
+		// const keypair = pki.rsa.generateKeyPair({
+		// 	bits: keyLength,
+		// 	e: 0x10001
+		// });
 
-		const pemPublicKey = pki.publicKeyToPem(keypair.publicKey);
-		const pemPrivateKey = pki.privateKeyToPem(keypair.privateKey);
+		// const pemPublicKey = pki.publicKeyToPem(keypair.publicKey);
+		// const pemPrivateKey = pki.privateKeyToPem(keypair.privateKey);
 
 		// TODO: generate key and push it to localStorage
+		// keyType, keyLength, pemPublicKey, pemPrivateKey
+
+		// handleRefresh()
 	};
 
 	return (

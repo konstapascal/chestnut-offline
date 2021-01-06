@@ -1,9 +1,10 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-function ErrorPage({ match }) {
-	console.log(match);
+function ErrorPage() {
+	const location = useLocation();
 
-	return <div>Could not find: {match.params.queryParam}</div>;
+	return <div>Could not find: {location.pathname}</div>;
 }
 
 export default ErrorPage;

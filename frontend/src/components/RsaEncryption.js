@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Form, Message, Icon, Label } from 'semantic-ui-react';
-import axios from 'axios';
+import { Form, Message, Icon } from 'semantic-ui-react';
 
 import { SelectedKeyContext } from '../context/selected-key-context';
 import EncryptionTooltip from './Tooltips/EncryptionTooltip';
@@ -18,7 +17,7 @@ const RsaEncryption = () => {
 		setSuccess('');
 		setRsaEncrypted('');
 
-		const pubKey = selectedKey.PublicKey;
+		// const pubKey = selectedKey.PublicKey;
 
 		if (userInput === '') {
 			setError('Your field cannot be empty!');

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -16,15 +16,12 @@ const Navbar = () => {
 			inverted
 			attached='top'
 			style={{ backgroundColor: '#14872f' }}>
-			<Menu.Item
-				as={Link}
-				to='/chestnut-offline'
-				style={{ textAlign: 'center' }}>
+			<Menu.Item as={Link} to='/' style={{ textAlign: 'center' }}>
 				<img src={logo} alt='Chestnut Logo' />
 			</Menu.Item>
 			<Menu.Item
 				as={NavLink}
-				to='/chestnut-offline/application'
+				to='/application'
 				exact
 				name='Home'
 				active={activeItem === 'Home'}
@@ -35,7 +32,7 @@ const Navbar = () => {
 			</Menu.Item>
 			<Menu.Item
 				as={NavLink}
-				to='/chestnut-offline/keys'
+				to='/keys'
 				name='Keys'
 				active={activeItem === 'Keys'}
 				onClick={handleItemClick}>
