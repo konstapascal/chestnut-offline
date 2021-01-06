@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/chestnut-offline/static/js/main.b48e9ba8.chunk.js",
-    "main.js.map": "/chestnut-offline/static/js/main.b48e9ba8.chunk.js.map",
+    "main.js": "/chestnut-offline/static/js/main.4d182402.chunk.js",
+    "main.js.map": "/chestnut-offline/static/js/main.4d182402.chunk.js.map",
     "runtime-main.js": "/chestnut-offline/static/js/runtime-main.c2e1fb51.js",
     "runtime-main.js.map": "/chestnut-offline/static/js/runtime-main.c2e1fb51.js.map",
     "static/css/2.0fcc0773.chunk.css": "/chestnut-offline/static/css/2.0fcc0773.chunk.css",
     "static/js/2.c7a2df51.chunk.js": "/chestnut-offline/static/js/2.c7a2df51.chunk.js",
     "static/js/2.c7a2df51.chunk.js.map": "/chestnut-offline/static/js/2.c7a2df51.chunk.js.map",
     "index.html": "/chestnut-offline/index.html",
-    "precache-manifest.1f0d19715742bc2436c71d5b01806eae.js": "/chestnut-offline/precache-manifest.1f0d19715742bc2436c71d5b01806eae.js",
+    "precache-manifest.b2a628feeae203ed6eaeabeb7046ab28.js": "/chestnut-offline/precache-manifest.b2a628feeae203ed6eaeabeb7046ab28.js",
     "service-worker.js": "/chestnut-offline/service-worker.js",
     "static/css/2.0fcc0773.chunk.css.map": "/chestnut-offline/static/css/2.0fcc0773.chunk.css.map",
     "static/js/2.c7a2df51.chunk.js.LICENSE.txt": "/chestnut-offline/static/js/2.c7a2df51.chunk.js.LICENSE.txt",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.c2e1fb51.js",
     "static/css/2.0fcc0773.chunk.css",
     "static/js/2.c7a2df51.chunk.js",
-    "static/js/main.b48e9ba8.chunk.js"
+    "static/js/main.4d182402.chunk.js"
   ]
 }
